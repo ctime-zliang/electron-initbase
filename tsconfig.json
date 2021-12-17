@@ -1,0 +1,29 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "es5",
+		"types": ["node"],
+		"lib": ["dom", "dom.iterable", "es2015"],
+		"jsx": "react",
+		"allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": false,
+		"strict": true,
+		"module": "commonjs",
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"noEmit": true,
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@app/*": ["./src/app/*"],
+			"@server/*": ["./src/server/*"],
+			"@client/*": ["./src/client/*"]
+		}
+	},
+	"include": ["src"]
+}

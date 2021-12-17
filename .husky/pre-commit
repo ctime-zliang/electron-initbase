@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run prettier:check-all
+npm run tsc:check
+npm run eslint:check-src
