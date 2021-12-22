@@ -1,28 +1,28 @@
-const paths = require('./webpack.paths')
-const rules = require('./webpack.rules')
-const plugins = require('./webpack.plugins')
-const optimization = require('./webpack.optimization')
-const stats = require('./webpack.stats')
+const webpackPaths = require('./webpack.paths')
+const webpackRules = require('./webpack.rules')
+const webpackPlugins = require('./webpack.plugins')
+const webpackOptimization = require('./webpack.optimization')
+const webpackStats = require('./webpack.stats')
 
 const webpackConfigBase = {
 	name: `main`,
-	target: `web`,
+	target: `node`,
 	cache: {
 		type: `filesystem`,
 	},
 	entry: {
-		main: paths.entry.main,
+		main: webpackPaths.entry.main,
 	},
 	module: {
-		rules,
+		rules: webpackRules,
 	},
-	resolve: paths.common.resolve,
-	plugins: [...plugins.common],
-	optimization: { ...optimization.common },
+	resolve: webpackPaths.common.resolve,
+	plugins: [...webpackPlugins.common],
+	optimization: { ...webpackOptimization.common },
 	performance: {
 		hints: `warning`,
 	},
-	stats,
+	stats: webpackStats,
 }
 
 module.exports = webpackConfigBase

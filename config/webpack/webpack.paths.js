@@ -4,52 +4,35 @@ const utils = require('../utils')
 module.exports = {
 	common: {
 		// buildRoot: utils.resolveDirectory(`./dist/`),
-		i18n: {
-			locales: utils.resolveDirectory(`./src/app/i18n/locales`),
-		},
 		resolve: {
 			extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
 			alias: {
 				'@': utils.resolveDirectory('./src/'),
 				'@app': utils.resolveDirectory('./src/app/'),
+				'@config': utils.resolveDirectory('./src/config/'),
+				'@server': utils.resolveDirectory('./src/server/'),
+				'@utils': utils.resolveDirectory('./src/utils/'),
+				'@utypes': utils.resolveDirectory('./src/utypes/'),
 			},
-		},
-		loader: {
-			imagesOutputPath: `images/`,
-			imagesFilename: `[name].[hash:8].[ext]`,
-			fileOutputPath: `assets/`,
-			filename: `[name].[hash:8].[ext]`,
-		},
-		cssExtract: {
-			filename: `styles/style.[name].[hash:8].css`,
-			chunkFilename: `styles/chunks.[name].[chunkhash:8].css`,
 		},
 	},
 	entry: {
-		main: utils.resolveDirectory(`./src/client/index.tsx`),
+		main: utils.resolveDirectory(`./src/entry/main.ts`),
 	},
 	output: {
-		filename: `srcipts/build.[name].[hash:8].js`,
-		chunkFilename: `srcipts/chunks.[name].[chunkhash:8].js`, // 异步导入(import)模块被打包后的文件路径定义
+		filename: `app.js`,
+		chunkFilename: `chunks.js`,
 	},
 	devBuild: {
 		publicPath: '/',
-		pathTag: 'client-dev',
-		htmlWebpackPluginFilename: `./index.html`,
-		htmlWebpackPluginTemplate: utils.resolveDirectory(`./src/app/template/index.ejs`),
-		/* ... */
 		path() {
-			return utils.resolveDirectory(`./dist/${this.pathTag}`)
+			return utils.resolveDirectory(`./dist`)
 		},
 	},
 	prodBuild: {
 		publicPath: '/',
-		htmlWebpackPluginFilename: `./index.html`,
-		htmlWebpackPluginTemplate: utils.resolveDirectory(`./src/app/template/index.ejs`),
-		/* ... */
-		pathTag: 'client-prod',
 		path() {
-			return utils.resolveDirectory(`./dist/${this.pathTag}`)
+			return utils.resolveDirectory(`./dist`)
 		},
 	},
 }

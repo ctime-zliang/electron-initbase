@@ -1,0 +1,36 @@
+import koa from 'koa'
+import bodyParser from 'koa-bodyparser'
+import koaCors from 'koa-cors'
+import router from '../router'
+import parameter from './parameter'
+import dyeLog from './dyelog'
+import interceptor from './interceptor'
+import { IExtendKoaContext } from '@utypes/koa.types'
+
+export default (app: koa) => {
+	app.use(interceptor())
+	app.use(
+		koaCors({
+			//@ts-ignore
+			origin(ctx: IExtendKoaContext) {
+				return ctx.header.origin
+			},
+			exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+			credentials: true,
+			allowMethods: ['GET', 'POST', 'DELETE'],
+			allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+		})
+	)
+	app.use(bodyParser())
+	app.use(parameter())
+	app.use(
+		dyeLog({
+			debug: true,
+		})
+	)
+	router(app)
+	app.use(async (ctx: IExtendKoaContext, next: koa.Next) => {
+		console.log(`==================>>>>> After Router`)
+		await next()
+	})
+}

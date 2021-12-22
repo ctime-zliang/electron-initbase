@@ -21,8 +21,10 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@app/*": ["./src/app/*"],
+			"@config/*": ["./src/config/*"],
 			"@server/*": ["./src/server/*"],
-			"@client/*": ["./src/client/*"]
+			"@utils/*": ["./src/utils/*"],
+			"@utypes/*": ["./src/utypes/*"]
 		}
 	},
 	"include": ["src"]
