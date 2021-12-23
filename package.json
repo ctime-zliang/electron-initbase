@@ -11,11 +11,11 @@
 		"eslint:fix-src": "eslint --fix --ext .js,.ts,.jsx,.tsx src",
 		"tsc:check": "tsc --noEmit",
 		"electron:fix": "electron-fix start",
-		"build:server:dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
-		"build:server:prod": "rimraf dist && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
-		"start:server:dev": "nodemon --config ./config/server/nodemon.json",
-		"build:electron:dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
-		"build:electron:prod": "rimraf dist && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js"
+		"build:server:dev": "rimraf dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
+		"build:server:prod": "rimraf dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
+		"start:server": "nodemon --config ./config/server/nodemon.json",
+		"build:electron:dev": "rimraf dist/electron && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
+		"build:electron:prod": "rimraf dist/electron && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js"
 	},
 	"repository": {
 		"type": "git",

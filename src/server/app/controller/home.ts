@@ -11,8 +11,8 @@ class HomeController extends Controller {
 	}
 
 	async render(ctx: IExtendKoaContext, res: TResponse): Promise<void> {
-		const title = `koa msvc`
-		res.setHtml(`<div>${title}</div>`)
+		const content = `Started Server Successed. ---- koa msvc`
+		res.setHtml(`<div>${content}</div>`)
 	}
 
 	async rtest(ctx: IExtendKoaContext, res: TResponse): Promise<void> {
