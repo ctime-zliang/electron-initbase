@@ -10,12 +10,9 @@ class HomeController extends Controller {
 		this.homeService = new HomeService()
 	}
 
-	async render(ctx: IExtendKoaContext): Promise<void> {
+	async render(ctx: IExtendKoaContext, res: TResponse): Promise<void> {
 		const title = `koa msvc`
-		/* 渲染视图 */
-		await ctx.render('./home/main', {
-			title: title,
-		})
+		res.setHtml(`<div>${title}</div>`)
 	}
 
 	async rtest(ctx: IExtendKoaContext, res: TResponse): Promise<void> {

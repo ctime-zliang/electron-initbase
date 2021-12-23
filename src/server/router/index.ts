@@ -1,10 +1,11 @@
 import koa from 'koa'
 import koaRouter from 'koa-router'
 import { IExtendKoaContext } from '@utypes/koa.types'
+import webRouter from './web'
 import apiRouter from './api'
 import errorRouterMap, { TErrorRoute, TErrorRouteMap } from './error'
 
-const routerList = [apiRouter]
+const routerList = [webRouter, apiRouter]
 
 export default (app: koa) => {
 	routerList.forEach((router: koaRouter) => {

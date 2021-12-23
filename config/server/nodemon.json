@@ -5,5 +5,5 @@
 	"watch": ["dist"],
 	"ignore": ["test/*.spec.js"],
 	"delay": 200,
-	"exec": "electron ./dist/app.js"
+	"exec": "node ./dist/server/app.js"
 }

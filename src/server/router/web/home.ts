@@ -1,12 +1,11 @@
-import koa from 'koa'
-import { IExtendKoaContext, TKoaRouter } from '@utypes/koa.types'
+import { TKoaRouter } from '@utypes/koa.types'
 import HomeController from '../../app/controller/home'
 
 const routes: Array<TKoaRouter> = [
 	{
-		desc: '测试 API',
+		desc: 'Home Page',
 		method: 'get',
-		path: '/rtest',
+		path: '/',
 		async before() {
 			/* before hook */
 			return true
@@ -14,7 +13,7 @@ const routes: Array<TKoaRouter> = [
 		async after() {
 			/* after hook */
 		},
-		action: HomeController.invokeAction('rtest'),
+		action: HomeController.invokeAction('render'),
 	},
 ]
 

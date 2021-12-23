@@ -6,7 +6,6 @@ import { AddressInfo } from 'net'
 import { koaServerOnly } from '@utils/runTools'
 
 export const startKoaServer = async (hostname: string, port: number): Promise<IKoaServerResult> => {
-	console.log(koaServerOnly())
 	const app = new koa()
 
 	init(app)

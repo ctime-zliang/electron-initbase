@@ -10,15 +10,12 @@ const webpackConfigBase = {
 	cache: {
 		type: `filesystem`,
 	},
-	entry: {
-		main: webpackPaths.entry.main,
-	},
 	module: {
 		rules: webpackRules,
 	},
-	resolve: webpackPaths.common.resolve,
-	plugins: [...webpackPlugins.common],
-	optimization: { ...webpackOptimization.common },
+	resolve: webpackPaths.resolve,
+	plugins: webpackPlugins.common,
+	optimization: webpackOptimization,
 	performance: {
 		hints: `warning`,
 	},
