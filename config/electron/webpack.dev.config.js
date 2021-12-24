@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge')
 const webpackInitConfig = require('../common/webpack.init.config')
 const webpackPlugins = require('../common/webpack.plugins')
+const webpackPluginsLocal = require('./webpack.plugins')
 const webpackPaths = require('./webpack.paths')
 
 const webpackDevConfig = {
@@ -14,7 +15,7 @@ const webpackDevConfig = {
 		filename: webpackPaths.output.filename,
 		chunkFilename: webpackPaths.output.chunkFilename,
 	},
-	plugins: webpackPlugins.devBuild,
+	plugins: [...webpackPluginsLocal.common, ...webpackPlugins.devBuild],
 	devtool: 'source-map',
 }
 

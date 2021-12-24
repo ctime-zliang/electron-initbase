@@ -11,11 +11,12 @@
 		"eslint:fix-src": "eslint --fix --ext .js,.ts,.jsx,.tsx src",
 		"tsc:check": "tsc --noEmit",
 		"electron:fix": "electron-fix start",
-		"build:server:dev": "rimraf dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
-		"build:server:prod": "rimraf dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
-		"start:server": "nodemon --config ./config/server/nodemon.json",
-		"build:electron:dev": "rimraf dist/electron && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
-		"build:electron:prod": "rimraf dist/electron && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js"
+		"build:server:dev": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
+		"build:server:prod": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
+		"server": "nodemon --config ./config/server/nodemon.json",
+		"build:electron:dev": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
+		"build:electron:prod": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js",
+		"electron:dev": "cd ./dist/electron && electron ."
 	},
 	"repository": {
 		"type": "git",
@@ -69,7 +70,7 @@
 		"babel-plugin-dynamic-import-node": "^2.3.3",
 		"babel-plugin-import": "^1.13.3",
 		"clean-webpack-plugin": "^4.0.0",
-		"copy-webpack-plugin": "^10.2.0",
+		"copy-webpack-plugin": "^9.0.1",
 		"cross-env": "^5.1.4",
 		"electron-fix": "^1.1.3",
 		"esbuild": "^0.14.5",
@@ -91,11 +92,10 @@
 		"rimraf": "^3.0.2",
 		"ts-node": "^10.4.0",
 		"typescript": "^4.4.4",
-		"uglifyjs-webpack-plugin": "^2.2.0",
 		"url-loader": "^4.1.1",
 		"webpack": "^5.44.0",
 		"webpack-bundle-analyzer": "^4.5.0",
-		"webpack-cli": "^4.7.2",
+		"webpack-cli": "^4.9.1",
 		"webpack-dev-server": "^3.11.2",
 		"webpack-merge": "^5.8.0"
 	}
