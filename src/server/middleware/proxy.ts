@@ -22,6 +22,7 @@ export default () => {
 			try {
 				const proxyResponse: ProxyResponse = await proxyRequest(proxyURL as string)
 				await next()
+				ctx.status = 200
 				ctx.body = proxyResponse.res
 			} catch (e: any) {
 				await next()
@@ -33,6 +34,7 @@ export default () => {
 						targetURL: proxyURL,
 					}
 				)
+				ctx.status = 200
 				ctx.body = renderTemplateResponse.content
 				// ctx.body = ''
 				// EventBus.emit('loadURL', { url: `${ctx.protocol}://${ctx.host}` })
