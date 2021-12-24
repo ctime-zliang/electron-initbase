@@ -1,4 +1,4 @@
-import Response, { TResponse } from '../lib/Response'
+import Response from '../lib/Response'
 import { IExtendKoaContext } from '@utypes/koa.types'
 
 export type TErrorRoute = (ctx: IExtendKoaContext) => Promise<any>
@@ -8,23 +8,23 @@ export type TErrorRouteMap = {
 }
 
 export default {
-	404: async (ctx: IExtendKoaContext): Promise<any> => {
+	404: async (ctx: IExtendKoaContext): Promise<void> => {
 		ctx.status = 404
 		if (ctx.method.toLowerCase() === 'post') {
 			const res = new Response()
 			res.setRetCode(-1).setStatus(ctx.status).setText('API Not Found').flush(ctx)
-			return ''
+			return
 		}
 		ctx.body = `
             <section style="font-size: 30px; color: #000000; font-weight: 900; text-align: center;">404 Not Found. Router</section>
         `
 	},
-	500: async (ctx: IExtendKoaContext): Promise<any> => {
+	500: async (ctx: IExtendKoaContext): Promise<void> => {
 		ctx.status = 500
 		if (ctx.method.toLowerCase() === 'post') {
 			const res = new Response()
 			res.setRetCode(-1).setStatus(ctx.status).setText('API Error').flush(ctx)
-			return ''
+			return
 		}
 		ctx.body = `
             <section style="font-size: 30px; color: #000000; font-weight: 900; text-align: center;">500 Error. Router</section>

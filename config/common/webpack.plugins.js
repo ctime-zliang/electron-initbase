@@ -10,6 +10,14 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: './src/static',
+					to: './static',
+				},
+			],
+		}),
 		// new webpack.HotModuleReplacementPlugin(),
 	],
 	prodBuild: [

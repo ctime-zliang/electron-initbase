@@ -24,7 +24,7 @@ export default new (class EventBus {
 		handlers[sn][eventName].push(callback)
 	}
 
-	public async emit(eventName: string, params: any, spaceName: string = DEFAULT_NS): Promise<void> {
+	public async emit(eventName: string, params: any = null, spaceName: string = DEFAULT_NS): Promise<void> {
 		const handlers: { [key: string]: any } = this.handlers
 		const sn: string = spaceName || DEFAULT_NS
 		if (!eventName || typeof eventName !== 'string' || !handlers[sn]) {

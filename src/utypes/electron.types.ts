@@ -1,7 +1,22 @@
+export interface IPageInitURLData {
+	href: string
+	origin: string
+	host: string
+	hostname: string
+	port: string
+	pathname?: string
+	search?: string
+	searchParams?: any
+	hash?: string
+	protocol?: string
+	username?: string
+	password?: string
+}
 export interface IGlobalWindowItemProfile {
 	id: string | number | null
 	win: any
 	pageInitURL: string | null
+	pageInitURLData: IPageInitURLData
 	windowBounds: any
 	[key: string]: any
 }

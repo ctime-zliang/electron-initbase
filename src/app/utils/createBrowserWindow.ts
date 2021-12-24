@@ -10,6 +10,9 @@ export const createBrowserWindow = async (url: string, extraOption: { [key: stri
 		useContentSize: true,
 		title: electronAppBaseConfig.initElectronAppTitle,
 		show: true,
+		webPreferences: {
+			nodeIntegration: true,
+		},
 		...windowOption,
 	})
 	win.loadURL(url)
@@ -17,13 +20,8 @@ export const createBrowserWindow = async (url: string, extraOption: { [key: stri
 	electronAppRuntimeProfile.globalWindowMap[win.id] = createElectronAppRuntimeProfile({
 		win,
 		pageInitURL: url,
+		pageInitURLData: new URL(url),
 		windowBounds: win.getBounds(),
-	})
-	win.on('focus', (e: any) => {
-		// console.log(e)
-	})
-	win.on('close', (e: any) => {
-		delete electronAppRuntimeProfile.globalWindowMap[win.id]
 	})
 	return win
 }
