@@ -18,6 +18,7 @@ export const createBrowserWindow = async (url: string, extraOption: { [key: stri
 	win.loadURL(url)
 	electronAppRuntimeProfile.globalActiveWindowId = win.id
 	electronAppRuntimeProfile.globalWindowMap[win.id] = createElectronAppRuntimeProfile({
+		id: win.id,
 		win,
 		pageInitURL: url,
 		pageInitURLData: new URL(url),

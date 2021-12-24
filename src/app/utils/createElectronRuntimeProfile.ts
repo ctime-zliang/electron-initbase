@@ -1,8 +1,8 @@
 import { IGlobalWindowItemProfile } from '@utypes/electron.types'
 
-export const createElectronAppRuntimeProfile = (option: { [key: string]: any } = {}): IGlobalWindowItemProfile => {
+export const createElectronAppRuntimeProfile = (option: IGlobalWindowItemProfile): IGlobalWindowItemProfile => {
 	return Object.create({
-		id: option.win.id,
+		id: option.id,
 		win: option.win,
 		pageInitURL: option.pageInitURL,
 		windowBounds: option.windowBounds,
