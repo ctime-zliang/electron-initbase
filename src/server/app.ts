@@ -3,7 +3,6 @@ import init from './lib/init'
 import errorHandler from './error'
 import { IKoaServerResult } from '@utypes/koa.types'
 import { AddressInfo } from 'net'
-import { koaServerOnly } from '@utils/runTools'
 
 export const startKoaServer = async (hostname: string, port: number): Promise<IKoaServerResult> => {
 	const app = new koa()

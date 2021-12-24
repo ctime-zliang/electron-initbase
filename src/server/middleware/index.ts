@@ -5,6 +5,7 @@ import router from '../router'
 import parameter from './parameter'
 import dyeLog from './dyelog'
 import interceptor from './interceptor'
+import proxy from './proxy'
 import { IExtendKoaContext } from '@utypes/koa.types'
 
 export default (app: koa) => {
@@ -29,6 +30,7 @@ export default (app: koa) => {
 		})
 	)
 	router(app)
+	app.use(proxy())
 	app.use(async (ctx: IExtendKoaContext, next: koa.Next) => {
 		console.log(`==================>>>>> After Router`)
 		await next()

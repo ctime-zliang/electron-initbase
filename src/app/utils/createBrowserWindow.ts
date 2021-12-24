@@ -20,11 +20,10 @@ export const createBrowserWindow = async (url: string, extraOption: { [key: stri
 		windowBounds: win.getBounds(),
 	})
 	win.on('focus', (e: any) => {
-		console.log(e)
+		// console.log(e)
 	})
 	win.on('close', (e: any) => {
 		delete electronAppRuntimeProfile.globalWindowMap[win.id]
-		console.log(e)
 	})
 	return win
 }

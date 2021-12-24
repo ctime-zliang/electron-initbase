@@ -16,8 +16,9 @@ export const startApp = async (): Promise<boolean> => {
 	await initElectronSystem()
 	await app.whenReady()
 	const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
-	simpleLogger.trace(`App.running - http://${mainInfo.hostname}:${mainInfo.port}`)
-	await startElectronApp(`http://${mainInfo.hostname}:${mainInfo.port}`)
+	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter`
+	simpleLogger.trace(`App.running - ${mainURL}`)
+	await startElectronApp(`${mainURL}`)
 	return true
 }
 

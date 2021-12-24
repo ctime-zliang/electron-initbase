@@ -20,3 +20,19 @@ export interface IKoaServerResult {
 	hostname: string
 	port: number
 }
+
+export type ProxyResponse = {
+	readonly headers?: {
+		get: (key: string) => string | string[] | null | undefined
+		set?: (key: string, value: string) => void
+	}
+	readonly status?: number
+	readonly statusText?: string
+	readonly url: string
+	readonly res: any
+	readonly remote?: any
+	readonly buffer: () => Promise<Buffer>
+	readonly arrayBuffer: () => Promise<ArrayBuffer>
+	readonly json: () => Promise<any>
+	readonly text: () => Promise<string>
+}
