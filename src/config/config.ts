@@ -10,7 +10,7 @@ export const baseServerCongfig = {
 }
 
 export const proxyURLConfig = {
-	'proxy-enter': async (ctx: IExtendKoaContext): Promise<string | boolean> => {
+	'/proxy-enter': async (ctx: IExtendKoaContext): Promise<string | boolean> => {
 		return `https://www.baidu.com/`
 	},
 }
