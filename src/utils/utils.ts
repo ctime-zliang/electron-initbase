@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 /**
  * 前置添 0
  * @param {number | string} value 待处理的值

@@ -1,7 +1,8 @@
 import { IExtendKoaContext } from '@utypes/koa.types'
+import * as profile from '../package.json'
 
 export const electronAppBaseConfig = {
-	initElectronAppTitle: `Electron App`,
+	initElectronAppTitle: profile.name,
 }
 
 export const baseServerCongfig = {
