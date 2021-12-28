@@ -3,8 +3,12 @@ import { BrowserWindow } from 'electron'
 import { electronAppRuntimeProfile } from '../core/runtimeProfile'
 import { createElectronAppRuntimeProfile } from './createElectronRuntimeProfile'
 
-export const createBrowserWindow = async (url: string, extraOption: { [key: string]: any } = {}, windowOption: { [key: string]: any } = {}) => {
-	let win: any = new BrowserWindow({
+export const createBrowserWindow = async (
+	url: string,
+	extraOption: { [key: string]: any } = {},
+	windowOption: { [key: string]: any } = {}
+): Promise<BrowserWindow> => {
+	let win: BrowserWindow = new BrowserWindow({
 		width: windowOption.width || 1280,
 		height: windowOption.height || 720,
 		useContentSize: true,

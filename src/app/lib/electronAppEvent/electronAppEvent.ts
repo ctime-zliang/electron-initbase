@@ -1,6 +1,6 @@
 import { app } from 'electron'
 
-export const initElectronAppEvent = async () => {
+export const initElectronAppEvent = (): void => {
 	app.on('window-all-closed', (e: any) => {
 		if (process.platform !== 'darwin') {
 			app.quit()

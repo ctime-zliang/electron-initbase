@@ -1,17 +1,17 @@
 import { ProtocolResponse, session } from 'electron'
 
-type TAppProcessor = (url: string, params: any, data: any, callback: (res: string | ProtocolResponse) => void) => Promise<boolean>
+type TAppProcessor = (url: string, urlParams: any, updateData: any, callback: (res: string | ProtocolResponse) => void) => Promise<boolean>
 
 const appProcessors: Array<TAppProcessor> = []
 
-appProcessors.push(async (url: string, params, data, callback): Promise<any> => {
-	const requestParmas = (data?.[0].bytes as Buffer).toString('utf-8')
-	console.log(url, params, requestParmas)
+appProcessors.push(async (url: string, urlParams, updateData, callback): Promise<any> => {
+	const requestParmas = (updateData?.[0].bytes as Buffer).toString('utf-8')
+	console.log(url, urlParams, requestParmas)
 	callback(JSON.stringify({ ret: 0 }))
 	return true
 })
 
-export const registerAppProtocol = () => {
+export const registerAppProtocol = (): void => {
 	session.defaultSession.protocol.registerStringProtocol('app', async (request, callback) => {
 		const m = /^([^?]+)\??(.*)$/i.exec(request.url)
 		if (m) {
