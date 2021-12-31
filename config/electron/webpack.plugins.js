@@ -4,14 +4,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const utils = require('../common/utils')
 
 module.exports = {
-	common: [
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: './src/package.json',
-					to: './electron/package.json',
-				},
-			],
-		}),
-	],
+	common() {
+		return [
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: './src/package.json',
+						to: './electron/package.json',
+					},
+				],
+			}),
+		]
+	},
 }

@@ -15,7 +15,7 @@ const webpackConfigBase = {
 		rules: webpackRules,
 	},
 	resolve: webpackPaths.resolve,
-	plugins: [...webpackPlugins.common],
+	plugins: [...webpackPlugins.common()],
 	optimization: webpackOptimization,
 	performance: {
 		hints: `warning`,

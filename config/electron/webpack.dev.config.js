@@ -15,7 +15,7 @@ const webpackDevConfig = {
 		filename: webpackPaths.output.filename,
 		chunkFilename: webpackPaths.output.chunkFilename,
 	},
-	plugins: [...webpackPluginsLocal.common, ...webpackPlugins.devBuild],
+	plugins: [...webpackPluginsLocal.common(), ...webpackPlugins.devBuild()],
 	devtool: 'source-map',
 }
 
