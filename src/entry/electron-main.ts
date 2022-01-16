@@ -5,7 +5,7 @@ import { koaServerOnly } from '@utils/runTools'
 import simpleLogger from '@utils/simpleLogger'
 import { IKoaServerResult } from '@utypes/koa.types'
 import { startElectronApp } from '@app/app'
-import { initElectronAppEvent } from '@app/lib/electronAppEvent/electronAppEvent'
+import { initElectronAppEvent } from '@/app/modules/electronAppEvent/electronAppEvent'
 
 export const startApp = async (): Promise<boolean> => {
 	if (koaServerOnly()) {

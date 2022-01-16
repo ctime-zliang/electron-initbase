@@ -1,7 +1,7 @@
 import { electronAppBaseConfig } from '@config/config'
 import { BrowserWindow } from 'electron'
-import { electronAppRuntimeProfile } from '../core/runtimeProfile'
-import { createElectronAppRuntimeProfile } from './createElectronRuntimeProfile'
+import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
+import { createElectronAppRuntimeProfile } from '../../utils/createElectronRuntimeProfile'
 
 export const createBrowserWindow = async (
 	url: string,
