@@ -28,9 +28,11 @@ npm run build:server:*
 npm run build:electron:*
 
 // 启动一个仅基于 koa 支持的服务
+// 以开发模式为例, 需先执行 npm run build:server:dev
 npm run start:server
 
 // 以开发方式运行一个 Electron 应用
+// 以开发模式为例, 需首先执行 npm run build:electron:dev
 npm run start:electron:dev
 ```
 
