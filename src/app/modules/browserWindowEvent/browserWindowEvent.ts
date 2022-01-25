@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron'
 import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 
-export const addBrowserWindowEevnt = (win: BrowserWindow): void => {
+export const addBrowserWindowEvents = (win: BrowserWindow): void => {
 	win.on('focus', (e: any) => {
 		electronAppRuntimeProfile.globalActiveWindowId = e.sender.id
 	})

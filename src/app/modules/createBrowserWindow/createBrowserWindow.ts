@@ -16,17 +16,18 @@ export const createBrowserWindow = async (
 		show: true,
 		webPreferences: {
 			nodeIntegration: true,
+			devTools: true,
 		},
 		...windowOption,
 	})
 	win.loadURL(url)
+	win.webContents.openDevTools()
 	electronAppRuntimeProfile.globalActiveWindowId = win.id
 	electronAppRuntimeProfile.globalWindowMap[win.id] = createElectronAppRuntimeProfile({
 		id: win.id,
 		win,
 		pageInitURL: url,
 		pageInitURLData: new URL(url),
-		windowBounds: win.getBounds(),
 	})
 	return win
 }

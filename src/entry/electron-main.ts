@@ -5,7 +5,8 @@ import { koaServerOnly } from '@utils/runTools'
 import simpleLogger from '@utils/simpleLogger'
 import { IKoaServerResult } from '@utypes/koa.types'
 import { startElectronApp } from '@app/app'
-import { initElectronAppEvent } from '@/app/modules/electronAppEvent/electronAppEvent'
+import { initElectronApp } from '@/app/lib/init'
+import { initRegisterSchemesAsPrivileged } from '@/app/modules/registerAppProtocol/registerAppProtocol'
 
 export const startApp = async (): Promise<boolean> => {
 	if (koaServerOnly()) {
@@ -13,8 +14,9 @@ export const startApp = async (): Promise<boolean> => {
 		simpleLogger.trace(`App.running - http://${mainInfo.hostname}:${mainInfo.port}`)
 		return true
 	}
-	await initElectronAppEvent()
+	initRegisterSchemesAsPrivileged()
 	await app.whenReady()
+	await initElectronApp()
 	const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
 	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter?rdm=` + Math.random()
 	simpleLogger.trace(`App.running - ${mainURL}`)

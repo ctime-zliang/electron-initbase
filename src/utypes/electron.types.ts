@@ -17,11 +17,10 @@ export interface IGlobalWindowItemProfile {
 	win: any
 	pageInitURL: string | null
 	pageInitURLData: IPageInitURLData
-	windowBounds: any
-	[key: string]: any
+	// [key: string]: any
 }
 export interface IElectronAppRuntimeProfile {
 	globalActiveWindowId: string | number | null
 	globalWindowMap?: IGlobalWindowItemProfile | any
-	[key: string]: any
+	// [key: string]: any
 }

@@ -1,6 +1,10 @@
-import { ProtocolResponse, session } from 'electron'
+import { ProtocolResponse, session, protocol } from 'electron'
 
 type TAppProcessor = (url: string, urlParams: any, updateData: any, callback: (res: string | ProtocolResponse) => void) => Promise<boolean>
+
+export const initRegisterSchemesAsPrivileged = (): void => {
+	protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { supportFetchAPI: true, stream: true } }])
+}
 
 const appProcessors: Array<TAppProcessor> = []
 
