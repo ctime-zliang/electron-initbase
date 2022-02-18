@@ -17,14 +17,14 @@ appProcessors.push(async (url: string, urlParams, updateData, callback): Promise
 
 export const registerAppProtocol = (): void => {
 	session.defaultSession.protocol.registerStringProtocol('app', async (request, callback) => {
-		const m = /^([^?]+)\??(.*)$/i.exec(request.url)
+		const m: Array<string> | null | undefined = /^([^?]+)\??(.*)$/i.exec(request.url)
 		if (m) {
 			const urlParams: any = {}
-			m[2].split('&').forEach((item: string) => {
+			m[2].split('&').forEach((item: string): void => {
 				const v: Array<string> = item.split('=').map(decodeURIComponent)
 				urlParams[v[0]] = v[1] || ''
 			})
-			for (let i = 0; i < appProcessors.length; i++) {
+			for (let i: number = 0; i < appProcessors.length; i++) {
 				const hasNext: boolean = await appProcessors[i](m[1], urlParams, request.uploadData, callback)
 				if (!hasNext) {
 					break

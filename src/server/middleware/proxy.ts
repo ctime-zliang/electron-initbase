@@ -4,7 +4,6 @@ import { IExtendKoaContext, ProxyResponse } from '@utypes/koa.types'
 import { proxyRequest } from '../utils/proxyRequest'
 import { renderTemplate, TRenderTemplateResponse } from '../utils/renderTemplate'
 import { proxyBaseConfig, proxyURLConfig } from '@config/config'
-import EventBus from '@utils/EventBus'
 
 export default () => {
 	return async (ctx: IExtendKoaContext, next: koa.Next): Promise<void | undefined> => {

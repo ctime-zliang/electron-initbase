@@ -19,6 +19,7 @@ export const startApp = async (): Promise<boolean> => {
 	await initElectronApp()
 	const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
 	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter?rdm=` + Math.random()
+	// const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}?rdm=` + Math.random()
 	simpleLogger.trace(`App.running - ${mainURL}`)
 	await startElectronApp(`${mainURL}`)
 	return true

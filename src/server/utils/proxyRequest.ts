@@ -73,7 +73,7 @@ export const proxyRequest = async (url: string, option: { [key: string]: any } =
 		}
 
 		const req: any = client.request(url, requestOption, (res: http.IncomingMessage) => {
-			res.on('error', err => {
+			res.on('error', (err: any) => {
 				reject({
 					url,
 					res: null,
