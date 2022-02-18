@@ -1,6 +1,18 @@
 import fs from 'fs'
 
 /**
+ * 创建目录
+ * @param {string} dir 需要生成的目录
+ * @return {string | undefined} 处理后的值
+ */
+export const mkdirSync = (dir: string): string | undefined => {
+	if (fs.existsSync(dir)) {
+		return
+	}
+	return fs.mkdirSync(dir, { recursive: true })
+}
+
+/**
  * 前置添 0
  * @param {number | string} value 待处理的值
  * @return {string} 处理后的值

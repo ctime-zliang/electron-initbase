@@ -5,8 +5,8 @@ import { koaServerOnly } from '@utils/runTools'
 import simpleLogger from '@utils/simpleLogger'
 import { IKoaServerResult } from '@utypes/koa.types'
 import { startElectronApp } from '@app/app'
-import { initElectronApp } from '@/app/lib/init'
-import { initRegisterSchemesAsPrivileged } from '@/app/modules/registerAppProtocol/registerAppProtocol'
+import { initElectronApp } from '@app/lib/init'
+import { initRegisterSchemesAsPrivileged } from '@app/modules/registerAppProtocol/registerAppProtocol'
 
 export const startApp = async (): Promise<boolean> => {
 	if (koaServerOnly()) {

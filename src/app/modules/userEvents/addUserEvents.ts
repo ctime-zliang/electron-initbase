@@ -1,6 +1,6 @@
 import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 import EventBus from '@utils/EventBus'
-import { IGlobalWindowItemProfile } from '@/utypes/electron.types'
+import { IGlobalWindowItemProfile } from '@utypes/electron.types'
 
 /*
 	用户事件监听
