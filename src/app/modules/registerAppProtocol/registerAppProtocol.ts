@@ -6,6 +6,10 @@ export const initRegisterSchemesAsPrivileged = (): void => {
 	protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { supportFetchAPI: true, stream: true } }])
 }
 
+/****************************** ******************************/
+/****************************** ******************************/
+/****************************** ******************************/
+
 const appProcessors: Array<TAppProcessor> = []
 
 appProcessors.push(async (url: string, urlParams, updateData, callback): Promise<any> => {
@@ -15,6 +19,9 @@ appProcessors.push(async (url: string, urlParams, updateData, callback): Promise
 	return true
 })
 
+/*
+	Electron Scheme 协议注册
+ */
 export const registerAppProtocol = (): void => {
 	session.defaultSession.protocol.registerStringProtocol('app', async (request, callback) => {
 		const m: Array<string> | null | undefined = /^([^?]+)\??(.*)$/i.exec(request.url)

@@ -1,5 +1,8 @@
 import { app } from 'electron'
 
+/*
+	Electron App 全局事件监听
+ */
 export const initElectronAppEvent = (): void => {
 	app.on('window-all-closed', (e: any): void => {
 		if (process.platform !== 'darwin') {
