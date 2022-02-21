@@ -3,8 +3,11 @@ import { addBrowserWindowEvents } from './modules/browserWindowEvent/browserWind
 import { addUserEvents } from './modules/userEvents/addUserEvents'
 import { createBrowserWindow } from './modules/createBrowserWindow/createBrowserWindow'
 
-export const startElectronApp = async (url: string): Promise<void> => {
-	const win: BrowserWindow = await createBrowserWindow(url)
+require('@electron/remote/main').initialize()
+
+export const startElectronApp = async (url: string, options: { [key: string]: any } = {}): Promise<void> => {
+	const win: BrowserWindow = await createBrowserWindow(url, options)
+	require('@electron/remote/main').enable(win.webContents)
 	addBrowserWindowEvents(win)
 	addUserEvents()
 }

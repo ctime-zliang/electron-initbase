@@ -16,7 +16,7 @@ export interface IGlobalWindowItemProfile {
 	id: string | number | null
 	win: any
 	pageInitURL: string | null
-	pageInitURLData: IPageInitURLData
+	pageInitURLData: IPageInitURLData | null
 	// [key: string]: any
 }
 export interface IElectronAppRuntimeProfile {

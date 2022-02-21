@@ -1,4 +1,4 @@
-import { app } from 'electron'
+import { app, ipcMain } from 'electron'
 import { startKoaServer } from '@server/app'
 import { baseServerCongfig } from '@config/config'
 import { koaServerOnly } from '@utils/runTools'
@@ -22,6 +22,8 @@ export const startApp = async (): Promise<boolean> => {
 	// const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}?rdm=` + Math.random()
 	simpleLogger.trace(`App.running - ${mainURL}`)
 	await startElectronApp(`${mainURL}`)
+	// extraTest()
+	// await startElectronApp(`../static/html/test-renderer-block.html`, { isLoadFile: true })
 	return true
 }
 
