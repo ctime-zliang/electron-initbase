@@ -1,6 +1,6 @@
-import { IElectronAppRuntimeProfile } from '@utypes/electron.types'
+import { TElectronAppRuntimeProfile } from '@utypes/electron.types'
 
-export const electronAppRuntimeProfile: IElectronAppRuntimeProfile = {
+export const electronAppRuntimeProfile: TElectronAppRuntimeProfile = {
 	globalActiveWindowId: null,
 	globalWindowMap: {},
 }

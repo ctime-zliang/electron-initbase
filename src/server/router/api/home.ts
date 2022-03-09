@@ -1,5 +1,5 @@
 import koa from 'koa'
-import { IExtendKoaContext, TKoaRouter } from '@utypes/koa.types'
+import { TExtendKoaContext, TKoaRouter } from '@utypes/koa.types'
 import HomeController from '../../app/controller/home'
 
 const routes: Array<TKoaRouter> = [

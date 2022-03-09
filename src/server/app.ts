@@ -1,10 +1,10 @@
 import koa from 'koa'
 import init from './lib/init'
 import errorHandler from './error'
-import { IKoaServerResult } from '@utypes/koa.types'
+import { TKoaServerResult } from '@utypes/koa.types'
 import { AddressInfo } from 'net'
 
-export const startKoaServer = async (hostname: string, port: number): Promise<IKoaServerResult> => {
+export const startKoaServer = async (hostname: string, port: number): Promise<TKoaServerResult> => {
 	const app = new koa()
 
 	init(app)

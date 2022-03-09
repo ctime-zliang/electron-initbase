@@ -1,4 +1,4 @@
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 import * as profile from '../package.json'
 
 export const electronAppBaseConfig = {
@@ -11,7 +11,7 @@ export const baseServerCongfig = {
 }
 
 export const proxyURLConfig = {
-	'/proxy-enter': async (ctx: IExtendKoaContext): Promise<string | boolean> => {
+	'/proxy-enter': async (ctx: TExtendKoaContext): Promise<string | boolean> => {
 		return `https://www.baidu.com/`
 	},
 }

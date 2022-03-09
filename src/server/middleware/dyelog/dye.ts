@@ -1,4 +1,4 @@
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 
 const MAX_LENGTH: number = 9900
 const SPLIT_LINE: string = `>>> ==================================================`
@@ -26,19 +26,19 @@ const trim = (string: string = ''): string => {
 	return string.replace(/(^\s*)|(\s*$)/g, '')
 }
 
-const debug = (ctx: IExtendKoaContext, msg: any): void => {
+const debug = (ctx: TExtendKoaContext, msg: any): void => {
 	msg = getTime() + '|DEBUG|' + msg(this as any).log('debug', ctx, msg)
 }
-const info = (ctx: IExtendKoaContext, msg: any): void => {
+const info = (ctx: TExtendKoaContext, msg: any): void => {
 	msg = getTime() + '|INFO|' + msg(this as any).log('info', ctx, msg)
 }
-const warn = (ctx: IExtendKoaContext, msg: any): void => {
+const warn = (ctx: TExtendKoaContext, msg: any): void => {
 	msg = getTime() + '|WARN|' + msg(this as any).log('warn', ctx, msg)
 }
-const error = (ctx: IExtendKoaContext, msg: any): void => {
+const error = (ctx: TExtendKoaContext, msg: any): void => {
 	msg = getTime() + '|ERROR|' + msg(this as any).log('error', ctx, msg)
 }
-const log = (type: string, ctx: IExtendKoaContext, msg: any): void => {
+const log = (type: string, ctx: TExtendKoaContext, msg: any): void => {
 	msg = type + '|' + msg
 	if (ctx && ctx.request && !ctx._logs) {
 		ctx._logs = []
@@ -47,7 +47,7 @@ const log = (type: string, ctx: IExtendKoaContext, msg: any): void => {
 		ctx._logs.push(msg)
 	}
 }
-const handleDyeLog = (ctx: IExtendKoaContext, debug: boolean = true): void => {
+const handleDyeLog = (ctx: TExtendKoaContext, debug: boolean = true): void => {
 	ctx._logs = ctx._logs || []
 
 	/* ... */

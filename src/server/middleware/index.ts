@@ -6,14 +6,14 @@ import parameter from './parameter'
 import dyeLog from './dyelog'
 import interceptor from './interceptor'
 import proxy from './proxy'
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 
 export default (app: koa) => {
 	app.use(interceptor())
 	app.use(
 		koaCors({
 			//@ts-ignore
-			origin(ctx: IExtendKoaContext) {
+			origin(ctx: TExtendKoaContext) {
 				return ctx.header.origin
 			},
 			exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
@@ -31,7 +31,7 @@ export default (app: koa) => {
 	)
 	router(app)
 	app.use(proxy())
-	app.use(async (ctx: IExtendKoaContext, next: koa.Next) => {
+	app.use(async (ctx: TExtendKoaContext, next: koa.Next) => {
 		console.log(`==================>>>>> After Router`)
 		await next()
 	})

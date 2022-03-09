@@ -1,13 +1,13 @@
 import koaRouter from 'koa-router'
 import koa from 'koa'
-import { TRouterMethod, TKoaRouter, IExtendKoaContext } from '@utypes/koa.types'
+import { TRouterMethod, TKoaRouter, TExtendKoaContext } from '@utypes/koa.types'
 
 export function routerExec(routes: Array<TKoaRouter>): koaRouter {
 	const kRouter: koaRouter = new koaRouter()
 	routes.forEach((routeItem: TKoaRouter): void => {
 		const method: TRouterMethod = routeItem.method.toLowerCase() as TRouterMethod
 		const path: string = routeItem.path
-		kRouter[method](path, async (ctx: IExtendKoaContext, next: koa.Next): Promise<any> => {
+		kRouter[method](path, async (ctx: TExtendKoaContext, next: koa.Next): Promise<any> => {
 			let willGo: boolean = true
 			try {
 				ctx.status = 200

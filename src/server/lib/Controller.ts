@@ -1,12 +1,12 @@
 import EventEmitter from 'events'
 import Response, { TResponse } from './Response'
 import httpStatus from './HttpStatus'
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 
-interface _TBaseController extends Controller {
-	render?: (ctx: IExtendKoaContext) => any
+type _TBaseController = {
+	render?: (ctx: TExtendKoaContext) => any
 	[key: string]: any
-}
+} & Controller
 
 class Controller extends EventEmitter {
 	private options: { [key: string]: any } = {}
@@ -15,7 +15,7 @@ class Controller extends EventEmitter {
 	}
 
 	invokeRender() {
-		return async (ctx: IExtendKoaContext): Promise<void> => {
+		return async (ctx: TExtendKoaContext): Promise<void> => {
 			const render = (this as _TBaseController).render
 			if (!render) {
 				ctx.body = `Missing render method in Controller!!!`
@@ -31,7 +31,7 @@ class Controller extends EventEmitter {
 		if (typeof func !== 'function') {
 			throw new ReferenceError(`${actionName} action non-existent.`)
 		}
-		return async (ctx: IExtendKoaContext): Promise<void> => {
+		return async (ctx: TExtendKoaContext): Promise<void> => {
 			ctx.controller = { ...this.options, actionName }
 			const res: TResponse = new Response()
 			try {

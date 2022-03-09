@@ -3,21 +3,21 @@ import { startKoaServer } from '@server/app'
 import { baseServerCongfig } from '@config/config'
 import { koaServerOnly } from '@utils/runTools'
 import simpleLogger from '@utils/simpleLogger'
-import { IKoaServerResult } from '@utypes/koa.types'
+import { TKoaServerResult } from '@utypes/koa.types'
 import { startElectronApp } from '@app/app'
 import { initElectronApp } from '@app/lib/init'
 import { initRegisterSchemesAsPrivileged } from '@app/modules/registerAppProtocol/registerAppProtocol'
 
 export const startApp = async (): Promise<boolean> => {
 	if (koaServerOnly()) {
-		const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
+		const mainInfo: TKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
 		simpleLogger.trace(`App.running - http://${mainInfo.hostname}:${mainInfo.port}`)
 		return true
 	}
 	initRegisterSchemesAsPrivileged()
 	await app.whenReady()
 	await initElectronApp()
-	const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
+	const mainInfo: TKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
 	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter?rdm=` + Math.random()
 	// const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}?rdm=` + Math.random()
 	simpleLogger.trace(`App.running - ${mainURL}`)

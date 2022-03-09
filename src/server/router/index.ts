@@ -1,6 +1,6 @@
 import koa from 'koa'
 import koaRouter from 'koa-router'
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 import webRouter from './web'
 import apiRouter from './api'
 import errorRouterMap, { TErrorRoute, TErrorRouteMap } from './error'
@@ -12,7 +12,7 @@ export default (app: koa) => {
 		app.use(router.routes())
 		app.use(router.allowedMethods())
 	})
-	app.use(async (ctx: IExtendKoaContext, next: koa.Next): Promise<void> => {
+	app.use(async (ctx: TExtendKoaContext, next: koa.Next): Promise<void> => {
 		const errRouteItem: TErrorRoute | null = (errorRouterMap as TErrorRouteMap)[String(ctx.status)] || null
 		if (!ctx.routerMatched && errRouteItem) {
 			await errRouteItem(ctx)

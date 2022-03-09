@@ -1,5 +1,5 @@
-import { IGlobalWindowItemProfile } from '@utypes/electron.types'
+import { TGlobalWindowItemProfile } from '@utypes/electron.types'
 
-export const createElectronAppRuntimeProfile = (option: IGlobalWindowItemProfile): IGlobalWindowItemProfile => {
+export const createElectronAppRuntimeProfile = (option: TGlobalWindowItemProfile): TGlobalWindowItemProfile => {
 	return Object.create({ ...option })
 }

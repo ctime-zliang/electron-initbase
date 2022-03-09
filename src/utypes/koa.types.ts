@@ -5,17 +5,17 @@ export type TKoaRouter = {
 	path: string
 	action: (...args: Array<any>) => Promise<any>
 	desc?: string
-	before?: (ctx?: IExtendKoaContext, netx?: koa.Next) => Promise<boolean>
-	after?: (ctx?: IExtendKoaContext, netx?: koa.Next) => Promise<any>
+	before?: (ctx?: TExtendKoaContext, netx?: koa.Next) => Promise<boolean>
+	after?: (ctx?: TExtendKoaContext, netx?: koa.Next) => Promise<any>
 }
 
 export type TRouterMethod = 'get' | 'post' | 'put'
 
-export interface IExtendKoaContext extends koa.Context {
+export type TExtendKoaContext = {
 	routerMatched?: boolean
-}
+} & koa.Context
 
-export interface IKoaServerResult {
+export type TKoaServerResult = {
 	app: koa
 	hostname: string
 	port: number

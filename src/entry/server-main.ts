@@ -1,10 +1,10 @@
 import { startKoaServer } from '@server/app'
 import { baseServerCongfig } from '@config/config'
 import simpleLogger from '@utils/simpleLogger'
-import { IKoaServerResult } from '@utypes/koa.types'
+import { TKoaServerResult } from '@utypes/koa.types'
 
 export const startApp = async (): Promise<boolean> => {
-	const mainInfo: IKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
+	const mainInfo: TKoaServerResult = await startKoaServer(baseServerCongfig.host, baseServerCongfig.port)
 	simpleLogger.trace(`App.running - http://${mainInfo.hostname}:${mainInfo.port}`)
 	return true
 }

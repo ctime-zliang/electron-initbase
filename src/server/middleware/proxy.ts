@@ -1,12 +1,12 @@
 import koa from 'koa'
 import path from 'path'
-import { IExtendKoaContext, ProxyResponse } from '@utypes/koa.types'
+import { TExtendKoaContext, ProxyResponse } from '@utypes/koa.types'
 import { proxyRequest } from '../utils/proxyRequest'
 import { renderTemplate, TRenderTemplateResponse } from '../utils/renderTemplate'
 import { proxyBaseConfig, proxyURLConfig } from '@config/config'
 
 export default () => {
-	return async (ctx: IExtendKoaContext, next: koa.Next): Promise<void | undefined> => {
+	return async (ctx: TExtendKoaContext, next: koa.Next): Promise<void | undefined> => {
 		const checkesURLKeys = Object.keys(proxyURLConfig)
 		let proxyURL: string | boolean = ''
 		let urlIndex: number = 0

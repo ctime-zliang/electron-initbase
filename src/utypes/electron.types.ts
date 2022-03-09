@@ -1,4 +1,4 @@
-export interface IPageInitURLData {
+export type TPageInitURLData = {
 	href: string
 	origin: string
 	host: string
@@ -12,15 +12,15 @@ export interface IPageInitURLData {
 	username?: string
 	password?: string
 }
-export interface IGlobalWindowItemProfile {
+export type TGlobalWindowItemProfile = {
 	id: string | number | null
 	win: any
 	pageInitURL: string | null
-	pageInitURLData: IPageInitURLData | null
+	pageInitURLData: TPageInitURLData | null
 	// [key: string]: any
 }
-export interface IElectronAppRuntimeProfile {
+export type TElectronAppRuntimeProfile = {
 	globalActiveWindowId: string | number | null
-	globalWindowMap?: IGlobalWindowItemProfile | any
+	globalWindowMap?: TGlobalWindowItemProfile | any
 	// [key: string]: any
 }

@@ -1,5 +1,5 @@
 import { TResponse } from '../../lib/Response'
-import { IExtendKoaContext } from '@utypes/koa.types'
+import { TExtendKoaContext } from '@utypes/koa.types'
 import Controller from '../../lib/Controller'
 import HomeService, { THomeService } from '../service/home'
 
@@ -10,12 +10,12 @@ class HomeController extends Controller {
 		this.homeService = new HomeService()
 	}
 
-	async render(ctx: IExtendKoaContext, res: TResponse): Promise<void> {
+	async render(ctx: TExtendKoaContext, res: TResponse): Promise<void> {
 		const content = `Started Server Successed. ---- koa msvc`
 		res.setHtml(`<div>${content}</div>`)
 	}
 
-	async rtest(ctx: IExtendKoaContext, res: TResponse): Promise<void> {
+	async rtest(ctx: TExtendKoaContext, res: TResponse): Promise<void> {
 		const query = ctx.query
 		const serRes = await this.homeService.fetchData()
 		res.setJson({
