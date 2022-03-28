@@ -1,7 +1,7 @@
 {
 	"name": "electron-initbase",
 	"version": "1.0.0",
-	"description": "emmmm..........",
+	"description": "An Application by electron",
 	"scripts": {
 		"prepare": "husky install",
 		"husky:install": "husky install",

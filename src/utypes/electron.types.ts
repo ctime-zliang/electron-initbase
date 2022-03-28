@@ -1,3 +1,7 @@
+export type TSchemesCommonResponse = {
+	success: boolean
+}
+
 export type TPageInitURLData = {
 	href: string
 	origin: string
@@ -24,3 +28,5 @@ export type TElectronAppRuntimeProfile = {
 	globalWindowMap?: TGlobalWindowItemProfile | any
 	// [key: string]: any
 }
+
+export type TCertificateErrorCallback = (isContinue: boolean) => void

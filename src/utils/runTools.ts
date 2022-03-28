@@ -1,3 +1,3 @@
-export const koaServerOnly = (): boolean => {
-	return process.argv.includes('--koaserver-only=true')
+export const serverOnly = (): boolean => {
+	return process.argv.includes('--server-only=true')
 }
