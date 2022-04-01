@@ -10,7 +10,7 @@ const uBuffer = (res: http.IncomingMessage) => {
 	return async (): Promise<Buffer> => {
 		return new Promise(_ => {
 			const reply: Array<Buffer> = []
-			res.on('data', (chunk): void => {
+			res.on('data', (chunk: any): void => {
 				reply.push(chunk)
 			})
 			res.on('end', () => {
@@ -23,7 +23,7 @@ const uArrayBuffer = (res: http.IncomingMessage) => {
 	return async (): Promise<ArrayBuffer> => {
 		return new Promise(_ => {
 			const reply: Array<Buffer> = []
-			res.on('data', (chunk): void => {
+			res.on('data', (chunk: any): void => {
 				reply.push(chunk)
 			})
 			res.on('end', () => {
@@ -34,10 +34,10 @@ const uArrayBuffer = (res: http.IncomingMessage) => {
 }
 const uText = (res: http.IncomingMessage) => {
 	return async (): Promise<string> => {
-		const textDecoder = new StringDecoder('utf-8')
+		const textDecoder: StringDecoder = new StringDecoder('utf-8')
 		return new Promise(_ => {
 			const reply: Array<string> = []
-			res.on('data', (chunk): void => {
+			res.on('data', (chunk: any): void => {
 				reply.push(textDecoder.write(chunk))
 			})
 			res.on('end', () => {
@@ -62,8 +62,8 @@ const uJson = (res: http.IncomingMessage) => {
 
 export const proxyRequest = async (url: string, option: { [key: string]: any } = {}): Promise<ProxyResponse> => {
 	return new Promise(async (resolve, reject) => {
-		const client = url.startsWith('https') ? https : http
-		const userAgent = url.startsWith('https') ? httpsUserAgent : httpUserAgent
+		const client: any = url.startsWith('https') ? https : http
+		const userAgent: any = url.startsWith('https') ? httpsUserAgent : httpUserAgent
 
 		const requestOption: { [key: string]: any } = {
 			body: null,

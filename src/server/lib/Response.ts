@@ -1,3 +1,4 @@
+import { TExtendKoaContext } from '@/utypes/koa.types'
 import koa from 'koa'
 import httpStatus from './HttpStatus'
 
@@ -20,7 +21,7 @@ class Response {
 		this.outType = TYPE_JSON
 	}
 
-	setStatus(status = 200): Response {
+	setStatus(status: number = 200): Response {
 		this.status = status
 		return this
 	}
@@ -35,7 +36,7 @@ class Response {
 		return this
 	}
 
-	flush(ctx: koa.Context): Response {
+	flush(ctx: TExtendKoaContext): Response {
 		switch (this.outType) {
 			case TYPE_JSON: {
 				if (this.status === httpStatus.Ok.status) {

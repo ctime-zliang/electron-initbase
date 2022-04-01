@@ -44,7 +44,10 @@ export const clearCache = async (params: TClearCacheRequestParams): Promise<TSch
 	}
 
 	if (items.length) {
-		const clearOptions = {
+		const clearOptions: {
+			storages: Array<string>
+			quotas: Array<string>
+		} = {
 			storages: ([] as Array<string>).concat(items, localCacheItems),
 			quotas: [`temporary`, `persisten`, `syncable`],
 		}

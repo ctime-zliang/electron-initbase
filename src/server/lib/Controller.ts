@@ -3,7 +3,7 @@ import Response, { TResponse } from './Response'
 import httpStatus from './HttpStatus'
 import { TExtendKoaContext } from '@utypes/koa.types'
 
-type _TBaseController = {
+type TBaseController = {
 	render?: (ctx: TExtendKoaContext) => any
 	[key: string]: any
 } & Controller
@@ -16,7 +16,7 @@ class Controller extends EventEmitter {
 
 	invokeRender() {
 		return async (ctx: TExtendKoaContext): Promise<void> => {
-			const render = (this as _TBaseController).render
+			const render = (this as TBaseController).render
 			if (!render) {
 				ctx.body = `Missing render method in Controller!!!`
 				ctx.status = 500
@@ -27,7 +27,7 @@ class Controller extends EventEmitter {
 	}
 
 	invokeAction(actionName: string) {
-		const func: any = (this as _TBaseController)[actionName]
+		const func: (a: TExtendKoaContext, b: TResponse) => Promise<void> = (this as TBaseController)[actionName]
 		if (typeof func !== 'function') {
 			throw new ReferenceError(`${actionName} action non-existent.`)
 		}

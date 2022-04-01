@@ -9,9 +9,9 @@ const isErrorWithStatus = (error: any): boolean => {
 }
 
 const handleError = (error: any): string => {
-	const list: Array<any> = []
-	const statusError = isErrorWithStatus(error)
-	const err = statusError ? error.error : error
+	const list: Array<string> = []
+	const statusError: boolean = isErrorWithStatus(error)
+	const err: any = statusError ? error.error : error
 	if (statusError) {
 		list.push(`=>>[status]${err.status}`)
 	}
