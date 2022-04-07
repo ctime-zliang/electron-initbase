@@ -1,18 +1,16 @@
 import koa from 'koa'
-import init from './lib/init'
-import errorHandler from './error'
-import { TExtendKoaContext, TKoaServerResult } from '@utypes/koa.types'
 import { AddressInfo } from 'net'
+import init from './lib/init'
+import { TKoaServerResult } from '@utypes/koa.types'
+import { eventInit, eventEmitter } from './lib/eventInit'
+import appEventInit from './lib/appEventInit'
 
 export const startServer = async (hostname: string, port: number): Promise<TKoaServerResult> => {
 	const app: koa = new koa()
 
 	init(app)
-
-	app.on('error', (error: any, ctx: TExtendKoaContext) => {
-		const result: any = errorHandler(error, ctx)
-		console.log(result)
-	})
+	eventInit(app)
+	appEventInit(app)
 
 	return new Promise(async _ => {
 		const server: any = app.listen(port, hostname).on('listening', () => {
@@ -20,6 +18,7 @@ export const startServer = async (hostname: string, port: number): Promise<TKoaS
 				port: number
 				address: string
 			} = server.address() as AddressInfo
+			eventEmitter.emit('app/common', `App has finished starting...`)
 			_({ app, port: addressInfo.port, hostname: addressInfo.address })
 		})
 	})

@@ -1,3 +1,4 @@
+import { invokeAction, invokeRender } from '../../lib/Controller'
 import { TKoaRouter } from '@utypes/koa.types'
 import HomeController from '../../app/controller/home'
 
@@ -13,7 +14,7 @@ const routes: Array<TKoaRouter> = [
 		async after() {
 			/* after hook */
 		},
-		action: HomeController.invokeAction('render'),
+		action: invokeAction(HomeController, 'render'),
 	},
 ]
 

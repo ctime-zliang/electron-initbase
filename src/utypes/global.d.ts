@@ -75,4 +75,8 @@ declare module 'react-router-config'
 declare module 'request'
 declare module 'window'
 declare module 'mockjs'
-declare var global
+declare global {
+	var app: any
+	var eventEmitter: any
+}
+export {}

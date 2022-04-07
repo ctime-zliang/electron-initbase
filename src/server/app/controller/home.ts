@@ -27,4 +27,4 @@ class HomeController extends Controller {
 }
 
 export type THomeController = HomeController
-export default new HomeController()
+export default HomeController

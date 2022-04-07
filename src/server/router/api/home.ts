@@ -1,6 +1,6 @@
-import koa from 'koa'
-import { TExtendKoaContext, TKoaRouter } from '@utypes/koa.types'
+import { TKoaRouter } from '@utypes/koa.types'
 import HomeController from '../../app/controller/home'
+import { invokeAction } from '../../lib/Controller'
 
 const routes: Array<TKoaRouter> = [
 	{
@@ -14,7 +14,7 @@ const routes: Array<TKoaRouter> = [
 		async after() {
 			/* after hook */
 		},
-		action: HomeController.invokeAction('rtest'),
+		action: invokeAction(HomeController, 'rtest'),
 	},
 ]
 

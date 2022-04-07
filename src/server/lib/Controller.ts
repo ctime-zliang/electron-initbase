@@ -48,3 +48,10 @@ class Controller extends EventEmitter {
 
 export type TController = Controller
 export default Controller
+
+export const invokeRender = (controller: any) => {
+	return new controller().invokeRender()
+}
+export const invokeAction = (controller: any, method: string) => {
+	return new controller().invokeAction(method)
+}
