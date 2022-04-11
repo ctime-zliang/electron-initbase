@@ -1,5 +1,5 @@
-import { TSchemesCommonResponse } from '@/utypes/electron.types'
 import { session } from 'electron'
+import { TSchemesCommonResponse } from '@/utypes/electron.types'
 
 export type TCacheSizeResponse = {
 	cacheSize: number
@@ -57,7 +57,7 @@ export const clearCache = async (params: TClearCacheRequestParams): Promise<TSch
 	try {
 		await Promise.all(tasks)
 		return { success: true }
-	} catch (e) {
+	} catch (e: any) {
 		console.log(e)
 		return { success: false }
 	}

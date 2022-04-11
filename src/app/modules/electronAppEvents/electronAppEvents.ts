@@ -1,5 +1,5 @@
-import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 import { app, WebContents } from 'electron'
+import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 import { TCertificateErrorCallback } from '@/utypes/electron.types'
 
 /*
@@ -14,7 +14,7 @@ export const initElectronAppEvent = (): void => {
 	})
 	app.on(
 		'certificate-error' as any,
-		(e: any, webContents: WebContents, url: string, error: any, certificate: string, callback: TCertificateErrorCallback) => {
+		(e: any, webContents: WebContents, url: string, error: any, certificate: string, callback: TCertificateErrorCallback): void => {
 			console.log(`Certificate Error.`)
 			callback(true)
 		}

@@ -7,7 +7,7 @@ export function routerExec(routes: Array<TKoaRouter>): koaRouter {
 	routes.forEach((routeItem: TKoaRouter): void => {
 		const method: TRouterMethod = routeItem.method.toLowerCase() as TRouterMethod
 		const path: string = routeItem.path
-		kRouter[method](path, async (ctx: TExtendKoaContext, next: koa.Next): Promise<any> => {
+		kRouter[method](path, async (ctx: TExtendKoaContext, next: koa.Next): Promise<void> => {
 			let willGo: boolean = true
 			try {
 				ctx.status = 200

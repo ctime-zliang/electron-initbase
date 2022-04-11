@@ -1,7 +1,7 @@
 import os from 'os'
 import middleware from '../middleware'
 
-const printSysInfo = () => {
+const printSysInfo = (): void => {
 	console.log('==>>> Computer Name: ' + os.hostname())
 	console.log('==>>> CPU Architecture: ' + os.arch())
 	console.log('==>>> User Name: ' + os.userInfo().username)

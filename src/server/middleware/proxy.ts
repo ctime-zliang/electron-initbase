@@ -7,7 +7,7 @@ import { proxyBaseConfig, proxyURLConfig } from '@config/config'
 
 export default () => {
 	return async (ctx: TExtendKoaContext, next: koa.Next): Promise<void | undefined> => {
-		const checkesURLKeys = Object.keys(proxyURLConfig)
+		const checkesURLKeys: Array<string> = Object.keys(proxyURLConfig)
 		let proxyURL: string | boolean = ''
 		let urlIndex: number = 0
 		for (; urlIndex < checkesURLKeys.length; urlIndex++) {

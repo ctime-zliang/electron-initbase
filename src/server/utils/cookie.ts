@@ -7,7 +7,7 @@ export const cookie = {
 	set(ctx: TExtendKoaContext, key: string, value: string, option: { [key: string]: any } = {}): void {
 		ctx.cookies.set(key, value, { ...option })
 	},
-	get(ctx: TExtendKoaContext, key: string): any {
+	get(ctx: TExtendKoaContext, key: string): string | void {
 		return ctx.cookies.get(key)
 	},
 }

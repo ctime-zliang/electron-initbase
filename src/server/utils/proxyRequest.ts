@@ -8,7 +8,7 @@ const httpsUserAgent = new https.Agent({ keepAlive: true })
 
 const uBuffer = (res: http.IncomingMessage) => {
 	return async (): Promise<Buffer> => {
-		return new Promise(_ => {
+		return new Promise((_: (a: Buffer) => void): void => {
 			const reply: Array<Buffer> = []
 			res.on('data', (chunk: any): void => {
 				reply.push(chunk)
@@ -21,7 +21,7 @@ const uBuffer = (res: http.IncomingMessage) => {
 }
 const uArrayBuffer = (res: http.IncomingMessage) => {
 	return async (): Promise<ArrayBuffer> => {
-		return new Promise(_ => {
+		return new Promise((_: (a: any) => void): void => {
 			const reply: Array<Buffer> = []
 			res.on('data', (chunk: any): void => {
 				reply.push(chunk)
@@ -35,7 +35,7 @@ const uArrayBuffer = (res: http.IncomingMessage) => {
 const uText = (res: http.IncomingMessage) => {
 	return async (): Promise<string> => {
 		const textDecoder: StringDecoder = new StringDecoder('utf-8')
-		return new Promise(_ => {
+		return new Promise((_: (a: string) => void): void => {
 			const reply: Array<string> = []
 			res.on('data', (chunk: any): void => {
 				reply.push(textDecoder.write(chunk))

@@ -49,9 +49,9 @@ class Controller extends EventEmitter {
 export type TController = Controller
 export default Controller
 
-export const invokeRender = (controller: any) => {
+export const invokeRender = (controller: any): ((ctx: TExtendKoaContext) => Promise<void>) => {
 	return new controller().invokeRender()
 }
-export const invokeAction = (controller: any, method: string) => {
+export const invokeAction = (controller: any, method: string): ((ctx: TExtendKoaContext) => Promise<void>) => {
 	return new controller().invokeAction(method)
 }

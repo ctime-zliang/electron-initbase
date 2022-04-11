@@ -3,7 +3,7 @@ class HomeModel {
 		// super(options)
 	}
 
-	async fetchData(): Promise<any> {
+	async fetchData(): Promise<{ [key: string]: any }> {
 		const res: { [key: string]: any } = {
 			results: { modelKey: 'Key added by Model' },
 		}

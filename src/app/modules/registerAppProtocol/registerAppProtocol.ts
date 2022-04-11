@@ -13,7 +13,7 @@ export const initRegisterSchemesAsPrivileged = (): void => {
 const appProcessors: Array<TAppProcessor> = []
 
 appProcessors.push(async (url: string, urlParams, updateData, callback): Promise<any> => {
-	const requestParmas = (updateData?.[0].bytes as Buffer).toString('utf-8')
+	const requestParmas: string = (updateData?.[0].bytes as Buffer).toString('utf-8')
 	console.log(url, urlParams, requestParmas)
 	callback(JSON.stringify({ ret: 0 }))
 	return true
@@ -23,7 +23,7 @@ appProcessors.push(async (url: string, urlParams, updateData, callback): Promise
 	Electron Scheme 协议注册
  */
 export const registerAppProtocol = (): void => {
-	session.defaultSession.protocol.registerStringProtocol('app', async (request, callback) => {
+	session.defaultSession.protocol.registerStringProtocol('app', async (request, callback): Promise<void> => {
 		const m: Array<string> | null | undefined = /^([^?]+)\??(.*)$/i.exec(request.url)
 		if (m) {
 			const urlParams: any = {}

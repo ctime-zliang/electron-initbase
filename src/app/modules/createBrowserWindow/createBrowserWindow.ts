@@ -1,5 +1,5 @@
-import { electronAppBaseConfig } from '@config/config'
 import { BrowserWindow } from 'electron'
+import { electronAppBaseConfig } from '@config/config'
 import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 import { createElectronAppRuntimeProfile } from '../../utils/createElectronRuntimeProfile'
 

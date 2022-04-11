@@ -8,7 +8,7 @@ import interceptor from './interceptor'
 import proxy from './proxy'
 import { TExtendKoaContext } from '@utypes/koa.types'
 
-export default (app: koa) => {
+export default (app: koa): void => {
 	app.use(interceptor())
 	app.use(
 		koaCors({
@@ -31,7 +31,7 @@ export default (app: koa) => {
 	)
 	router(app)
 	app.use(proxy())
-	app.use(async (ctx: TExtendKoaContext, next: koa.Next) => {
+	app.use(async (ctx: TExtendKoaContext, next: koa.Next): Promise<void> => {
 		console.log(`==================>>>>> After Router`)
 		await next()
 	})

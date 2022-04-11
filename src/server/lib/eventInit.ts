@@ -5,8 +5,8 @@ const _eventEmitter = new events.EventEmitter()
 
 global.eventEmitter = _eventEmitter
 
-export const eventInit = (app: koa) => {
-	eventEmitter.on('app/common', (res: any) => {
+export const eventInit = (app: koa): void => {
+	eventEmitter.on('app/common', (res: any): void => {
 		console.log(res)
 	})
 }

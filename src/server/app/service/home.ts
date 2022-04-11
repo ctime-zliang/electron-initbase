@@ -6,7 +6,7 @@ class HomeService {
 		this.homeModel = new HomeModel()
 	}
 
-	async fetchData(): Promise<any> {
+	async fetchData(): Promise<{ [key: string]: any }> {
 		const fetchListRes = await this.homeModel.fetchData()
 		return { ...fetchListRes, serviceKey: 'Key added by Service' }
 	}

@@ -12,7 +12,7 @@ export const startServer = async (hostname: string, port: number): Promise<TKoaS
 	eventInit(app)
 	appEventInit(app)
 
-	return new Promise(async _ => {
+	return new Promise(async (_: (a: any) => void): Promise<void> => {
 		const server: any = app.listen(port, hostname).on('listening', () => {
 			const addressInfo: {
 				port: number

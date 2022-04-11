@@ -8,7 +8,7 @@ import errorRouterMap, { TErrorRoute, TErrorRouteMap } from './error'
 const routerList = [webRouter, apiRouter]
 
 export default (app: koa) => {
-	routerList.forEach((router: koaRouter) => {
+	routerList.forEach((router: koaRouter): void => {
 		app.use(router.routes())
 		app.use(router.allowedMethods())
 	})
