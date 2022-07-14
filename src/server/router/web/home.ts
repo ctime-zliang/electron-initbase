@@ -14,7 +14,7 @@ const routes: Array<TKoaRouter> = [
 		async after() {
 			/* after hook */
 		},
-		action: invokeAction(HomeController, 'render'),
+		action: invokeRender(HomeController),
 	},
 ]
 

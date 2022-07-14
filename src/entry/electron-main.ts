@@ -18,11 +18,10 @@ export const startApp = async (): Promise<boolean> => {
 	await app.whenReady()
 	await initElectronApp()
 	const mainInfo: TKoaServerResult = await startServer(baseServerCongfig.host, baseServerCongfig.port)
-	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter?rdm=` + Math.random()
-	// const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}?rdm=` + Math.random()
+	// const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}/proxy-enter?rdm=` + Math.random()
+	const mainURL: string = `http://${mainInfo.hostname}:${mainInfo.port}?rdm=` + Math.random()
 	simpleLogger.trace(`App.running - ${mainURL}`)
 	await startElectronApp(`${mainURL}`)
-	// extraTest()
 	// await startElectronApp(`../static/html/test-renderer-block.html`, { isLoadFile: true })
 	return true
 }

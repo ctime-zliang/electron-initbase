@@ -8,12 +8,14 @@ const TYPE_TEXT: string = `text`
 const TYPE_BINARY: string = `binary`
 
 class Response {
-	private data: any = null
-	private msg: string = ``
-	private status: number = 200
-	private retCode: number = 0
-	private outType: string = TYPE_JSON
+	private isSet: boolean
+	private data: any
+	private msg: string
+	private status: number
+	private retCode: number
+	private outType: string
 	constructor() {
+		this.isSet = false
 		this.data = null
 		this.msg = ''
 		this.status = 200
@@ -21,17 +23,24 @@ class Response {
 		this.outType = TYPE_JSON
 	}
 
+	hasSet() {
+		return this.isSet
+	}
+
 	setStatus(status: number = 200): Response {
+		this.isSet = true
 		this.status = status
 		return this
 	}
 
 	setRetCode(retCode: number = 0): Response {
+		this.isSet = true
 		this.retCode = retCode
 		return this
 	}
 
 	setMessage(message: string): Response {
+		this.isSet = true
 		this.msg = message
 		return this
 	}
@@ -55,6 +64,7 @@ class Response {
 			case TYPE_HTML: {
 				ctx.status = this.status
 				ctx.body = this.data
+				console.log(`66666666666666666666666666`)
 				return this
 			}
 			case TYPE_TEXT: {
@@ -80,24 +90,28 @@ class Response {
 	/****************************** ******************************/
 
 	setJson(data: any = null): Response {
+		this.isSet = true
 		this.outType = TYPE_JSON
 		this.data = data
 		return this
 	}
 
 	setHtml(data: any = null): Response {
+		this.isSet = true
 		this.outType = TYPE_HTML
 		this.data = data
 		return this
 	}
 
 	setBinary(data: any = null): Response {
+		this.isSet = true
 		this.outType = TYPE_BINARY
 		this.data = data
 		return this
 	}
 
 	setText(data: any = null): Response {
+		this.isSet = true
 		this.outType = TYPE_TEXT
 		this.data = data
 		return this

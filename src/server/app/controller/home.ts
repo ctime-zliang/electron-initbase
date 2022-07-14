@@ -11,8 +11,22 @@ class HomeController extends Controller {
 	}
 
 	async render(ctx: TExtendKoaContext, res: TResponse): Promise<void> {
-		const content = `Started Server Successed. ---- koa msvc`
+		const content: string = `
+			<h3>Started Server Successed. ---- koa msvc</h3>
+		`
+		/**
+		 * 使用内置的 html 输出方法输出 html 字符串
+		 */
 		res.setHtml(`<div>${content}</div>`)
+
+		// /**
+		//  * 使用 koa-ejs 输出 html 字符串
+		//  */
+		// await ctx.render('./ejs-home', {
+		// 	title: `electron app`,
+		// 	username: `ctimezliang`,
+		// 	content
+		// })
 	}
 
 	async rtest(ctx: TExtendKoaContext, res: TResponse): Promise<void> {

@@ -4,7 +4,7 @@ import httpStatus from './HttpStatus'
 import { TExtendKoaContext } from '@utypes/koa.types'
 
 type TBaseController = {
-	render?: (ctx: TExtendKoaContext) => any
+	render?: (ctx: TExtendKoaContext, res: Response) => any
 	[key: string]: any
 } & Controller
 
@@ -17,12 +17,14 @@ class Controller extends EventEmitter {
 	invokeRender() {
 		return async (ctx: TExtendKoaContext): Promise<void> => {
 			const render = (this as TBaseController).render
+			const res: TResponse = new Response()
 			if (!render) {
 				ctx.body = `Missing render method in Controller!!!`
 				ctx.status = 500
 				return
 			}
-			await render.call(this, ctx)
+			await render.call(this, ctx, res)
+			res.hasSet() && res.flush(ctx)
 		}
 	}
 
@@ -37,7 +39,7 @@ class Controller extends EventEmitter {
 			try {
 				res.setStatus(httpStatus.Ok.status).setMessage('').setRetCode(0).setJson(null)
 				await func.call(this, ctx, res)
-				res.flush(ctx)
+				res.hasSet() && res.flush(ctx)
 			} catch (e: any) {
 				res.setStatus(httpStatus.ServerError.status).setMessage(httpStatus.ServerError.message).flush(ctx)
 				ctx.app.emit('error', e)

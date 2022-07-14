@@ -13,6 +13,7 @@ export type TRouterMethod = 'get' | 'post' | 'put'
 
 export type TExtendKoaContext = {
 	routerMatched?: boolean
+	render: (url: string, options: { [key: string]: any }) => void
 } & koa.Context
 
 export type TKoaServerResult = {
