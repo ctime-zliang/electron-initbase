@@ -3,33 +3,25 @@ import path from 'path'
 import { TExtendKoaContext, ProxyResponse } from '@utypes/koa.types'
 import { proxyRequest } from '../utils/proxyRequest'
 import { renderTemplate, TRenderTemplateResponse } from '../utils/renderTemplate'
-import { proxyBaseConfig, proxyURLConfig } from '@config/config'
+import { proxyBaseConfig, proxyURL } from '@config/config'
 
 export default () => {
 	return async (ctx: TExtendKoaContext, next: koa.Next): Promise<void | undefined> => {
-		const checkesURLKeys: Array<string> = Object.keys(proxyURLConfig)
-		let proxyURL: string | boolean = ''
-		let urlIndex: number = 0
-		for (; urlIndex < checkesURLKeys.length; urlIndex++) {
-			const checkURL: string = checkesURLKeys[urlIndex]
-			if (ctx.path.endsWith(checkURL) || ctx.path.endsWith(checkURL + '/')) {
-				proxyURL = await (proxyURLConfig as { [key: string]: any })[checkURL](ctx)
-				break
-			}
-		}
 		if (proxyURL) {
 			try {
-				const proxyResponse: ProxyResponse = await proxyRequest(proxyURL as string)
+				const localFullUrl: string = `${ctx.protocol}://${ctx.host}${ctx.url}`
+				const proxyAssetsUrl: string = `${proxyURL}${localFullUrl.replace(/^(http|https):\/\/[^/]+/, '')}`
+				const proxyResponse: ProxyResponse = await proxyRequest(proxyAssetsUrl as string)
 				await next()
 				ctx.status = 200
 				ctx.body = proxyResponse.res
 			} catch (e: any) {
 				await next()
-				const fullURL: string = `${ctx.protocol}://${ctx.host}${ctx.url}`
+				const localFullUrl: string = `${ctx.protocol}://${ctx.host}${ctx.url}`
 				const renderTemplateResponse: TRenderTemplateResponse = await renderTemplate(
 					path.join(__dirname, proxyBaseConfig.errorTemplatePath),
 					{
-						sourceURL: fullURL,
+						sourceURL: localFullUrl,
 						targetURL: proxyURL,
 					}
 				)

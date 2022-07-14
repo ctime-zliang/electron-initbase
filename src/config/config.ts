@@ -10,11 +10,7 @@ export const baseServerCongfig: { [key: string]: any } = {
 	port: 3501,
 }
 
-export const proxyURLConfig: { [key: string]: any } = {
-	'/proxy-enter': async (ctx: TExtendKoaContext): Promise<string | boolean> => {
-		return `https://www.baidu.com/`
-	},
-}
+export const proxyURL: string = `http://127.0.0.1:8080/`
 
 export const proxyBaseConfig: { [key: string]: any } = {
 	errorTemplatePath: `../static/html/proxy-error.ejs`,

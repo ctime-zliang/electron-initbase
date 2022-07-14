@@ -64,7 +64,6 @@ class Response {
 			case TYPE_HTML: {
 				ctx.status = this.status
 				ctx.body = this.data
-				console.log(`66666666666666666666666666`)
 				return this
 			}
 			case TYPE_TEXT: {
