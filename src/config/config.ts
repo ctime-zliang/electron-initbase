@@ -10,7 +10,7 @@ export const baseServerCongfig: { [key: string]: any } = {
 	port: 3501,
 }
 
-export const proxyURL: string = `http://127.0.0.1:8080/`
+export const proxyURL: string = `https://www.baidu.com/`
 
 export const proxyBaseConfig: { [key: string]: any } = {
 	errorTemplatePath: `../static/html/proxy-error.ejs`,
