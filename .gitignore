@@ -3,4 +3,5 @@ cache
 .puppeteer
 coverage
 dist
+build
 node_modules
