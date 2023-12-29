@@ -14,7 +14,7 @@
 		"--": "--",
 		"build:server:dev": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
 		"build:server:prod": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
-		"start:server:dev": "nodemon --config ./config/server/nodemon.json",
+		"nodemon:server:dev": "nodemon --config ./config/server/nodemon.json",
 		"==": "==",
 		"build:electron:dev": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
 		"build:electron:prod": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js",

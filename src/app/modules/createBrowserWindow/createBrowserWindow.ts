@@ -9,8 +9,8 @@ export const createBrowserWindow = async (
 	windowOption: { [key: string]: any } = {}
 ): Promise<BrowserWindow> => {
 	let win: BrowserWindow = new BrowserWindow({
-		width: windowOption.width || 1280,
-		height: windowOption.height || 720,
+		width: windowOption.width || 1368,
+		height: windowOption.height || 768,
 		useContentSize: true,
 		title: electronAppBaseConfig.initElectronAppTitle,
 		show: true,

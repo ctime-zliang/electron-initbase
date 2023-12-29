@@ -2,6 +2,8 @@ import { TResponse } from '../../lib/Response'
 import { TExtendKoaContext } from '@utypes/koa.types'
 import Controller from '../../lib/Controller'
 import HomeService, { THomeService } from '../service/home'
+import { renderTemplate, TRenderTemplateResponse } from '@/server/utils/renderTemplate'
+import path from 'path'
 
 class HomeController extends Controller {
 	private homeService: THomeService = new HomeService()
@@ -17,16 +19,9 @@ class HomeController extends Controller {
 		/**
 		 * 使用内置的 html 输出方法输出 html 字符串
 		 */
-		res.setHtml(`<div>${content}</div>`)
-
-		// /**
-		//  * 使用 koa-ejs 输出 html 字符串
-		//  */
-		// await ctx.render('./ejs-home', {
-		// 	title: `electron app`,
-		// 	username: `ctimezliang`,
-		// 	content
-		// })
+		res.setHtml(`
+			<div>${content}</div>
+		`)
 	}
 
 	async rtest(ctx: TExtendKoaContext, res: TResponse): Promise<void> {

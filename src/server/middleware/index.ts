@@ -5,8 +5,9 @@ import router from '../router'
 import parameter from './parameter'
 import dyeLog from './dyelog'
 import interceptor from './interceptor'
-import proxy from './proxy'
 import { TExtendKoaContext } from '@utypes/koa.types'
+import { proxyRemote } from './proxyRemote'
+import { proxyWebCanvas } from './proxyWebCanvas'
 
 export default (app: koa): void => {
 	app.use(interceptor())
@@ -30,7 +31,8 @@ export default (app: koa): void => {
 		})
 	)
 	router(app)
-	app.use(proxy())
+	app.use(proxyRemote())
+	app.use(proxyWebCanvas())
 	app.use(async (ctx: TExtendKoaContext, next: koa.Next): Promise<void> => {
 		console.log(`==================>>>>> After Router`)
 		await next()

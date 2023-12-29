@@ -18,7 +18,7 @@ const printSysInfo = (): void => {
 
 export default (app: any): void => {
 	koaEjs(app, {
-		root: path.join(__dirname, '../static/html'),
+		root: path.join(__dirname, './static/html'),
 		layout: 'template',
 		viewExt: 'ejs',
 		cache: false,

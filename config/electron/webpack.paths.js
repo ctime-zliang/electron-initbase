@@ -5,7 +5,7 @@ module.exports = {
 		main: utils.resolveDirectory(`./src/entry/electron-main.ts`),
 	},
 	output: {
-		filename: `electron/app.js`,
+		filename: `./electron/app.js`,
 	},
 	devBuild: {
 		publicPath: '/',

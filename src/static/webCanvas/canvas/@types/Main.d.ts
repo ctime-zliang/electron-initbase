@@ -1,0 +1,37 @@
+import { DrawLayerController } from './controller/DrawLayerController';
+import { ElementController } from './controller/ElementController';
+import { InputInfo } from './tool/InputInfo';
+import { px2mm as _px2mm } from './utils/Utils';
+import { TDOMGetBoundingClientRectResult, TColorJSON, TDrawLayerItemResult, TElementItemResult, TStatisticsData } from './types/Common';
+export type InputInfoData = InputInfo;
+export type DOMGetBoundingClientRectResult = TDOMGetBoundingClientRectResult;
+export type ColorJSON = TColorJSON;
+export type DrawLayerItemResult = TDrawLayerItemResult;
+export type ElementItemResult = TElementItemResult;
+export type StatisticsData = TStatisticsData;
+export * from './utils/Color';
+export * from './geometry/Decimals';
+export * from './geometry/DoubleKit';
+export * from './geometry/Angles';
+export * from './geometry/Vector2';
+export * from './geometry/Vector3';
+export * from './geometry/Matrix';
+export * from './geometry/Matrix3';
+export * from './geometry/Matrix4';
+export declare const px2mm: typeof _px2mm;
+export declare const DRAW_TOOL_COMMAND: any;
+export declare class WebCanvas {
+    private _canvasElement;
+    private _drawToolManager;
+    constructor(canvasElement: HTMLCanvasElement);
+    init(): Promise<boolean>;
+    get drawLayerController(): DrawLayerController;
+    get elementController(): ElementController;
+    getCanvasRect(): TDOMGetBoundingClientRectResult;
+    getDPI(): [number, number];
+    setDrawToolCommand(type: string): void;
+    forceRender(): void;
+    addInputsChangedListener(callback: (data: InputInfo) => void): void;
+    addStatisticsListener(callback: (data: TStatisticsData) => void): void;
+}
+export declare function createCanvasElement(containerElement: HTMLElement): HTMLCanvasElement;
