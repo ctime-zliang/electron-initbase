@@ -41,3 +41,12 @@ export type TCanvasLineCap = 'butt' | 'round' | 'square';
 export type TStatisticsData = {
     fps: number;
 };
+export type TSystemConfigProfile = {
+    isDarkTheme: boolean;
+    alignGrid: boolean;
+    enableGrid: boolean;
+    enableAxis: boolean;
+    enableFPSCount: boolean;
+    enableCanvasZoomChange: boolean;
+    enableCanvasTranslate: boolean;
+};

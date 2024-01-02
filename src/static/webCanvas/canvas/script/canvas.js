@@ -190,7 +190,7 @@ exports.drawClockInit = drawClockInit;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.performanceControl = exports.inforPanelControl = exports.appendFloatContainerWindow = void 0;
+exports.profileControl = exports.performanceControl = exports.inforPanelControl = exports.appendFloatContainerWindow = void 0;
 var panelPublicStyle = "\n\tmargin: 5px 0; \n\tpadding: 0 10px; \n\tfont-size: 12px;\n\tbox-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); \n\tbackground: rgba(25, 25, 25, 0.75); \n\tborder: 1px solid #666666; \n\tborder-radius: 3px;\n";
 function appendFloatContainerWindow(container, position) {
     if (position === void 0) { position = 'RT'; }
@@ -201,7 +201,7 @@ function appendFloatContainerWindow(container, position) {
         RB: 'right: 0; bottom: 0;',
     }[position];
     var elementId = "floatWindow".concat(Math.random());
-    var wrapperHTML = "\n\t\t<section id=\"".concat(elementId, "\" style=\"\n\t\t\tposition: fixed; \n\t\t\t").concat(positionStyle, " \n\t\t\tz-index: 9999; \n\t\t\tuser-select: none;\n\t\t\tpointer-events: none;\n\t\t\tpadding: 5px 10px;\n\t\t\">\n\t\t</section>\n\t");
+    var wrapperHTML = "\n\t\t<section id=\"".concat(elementId, "\" style=\"\n\t\t\tposition: fixed; \n\t\t\t").concat(positionStyle, " \n\t\t\tz-index: 9999; \n\t\t\tuser-select: none;\n\t\t\tpadding: 5px 10px;\n\t\t\">\n\t\t</section>\n\t");
     container.append(document.createRange().createContextualFragment(wrapperHTML));
     return document.getElementById(elementId);
 }
@@ -231,6 +231,84 @@ exports.performanceControl = {
         data.fps = parseInt(String(data.fps));
         //@ts-ignore
         document.getElementById('perfRenderSpeed').innerHTML = "".concat(data.fps);
+    },
+};
+exports.profileControl = {
+    containerDomId: 'profileControl',
+    appendTo: function (container) {
+        var wrapperHTML = "\n\t\t\t<main id=\"".concat(this.containerDomId, "\" style=\"").concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5E27\u7387\u7EDF\u8BA1:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5BF9\u9F50\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u76F4\u89D2\u5750\u6807\u8F74:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u5E73\u79FB:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
+        container.append(document.createRange().createContextualFragment(wrapperHTML));
+    },
+    bindEvent: function (callback) {
+        var containerElement = document.getElementById(this.containerDomId);
+        var allInputElements = Array.from(containerElement.querySelectorAll("input"));
+        for (var i = 0; i < allInputElements.length; i++) {
+            allInputElements[i].addEventListener('change', function (e) {
+                var value = this.value;
+                var setValue = Boolean(+value);
+                var name = this.getAttribute('name');
+                callback && callback(name, setValue);
+            });
+        }
+    },
+    update: function (data) {
+        var enableFPSCountElements = Array.from(document.querySelectorAll("[name=\"enableFPSCount\"]"));
+        for (var i = 0; i < enableFPSCountElements.length; i++) {
+            if (enableFPSCountElements[i].value === String(Number(data.enableFPSCount))) {
+                enableFPSCountElements[i].checked = true;
+                continue;
+            }
+            enableFPSCountElements[i].checked = false;
+        }
+        if (!data.enableFPSCount) {
+            //@ts-ignore
+            document.getElementById('perfRenderSpeed').innerHTML = '-';
+        }
+        /* ... */
+        var alignGridElements = Array.from(document.querySelectorAll("[name=\"alignGrid\"]"));
+        for (var i = 0; i < alignGridElements.length; i++) {
+            if (alignGridElements[i].value === String(Number(data.alignGrid))) {
+                alignGridElements[i].checked = true;
+                continue;
+            }
+            alignGridElements[i].checked = false;
+        }
+        /* ... */
+        var enableGridElements = Array.from(document.querySelectorAll("[name=\"enableGrid\"]"));
+        for (var i = 0; i < enableGridElements.length; i++) {
+            if (enableGridElements[i].value === String(Number(data.enableGrid))) {
+                enableGridElements[i].checked = true;
+                continue;
+            }
+            enableGridElements[i].checked = false;
+        }
+        /* ... */
+        var enableAxisElements = Array.from(document.querySelectorAll("[name=\"enableAxis\"]"));
+        for (var i = 0; i < enableAxisElements.length; i++) {
+            if (enableAxisElements[i].value === String(Number(data.enableAxis))) {
+                enableAxisElements[i].checked = true;
+                continue;
+            }
+            enableAxisElements[i].checked = false;
+        }
+        /* ... */
+        var enableCanvasZoomChangeElements = Array.from(document.querySelectorAll("[name=\"enableCanvasZoomChange\"]"));
+        for (var i = 0; i < enableCanvasZoomChangeElements.length; i++) {
+            if (enableCanvasZoomChangeElements[i].value === String(Number(data.enableCanvasZoomChange))) {
+                enableCanvasZoomChangeElements[i].checked = true;
+                continue;
+            }
+            enableCanvasZoomChangeElements[i].checked = false;
+        }
+        /* ... */
+        var enableCanvasTranslateElements = Array.from(document.querySelectorAll("[name=\"enableCanvasTranslate\"]"));
+        for (var i = 0; i < enableCanvasTranslateElements.length; i++) {
+            if (enableCanvasTranslateElements[i].value === String(Number(data.enableCanvasTranslate))) {
+                enableCanvasTranslateElements[i].checked = true;
+                continue;
+            }
+            enableCanvasTranslateElements[i].checked = false;
+        }
     },
 };
 
@@ -353,6 +431,7 @@ var FrameCommand_1 = __webpack_require__(/*! ./config/FrameCommand */ "./src/con
 var Starter_1 = __webpack_require__(/*! ./Starter */ "./src/Starter.ts");
 var EventConfig_1 = __webpack_require__(/*! ./config/EventConfig */ "./src/config/EventConfig.ts");
 var Utils_1 = __webpack_require__(/*! ./utils/Utils */ "./src/utils/Utils.ts");
+var SystemConfig_1 = __webpack_require__(/*! ./controller/SystemConfig */ "./src/controller/SystemConfig.ts");
 __exportStar(__webpack_require__(/*! ./utils/Color */ "./src/utils/Color.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/Decimals */ "./src/geometry/Decimals.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/DoubleKit */ "./src/geometry/DoubleKit.ts"), exports);
@@ -408,6 +487,13 @@ var WebCanvas = /** @class */ (function () {
     WebCanvas.prototype.getDPI = function () {
         return Constant_1.environment.DPI;
     };
+    WebCanvas.prototype.getSystemConfig = function () {
+        return SystemConfig_1.SystemConfig.getInstance().toJSON();
+    };
+    WebCanvas.prototype.applySystemConfig = function (key, value) {
+        SystemConfig_1.SystemConfig.getInstance().update(key, value);
+        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+    };
     WebCanvas.prototype.setDrawToolCommand = function (type) {
         this._drawToolManager.update(type);
     };
@@ -419,6 +505,9 @@ var WebCanvas = /** @class */ (function () {
     };
     WebCanvas.prototype.addStatisticsListener = function (callback) {
         Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.STATISTICS, callback, EventConfig_1.OUT_EVENT_NS);
+    };
+    WebCanvas.prototype.addProfileListener = function (callback) {
+        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
     };
     return WebCanvas;
 }());
@@ -702,6 +791,7 @@ var EOutEventCommand;
 (function (EOutEventCommand) {
     EOutEventCommand["INPUTS_CHANGED"] = "INPUTS_CHANGED";
     EOutEventCommand["STATISTICS"] = "STATISTICS";
+    EOutEventCommand["PROFILE_CHANGED"] = "PROFILE_CHANGED";
 })(EOutEventCommand = exports.EOutEventCommand || (exports.EOutEventCommand = {}));
 
 
@@ -1321,11 +1411,13 @@ exports.SelectManager = SelectManager;
 /*!****************************************!*\
   !*** ./src/controller/SystemConfig.ts ***!
   \****************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SystemConfig = void 0;
+var EventConfig_1 = __webpack_require__(/*! ../config/EventConfig */ "./src/config/EventConfig.ts");
+var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var SystemConfig = /** @class */ (function () {
     function SystemConfig() {
         this._isDarkTheme = true;
@@ -1333,6 +1425,8 @@ var SystemConfig = /** @class */ (function () {
         this._enableGrid = true;
         this._enableAxis = true;
         this._enableFPSCount = true;
+        this._enableCanvasZoomChange = false;
+        this._enableCanvasTranslate = false;
     }
     SystemConfig.getInstance = function () {
         if (SystemConfig.thisInstance === undefined) {
@@ -1346,6 +1440,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._isDarkTheme = value;
+            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
         },
         enumerable: false,
         configurable: true
@@ -1356,6 +1451,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._alignGrid = value;
+            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
         },
         enumerable: false,
         configurable: true
@@ -1366,6 +1462,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableGrid = value;
+            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
         },
         enumerable: false,
         configurable: true
@@ -1376,6 +1473,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableAxis = value;
+            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
         },
         enumerable: false,
         configurable: true
@@ -1386,10 +1484,47 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableFPSCount = value;
+            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
         },
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(SystemConfig.prototype, "enableCanvasZoomChange", {
+        get: function () {
+            return this._enableCanvasZoomChange;
+        },
+        set: function (value) {
+            this._enableCanvasZoomChange = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SystemConfig.prototype, "enableCanvasTranslate", {
+        get: function () {
+            return this._enableCanvasTranslate;
+        },
+        set: function (value) {
+            this._enableCanvasTranslate = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    SystemConfig.prototype.toJSON = function () {
+        return {
+            isDarkTheme: this.isDarkTheme,
+            alignGrid: this.alignGrid,
+            enableGrid: this.enableGrid,
+            enableAxis: this.enableAxis,
+            enableFPSCount: this.enableFPSCount,
+            enableCanvasZoomChange: this.enableCanvasZoomChange,
+            enableCanvasTranslate: this.enableCanvasTranslate,
+        };
+    };
+    SystemConfig.prototype.update = function (key, value) {
+        if (typeof this[key] !== 'undefined') {
+            this[key] = value;
+        }
+    };
     return SystemConfig;
 }());
 exports.SystemConfig = SystemConfig;
@@ -5356,7 +5491,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Main_1 = __webpack_require__(/*! ./Main */ "./src/Main.ts");
 var clock_1 = __webpack_require__(/*! ./$instance-case/modules/clock */ "./src/$instance-case/modules/clock.ts");
 var floatWindow_1 = __webpack_require__(/*! ./$instance-case/utils/floatWindow */ "./src/$instance-case/utils/floatWindow.ts");
-function main() {
+function init() {
     return __awaiter(this, void 0, void 0, function () {
         var canvasContainer, canvasElement, floatWindowElement0, webCanvas;
         return __generator(this, function (_a) {
@@ -5367,6 +5502,7 @@ function main() {
                     floatWindowElement0 = (0, floatWindow_1.appendFloatContainerWindow)(document.body);
                     floatWindow_1.inforPanelControl.appendTo(floatWindowElement0);
                     floatWindow_1.performanceControl.appendTo(floatWindowElement0);
+                    floatWindow_1.profileControl.appendTo(floatWindowElement0);
                     webCanvas = new Main_1.WebCanvas(canvasElement);
                     return [4 /*yield*/, webCanvas.init()];
                 case 1:
@@ -5376,6 +5512,10 @@ function main() {
         });
     });
 }
+function mainHandle(webCanvas) {
+    var systemConfig = webCanvas.getSystemConfig();
+    floatWindow_1.profileControl.update(systemConfig);
+}
 function eventHandle(webCanvas) {
     webCanvas.addInputsChangedListener(function (data) {
         floatWindow_1.inforPanelControl.update(data);
@@ -5383,10 +5523,19 @@ function eventHandle(webCanvas) {
     webCanvas.addStatisticsListener(function (data) {
         floatWindow_1.performanceControl.update(data);
     });
+    webCanvas.addProfileListener(function (data) {
+        floatWindow_1.profileControl.update(data);
+    });
+    /* ... */
+    floatWindow_1.profileControl.bindEvent(function (key, value) {
+        webCanvas.applySystemConfig(key, value);
+    });
 }
 window.addEventListener('DOMContentLoaded', function () {
-    main().then(function (webCanvas) {
+    init().then(function (webCanvas) {
         eventHandle(webCanvas);
+        mainHandle(webCanvas);
+        /* ... */
         (0, clock_1.drawClockInit)(webCanvas);
         console.log(webCanvas);
     });
@@ -8138,7 +8287,7 @@ var FrameTool = /** @class */ (function (_super) {
         var handlerAction = function (nextTool) {
             nextTool.mouseMoveHandler(inputInfo);
         };
-        if (this._isMouseRightDwon) {
+        if (this._isMouseRightDwon && SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate) {
             var offsetX = inputInfo.moveSourcePixelX - this.mouseRightPrevSourcePixelX;
             var offsetY = inputInfo.moveSourcePixelY - this.mouseRightPrevSourcePixelY;
             this._camera.refreshByVector3(new Vector3_1.Vector3(offsetX, -offsetY, 0));
@@ -8176,13 +8325,19 @@ var FrameTool = /** @class */ (function (_super) {
     FrameTool.prototype.mouseWheelHandler = function (inputInfo) {
         this.prepare(inputInfo);
         if (inputInfo.ctrlKey) {
-            this.zoomCanvas(inputInfo);
+            if (SystemConfig_1.SystemConfig.getInstance().enableCanvasZoomChange) {
+                this.zoomCanvas(inputInfo);
+            }
         }
         else if (inputInfo.altKey) {
-            this.horizontalScrollCanvas(inputInfo);
+            if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate) {
+                this.horizontalScrollCanvas(inputInfo);
+            }
         }
         else {
-            this.verticalScrollCanvas(inputInfo);
+            if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate) {
+                this.verticalScrollCanvas(inputInfo);
+            }
         }
         var handlerAction = function (nextTool) {
             nextTool.mouseWheelHandler(inputInfo);
