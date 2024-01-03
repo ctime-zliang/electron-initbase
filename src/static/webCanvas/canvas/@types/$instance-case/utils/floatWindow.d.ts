@@ -11,6 +11,6 @@ export declare const performanceControl: {
 export declare const profileControl: {
     containerDomId: string;
     appendTo(container: HTMLElement): void;
-    bindEvent(callback: (key: string, value: any) => void): void;
+    bindEvent(callback: (action: string, key?: string, value?: any) => void): void;
     update(data: SystemConfigProfile): void;
 };

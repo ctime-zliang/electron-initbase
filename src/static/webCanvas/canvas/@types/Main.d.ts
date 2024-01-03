@@ -35,6 +35,7 @@ export declare class WebCanvas {
     applySystemConfig(key: keyof SystemConfig, value: any): void;
     setDrawToolCommand(type: string): void;
     forceRender(): void;
+    resetCanvasView(): void;
     addInputsChangedListener(callback: (data: InputInfo) => void): void;
     addStatisticsListener(callback: (data: TStatisticsData) => void): void;
     addProfileListener(callback: (data: TSystemConfigProfile) => void): void;

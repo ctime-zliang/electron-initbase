@@ -2,6 +2,7 @@
 	"name": "electron-initbase",
 	"version": "1.0.0",
 	"description": "An Application by electron",
+	"main": "dist/electron/app.js",
 	"scripts": {
 		"prepare": "husky install",
 		"husky:install": "husky install",
@@ -11,7 +12,9 @@
 		"eslint:fix-src": "eslint --fix --ext .js,.ts,.jsx,.tsx src",
 		"tsc:check": "tsc --noEmit",
 		"electron:fix": "electron-fix start",
+		"**": "**",
 		"ebuilder:dist": "electron-builder",
+		"ebuilder:pack": "electron-builder --dir",
 		"--": "--",
 		"build:server:dev": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
 		"build:server:prod": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
@@ -22,12 +25,77 @@
 		"start:electron:dev": "cd ./dist/electron && electron ."
 	},
 	"build": {
-		"appId": "electron-clock",
-		"productName": "Clock",
-		"copyright": "ctime-zliang/electron-initbase",
-		"compression": "maximum",
+		"productName": "clock",
+		"appId": "ctimezliang.electron.clock",
+		"publish": [
+			{
+				"provider": "generic",
+				"url": "http://127.0.0.1/electron"
+			}
+		],
+		"copyright": "0.1",
+		"directories": {
+			"output": "build"
+		},
+		"files": [
+			"node_modules/",
+			"package.json",
+			"src/",
+			"dist/"
+		],
+		"nsis": {
+			"oneClick": false,
+			"allowElevation": true,
+			"allowToChangeInstallationDirectory": true,
+			"installerIcon": "./config/build/icons/icon.ico",
+			"uninstallerIcon": "./config/build/icons/icon.ico",
+			"installerHeaderIcon": "./config/build/icons/icon.ico",
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true,
+			"shortcutName": "electron",
+			"artifactName": "${productName}-${version}-${os}-${arch}-setup.${ext}",
+			"include": "./config/build/script/installer.nsh"
+		},
 		"win": {
-			"icon": "src/img/icon.ico"
+			"icon": "./config/build/icons/icon.ico",
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				},
+				{
+					"target": "zip",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				}
+			]
+		},
+		"dmg": {
+			"backgroundColor": "#FFFFFF",
+			"contents": [
+				{
+					"x": 130,
+					"y": 220
+				},
+				{
+					"x": 410,
+					"y": 220,
+					"type": "link",
+					"path": "/Applications"
+				}
+			],
+			"title": "TiEthWallet ${version}"
+		},
+		"mac": {
+			"icon": "./config/build/icons/icon.icns"
+		},
+		"linux": {
+			"icon": "./config/build/icons"
 		}
 	},
 	"repository": {
@@ -42,10 +110,9 @@
 	},
 	"homepage": "https://github.com/ctime-zliang/electron-initbase#readme",
 	"dependencies": {
-		"@electron/remote": "^2.0.4",
 		"chalk": "^4.1.2",
 		"ejs": "^3.1.6",
-		"electron": "^16.0.5",
+		"electron-updater": "^4.0.0",
 		"events": "^3.3.0",
 		"http-proxy": "~1.16.2",
 		"https": "^1.0.0",
@@ -71,6 +138,7 @@
 		"@babel/preset-env": "^7.16.4",
 		"@babel/preset-typescript": "^7.16.0",
 		"@babel/runtime": "^7.16.3",
+		"@electron/remote": "^2.0.4",
 		"@types/ejs": "^3.1.0",
 		"@types/koa": "^2.13.4",
 		"@types/koa-bodyparser": "^4.3.4",
@@ -87,7 +155,8 @@
 		"clean-webpack-plugin": "^4.0.0",
 		"copy-webpack-plugin": "^9.0.1",
 		"cross-env": "^5.1.4",
-		"electron-builder": "^24.9.1",
+		"electron": "^16.0.5",
+		"electron-builder": "^20.15.0",
 		"electron-fix": "^1.1.3",
 		"esbuild": "^0.14.5",
 		"esbuild-loader": "^2.17.0",

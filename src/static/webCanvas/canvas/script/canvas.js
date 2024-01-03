@@ -236,7 +236,7 @@ exports.performanceControl = {
 exports.profileControl = {
     containerDomId: 'profileControl',
     appendTo: function (container) {
-        var wrapperHTML = "\n\t\t\t<main id=\"".concat(this.containerDomId, "\" style=\"").concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5E27\u7387\u7EDF\u8BA1:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5BF9\u9F50\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u76F4\u89D2\u5750\u6807\u8F74:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u5E73\u79FB:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
+        var wrapperHTML = "\n\t\t\t<main id=\"".concat(this.containerDomId, "\" style=\"").concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5E27\u7387\u7EDF\u8BA1:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableFPSCount\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u5BF9\u9F50\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5F00\u542F</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5173\u95ED</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"alignGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F51\u70B9:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableGrid\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u76F4\u89D2\u5750\u6807\u8F74:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u663E\u793A</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u9690\u85CF</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableAxis\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u7F29\u653E</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasZoomChange\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u5E73\u79FB:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u5141\u8BB8\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"1\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label style=\"cursor: pointer; margin: 0 10px 0 0; display: flex; flex-wrap: nowrap;\">\n\t\t\t\t\t\t\t<span>\u7981\u6B62\u5E73\u79FB</span>\n\t\t\t\t\t\t\t<input type=\"radio\" value=\"0\" name=\"enableCanvasTranslate\" style=\"cursor: pointer; display: block; margin: 0 5px;\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div style=\"min-width: 75px; display: flex;\">\n\t\t\t\t\t\t<button \n\t\t\t\t\t\t\tdata-btn=\"resetCanvasView\" \n\t\t\t\t\t\t\tstyle=\"\n\t\t\t\t\t\t\t\tbackground-color: #ffffff;\n\t\t\t\t\t\t\t\tpadding: 3px 5px;\n\t\t\t\t\t\t\t\tborder: 1px solid #dcdcdc;\n\t\t\t\t\t\t\t\tborder-radius: 3px;\n\t\t\t\t\t\t\t\tcursor: pointer;\n\t\t\t\t\t\t\t\">\u91CD\u7F6E\u753B\u5E03\u89C6\u56FE\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
         container.append(document.createRange().createContextualFragment(wrapperHTML));
     },
     bindEvent: function (callback) {
@@ -247,9 +247,14 @@ exports.profileControl = {
                 var value = this.value;
                 var setValue = Boolean(+value);
                 var name = this.getAttribute('name');
-                callback && callback(name, setValue);
+                callback && callback('inputInput', name, setValue);
             });
         }
+        /* ... */
+        var resetCanvasViewBtnElement = containerElement.querySelector("[data-btn=\"resetCanvasView\"]");
+        resetCanvasViewBtnElement.addEventListener('click', function (e) {
+            callback && callback('resetCanvasView');
+        });
     },
     update: function (data) {
         var enableFPSCountElements = Array.from(document.querySelectorAll("[name=\"enableFPSCount\"]"));
@@ -432,6 +437,8 @@ var Starter_1 = __webpack_require__(/*! ./Starter */ "./src/Starter.ts");
 var EventConfig_1 = __webpack_require__(/*! ./config/EventConfig */ "./src/config/EventConfig.ts");
 var Utils_1 = __webpack_require__(/*! ./utils/Utils */ "./src/utils/Utils.ts");
 var SystemConfig_1 = __webpack_require__(/*! ./controller/SystemConfig */ "./src/controller/SystemConfig.ts");
+var Camera_1 = __webpack_require__(/*! ./engine/common/Camera */ "./src/engine/common/Camera.ts");
+var Vector3_1 = __webpack_require__(/*! ./geometry/Vector3 */ "./src/geometry/Vector3.ts");
 __exportStar(__webpack_require__(/*! ./utils/Color */ "./src/utils/Color.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/Decimals */ "./src/geometry/Decimals.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/DoubleKit */ "./src/geometry/DoubleKit.ts"), exports);
@@ -498,6 +505,13 @@ var WebCanvas = /** @class */ (function () {
         this._drawToolManager.update(type);
     };
     WebCanvas.prototype.forceRender = function () {
+        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+    };
+    WebCanvas.prototype.resetCanvasView = function () {
+        var camera = Camera_1.Camera.getInstance();
+        var cameraOrigin = camera.getOrigin();
+        camera.matrix4 = camera.matrix4.translateByVector3(new Vector3_1.Vector3(-cameraOrigin.x, -cameraOrigin.y, 0));
+        camera.isNeedUpdate = true;
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
     };
     WebCanvas.prototype.addInputsChangedListener = function (callback) {
@@ -2641,18 +2655,18 @@ var Camera = /** @class */ (function () {
         this.matrix4 = this.matrix4.translateByVector3(vector3);
         this._isNeedUpdate = true;
     };
-    Camera.prototype.getRenderMatrix = function () {
-        this.updateViewMatrix();
-        return this.renderMatrix4;
-    };
-    Camera.prototype.getPxRatio = function () {
-        this.updateViewMatrix();
-        return this.pxRatio;
-    };
-    Camera.prototype.getProjection = function () {
-        this.updateViewMatrix();
-        return this.projection;
-    };
+    // public getRenderMatrix(): Matrix4 {
+    // 	this.updateViewMatrix()
+    // 	return this.renderMatrix4
+    // }
+    // public getPxRatio(): number {
+    // 	this.updateViewMatrix()
+    // 	return this.pxRatio
+    // }
+    // public getProjection(): Matrix4 {
+    // 	this.updateViewMatrix()
+    // 	return this.projection
+    // }
     Camera.prototype.getSourceMatrix = function () {
         this.updateViewMatrix();
         return this.matrix4;
@@ -2660,12 +2674,15 @@ var Camera = /** @class */ (function () {
     Camera.prototype.getZoomRatio = function () {
         return Math.sqrt(this.matrix4.data[0] * this.matrix4.data[0] + this.matrix4.data[1] * this.matrix4.data[1]);
     };
-    Camera.prototype.getViewRenderMatrixData = function () {
-        this.updateViewMatrix();
-        var datas = [];
-        datas.push(this.renderMatrix4.data);
-        return datas;
+    Camera.prototype.getOrigin = function () {
+        return new Vector3_1.Vector3(this.matrix4.data[12], this.matrix4.data[13], 0);
     };
+    // public getViewRenderMatrixData(): Array<ReadonlyArray<number>> {
+    // 	this.updateViewMatrix()
+    // 	const datas: Array<ReadonlyArray<number>> = []
+    // 	datas.push(this.renderMatrix4.data)
+    // 	return datas
+    // }
     Camera.prototype.updateViewMatrix = function () {
         if (this.isNeedUpdate) {
             var near = -1;
@@ -5527,8 +5544,15 @@ function eventHandle(webCanvas) {
         floatWindow_1.profileControl.update(data);
     });
     /* ... */
-    floatWindow_1.profileControl.bindEvent(function (key, value) {
-        webCanvas.applySystemConfig(key, value);
+    floatWindow_1.profileControl.bindEvent(function (action, key, value) {
+        if (action === 'inputInput') {
+            webCanvas.applySystemConfig(key, value);
+            return;
+        }
+        if (action === 'resetCanvasView') {
+            webCanvas.resetCanvasView();
+            return;
+        }
     });
 }
 window.addEventListener('DOMContentLoaded', function () {

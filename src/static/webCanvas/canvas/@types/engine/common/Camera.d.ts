@@ -29,11 +29,8 @@ export declare class Camera {
     set origin(value: Vector3);
     get origin(): Vector3;
     refreshByVector3(vector3: Vector3): void;
-    getRenderMatrix(): Matrix4;
-    getPxRatio(): number;
-    getProjection(): Matrix4;
     getSourceMatrix(): Matrix4;
     getZoomRatio(): number;
-    getViewRenderMatrixData(): Array<ReadonlyArray<number>>;
+    getOrigin(): Vector3;
     private updateViewMatrix;
 }
