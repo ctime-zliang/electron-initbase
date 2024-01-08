@@ -190,7 +190,7 @@ exports.drawClockInit = drawClockInit;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.profileControl = exports.performanceControl = exports.inforPanelControl = exports.appendFloatContainerWindow = void 0;
+exports.profileControl = exports.resourceControl = exports.canvasPanelControl = exports.iputsPanelControl = exports.appendFloatContainerWindow = void 0;
 var panelPublicStyle = "\n\tmargin: 5px 0; \n\tpadding: 0 10px; \n\tfont-size: 12px;\n\tbox-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); \n\tbackground: rgba(25, 25, 25, 0.75); \n\tborder: 1px solid #666666; \n\tborder-radius: 3px;\n";
 function appendFloatContainerWindow(container, position) {
     if (position === void 0) { position = 'RT'; }
@@ -206,9 +206,9 @@ function appendFloatContainerWindow(container, position) {
     return document.getElementById(elementId);
 }
 exports.appendFloatContainerWindow = appendFloatContainerWindow;
-exports.inforPanelControl = {
+exports.iputsPanelControl = {
     appendTo: function (container) {
-        var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u539F\u751F\u5750\u6807(\u50CF\u7D20)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMoveNativeAbsPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u573A\u666F\u5750\u6807(\u50CF\u7D20)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMoveSceneTruthPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u7269\u7406\u5750\u6807(\u6BEB\u7C73)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMovePhysicsPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E\u6BD4\u4F8B:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoCanvasZoomRatio\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
+        var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u539F\u751F\u5750\u6807(\u50CF\u7D20)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMoveNativeAbsPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u573A\u666F\u5750\u6807(\u50CF\u7D20)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMoveSceneTruthPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u9F20\u6807\u5B9E\u65F6\u7269\u7406\u5750\u6807(\u6BEB\u7C73)(X/Y):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoMouseMovePhysicsPos\" style=\"min-width: 75px;\">-/-</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
         container.append(document.createRange().createContextualFragment(wrapperHTML));
     },
     update: function (data) {
@@ -217,12 +217,20 @@ exports.inforPanelControl = {
         //@ts-ignore
         document.getElementById('infoMouseMoveSceneTruthPos').innerHTML = "".concat(parseInt(data.moveTransPixelX), "/").concat(parseInt(data.moveTransPixelY));
         //@ts-ignore
-        document.getElementById('infoMouseMovePhysicsPos').innerHTML = "".concat(parseInt(data.moveAbsoluteX), "/").concat(parseInt(data.moveAbsoluteY));
-        //@ts-ignore
-        document.getElementById('infoCanvasZoomRatio').innerHTML = "".concat(Number((data.canvasZoom * 100).toString().match(/^\d+(?:\.\d{0,2})?/)) + '%');
+        document.getElementById('infoMouseMovePhysicsPos').innerHTML = "".concat(parseInt(data.movePhysicsX), "/").concat(parseInt(data.movePhysicsY));
     },
 };
-exports.performanceControl = {
+exports.canvasPanelControl = {
+    appendTo: function (container) {
+        var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E\u6BD4\u4F8B:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoCanvasZoomRatio\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
+        container.append(document.createRange().createContextualFragment(wrapperHTML));
+    },
+    update: function (data) {
+        //@ts-ignore
+        document.getElementById('infoCanvasZoomRatio').innerHTML = "".concat(Number((data.zoomRatio * 100).toString().match(/^\d+(?:\.\d{0,2})?/)) + '%');
+    },
+};
+exports.resourceControl = {
     appendTo: function (container) {
         var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u6E32\u67D3\u5E27\u7387(rAF \u6267\u884C\u9891\u7387):&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"perfRenderSpeed\" style=\"min-width: 75px;\">-</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
         container.append(document.createRange().createContextualFragment(wrapperHTML));
@@ -328,7 +336,7 @@ exports.profileControl = {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.dropDragTool = exports.adsorption = exports.rtree = exports.handlerControl = exports.service = exports.environment = exports.modifyController = exports.selectManager = exports.filterManager = exports.drawLayerController = exports.elementController = exports.eventBus = exports.globalIdenManager = void 0;
+exports.dropDragTool = exports.adsorption = exports.rtree = exports.handlerControl = exports.service = exports.environment = exports.modifyController = exports.selectManager = exports.filterManager = exports.canvasController = exports.drawLayerController = exports.elementController = exports.eventBus = exports.globalIdenManager = void 0;
 var GlobalIdenManager_1 = __webpack_require__(/*! ./tool/GlobalIdenManager */ "./src/tool/GlobalIdenManager.ts");
 var EventBus_1 = __webpack_require__(/*! ./utils/EventBus */ "./src/utils/EventBus.ts");
 var ElementController_1 = __webpack_require__(/*! ./controller/ElementController */ "./src/controller/ElementController.ts");
@@ -342,10 +350,12 @@ var FilterManager_1 = __webpack_require__(/*! ./controller/FilterManager */ "./s
 var HandlerControl_1 = __webpack_require__(/*! ./tool/selection/HandlerControl */ "./src/tool/selection/HandlerControl.ts");
 var Service_1 = __webpack_require__(/*! ./service/Service */ "./src/service/Service.ts");
 var Adsorption_1 = __webpack_require__(/*! ./tool/Adsorption */ "./src/tool/Adsorption.ts");
+var CanvasController_1 = __webpack_require__(/*! ./controller/CanvasController */ "./src/controller/CanvasController.ts");
 exports.globalIdenManager = new GlobalIdenManager_1.GlobalIdenManager();
 exports.eventBus = new EventBus_1.EventBus();
 exports.elementController = new ElementController_1.ElementController();
 exports.drawLayerController = new DrawLayerController_1.DrawLayerController();
+exports.canvasController = new CanvasController_1.CanvasController();
 exports.filterManager = new FilterManager_1.FilterManager();
 exports.selectManager = new SelectManage_1.SelectManager();
 exports.modifyController = new ModifyController_1.ModifyController();
@@ -488,11 +498,21 @@ var WebCanvas = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(WebCanvas.prototype, "canvasController", {
+        get: function () {
+            return Constant_1.canvasController;
+        },
+        enumerable: false,
+        configurable: true
+    });
     WebCanvas.prototype.getCanvasRect = function () {
         return this._canvasElement.getBoundingClientRect().toJSON();
     };
     WebCanvas.prototype.getDPI = function () {
         return Constant_1.environment.DPI;
+    };
+    WebCanvas.prototype.getCanvasZoomRatio = function () {
+        return Camera_1.Camera.getInstance().getZoomRatio();
     };
     WebCanvas.prototype.getSystemConfig = function () {
         return SystemConfig_1.SystemConfig.getInstance().toJSON();
@@ -513,12 +533,16 @@ var WebCanvas = /** @class */ (function () {
         camera.matrix4 = camera.matrix4.translateByVector3(new Vector3_1.Vector3(-cameraOrigin.x, -cameraOrigin.y, 0));
         camera.isNeedUpdate = true;
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.canvasController.zoomCanvas(1);
     };
     WebCanvas.prototype.addInputsChangedListener = function (callback) {
         Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.INPUTS_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
     };
-    WebCanvas.prototype.addStatisticsListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.STATISTICS, callback, EventConfig_1.OUT_EVENT_NS);
+    WebCanvas.prototype.addResourceChangedListener = function (callback) {
+        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+    };
+    WebCanvas.prototype.addCanvasChangedListener = function (callback) {
+        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
     };
     WebCanvas.prototype.addProfileListener = function (callback) {
         Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
@@ -602,7 +626,7 @@ var LayerPresenter_1 = __webpack_require__(/*! ./presenter/LayerPresenter */ "./
 var DrawToolManager_1 = __webpack_require__(/*! ./tool/draw/DrawToolManager */ "./src/tool/draw/DrawToolManager.ts");
 var EventsLoader_1 = __webpack_require__(/*! ./tool/EventsLoader */ "./src/tool/EventsLoader.ts");
 var FrameTool_1 = __webpack_require__(/*! ./tool/FrameTool */ "./src/tool/FrameTool.ts");
-var CreateStatiData_1 = __webpack_require__(/*! ./utils/CreateStatiData */ "./src/utils/CreateStatiData.ts");
+var CreateResouceData_1 = __webpack_require__(/*! ./utils/CreateResouceData */ "./src/utils/CreateResouceData.ts");
 var Device_1 = __webpack_require__(/*! ./utils/Device */ "./src/utils/Device.ts");
 var FPSCount_1 = __webpack_require__(/*! ./utils/FPSCount */ "./src/utils/FPSCount.ts");
 var SyncCanvasRect_1 = __webpack_require__(/*! ./utils/SyncCanvasRect */ "./src/utils/SyncCanvasRect.ts");
@@ -690,7 +714,8 @@ var Starter = /** @class */ (function () {
         }
         if (SystemConfig_1.SystemConfig.getInstance().enableFPSCount) {
             this.fpsCount.calcFps();
-            this.fpsCount.overInterval && Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.STATISTICS, (0, CreateStatiData_1.createStatiData)({ fps: this.fpsCount.fps }), EventConfig_1.OUT_EVENT_NS);
+            this.fpsCount.overInterval &&
+                Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, (0, CreateResouceData_1.createResouceData)({ fps: this.fpsCount.fps }), EventConfig_1.OUT_EVENT_NS);
         }
     };
     return Starter;
@@ -708,9 +733,12 @@ exports.Starter = Starter;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.MOUSE_WHEEL_SCROLL_DIST = exports.MOUSE_WHEEL_ZOOM_RATIO = void 0;
+exports.MAX_ZOOM_RATIO = exports.MIN_ZOOM_RATIO = exports.DIRECTION_KEY_MOVE_STEP = exports.MOUSE_WHEEL_SCROLL_DIST = exports.MOUSE_WHEEL_ZOOM_RATIO = void 0;
 exports.MOUSE_WHEEL_ZOOM_RATIO = 1.15;
 exports.MOUSE_WHEEL_SCROLL_DIST = 25;
+exports.DIRECTION_KEY_MOVE_STEP = 5;
+exports.MIN_ZOOM_RATIO = 0.05;
+exports.MAX_ZOOM_RATIO = 100;
 
 
 /***/ }),
@@ -785,6 +813,7 @@ var EElementType;
 (function (EElementType) {
     EElementType["AssistLine"] = "AssistLine";
     EElementType["Line"] = "Line";
+    EElementType["AssistCircle"] = "AssistCircle";
     EElementType["Circle"] = "Circle";
 })(EElementType = exports.EElementType || (exports.EElementType = {}));
 
@@ -804,7 +833,8 @@ exports.OUT_EVENT_NS = 'OUT_EVENT_NS';
 var EOutEventCommand;
 (function (EOutEventCommand) {
     EOutEventCommand["INPUTS_CHANGED"] = "INPUTS_CHANGED";
-    EOutEventCommand["STATISTICS"] = "STATISTICS";
+    EOutEventCommand["CANVAS_CHANGED"] = "CANVAS_CHANGED";
+    EOutEventCommand["RESOURCE_CHANGED"] = "RESOURCE_CHANGED";
     EOutEventCommand["PROFILE_CHANGED"] = "PROFILE_CHANGED";
 })(EOutEventCommand = exports.EOutEventCommand || (exports.EOutEventCommand = {}));
 
@@ -828,6 +858,75 @@ var EFrameCommand;
     EFrameCommand["SWITCH_DRAW_TOOL"] = "SWITCH_DRAW_TOOL";
     EFrameCommand["REFRESH_RTREE"] = "REFRESH_RTREE";
 })(EFrameCommand = exports.EFrameCommand || (exports.EFrameCommand = {}));
+
+
+/***/ }),
+
+/***/ "./src/config/Profile.ts":
+/*!*******************************!*\
+  !*** ./src/config/Profile.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EDIRECTION_KEY = void 0;
+var EDIRECTION_KEY;
+(function (EDIRECTION_KEY) {
+    EDIRECTION_KEY[EDIRECTION_KEY["LEFT"] = 37] = "LEFT";
+    EDIRECTION_KEY[EDIRECTION_KEY["UP"] = 38] = "UP";
+    EDIRECTION_KEY[EDIRECTION_KEY["RIGHT"] = 39] = "RIGHT";
+    EDIRECTION_KEY[EDIRECTION_KEY["DOWN"] = 40] = "DOWN";
+})(EDIRECTION_KEY = exports.EDIRECTION_KEY || (exports.EDIRECTION_KEY = {}));
+
+
+/***/ }),
+
+/***/ "./src/controller/CanvasController.ts":
+/*!********************************************!*\
+  !*** ./src/controller/CanvasController.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CanvasController = void 0;
+var Config_1 = __webpack_require__(/*! ../config/Config */ "./src/config/Config.ts");
+var EventConfig_1 = __webpack_require__(/*! ../config/EventConfig */ "./src/config/EventConfig.ts");
+var FrameCommand_1 = __webpack_require__(/*! ../config/FrameCommand */ "./src/config/FrameCommand.ts");
+var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
+var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
+var Matrix4_1 = __webpack_require__(/*! ../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
+var Vector3_1 = __webpack_require__(/*! ../geometry/Vector3 */ "./src/geometry/Vector3.ts");
+var CreateCanvasData_1 = __webpack_require__(/*! ../utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
+var CanvasController = /** @class */ (function () {
+    function CanvasController() {
+        this._camera = Camera_1.Camera.getInstance();
+    }
+    CanvasController.prototype.zoomCanvas = function (ratio, zoomCenterVector3) {
+        if (zoomCenterVector3 === void 0) { zoomCenterVector3 = new Vector3_1.Vector3(0, 0, 0); }
+        if (this._camera.getZoomRatio() === ratio) {
+            return;
+        }
+        var currentScale = this._camera.getZoomRatio();
+        var scale = ratio / currentScale;
+        if (!isNaN(currentScale) && currentScale !== 0) {
+            if (ratio <= Config_1.MIN_ZOOM_RATIO) {
+                scale = Config_1.MIN_ZOOM_RATIO / currentScale;
+            }
+            if (ratio >= Config_1.MAX_ZOOM_RATIO) {
+                scale = Config_1.MAX_ZOOM_RATIO / currentScale;
+            }
+            var newMatrix4 = Matrix4_1.Matrix4.createScaleMatrix4ByCoordinate(scale, scale, 1).setOriginByVector3(zoomCenterVector3);
+            this._camera.matrix4 = this._camera.matrix4.multiply4(newMatrix4);
+            this._camera.isNeedUpdate = true;
+        }
+        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({ zoomRatio: this._camera.getZoomRatio() }), EventConfig_1.OUT_EVENT_NS);
+    };
+    return CanvasController;
+}());
+exports.CanvasController = CanvasController;
 
 
 /***/ }),
@@ -1134,6 +1233,9 @@ var Environment = /** @class */ (function () {
             height: -this.canvasElement.height,
         };
     };
+    Environment.prototype.updateCanvasMouseCursor = function (cursor) {
+        this.canvasElement.style.cursor = cursor;
+    };
     return Environment;
 }());
 exports.Environment = Environment;
@@ -1157,9 +1259,9 @@ var FilterManager = /** @class */ (function () {
     }
     FilterManager.prototype.pointSelectBeforeFilter = function (x, y) {
         var selectedDrawLayerShapeItem = DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().getActiveItem();
-        var results = [];
+        var results = new Set();
         if (!selectedDrawLayerShapeItem) {
-            return [];
+            return results;
         }
         var rtreeResults = Constant_1.rtree.search({ sx: x, sy: y, w: 0, h: 0 }, false);
         for (var i = 0; i < rtreeResults.length; i++) {
@@ -1167,16 +1269,16 @@ var FilterManager = /** @class */ (function () {
             var rtreeItem = rtreeResultItem.leaf;
             var elementItem = rtreeItem.target;
             if (elementItem.isSelect(x, y) && elementItem.model.layerItemId === selectedDrawLayerShapeItem.layerItemId) {
-                results.push(elementItem);
+                results.add(elementItem);
             }
         }
         return results;
     };
     FilterManager.prototype.boxSelectBeforeFilter = function (bbox2) {
         var selectedDrawLayerShapeItem = DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().getActiveItem();
-        var results = [];
+        var results = new Set();
         if (!selectedDrawLayerShapeItem) {
-            return [];
+            return results;
         }
         var rtreeResults = Constant_1.rtree.search({ sx: bbox2.minX, sy: bbox2.minY, w: bbox2.width, h: bbox2.height }, false);
         for (var i = 0; i < rtreeResults.length; i++) {
@@ -1185,7 +1287,7 @@ var FilterManager = /** @class */ (function () {
             var elementItem = rtreeItem.target;
             var elementItemBBox2 = elementItem.model.createBBox2();
             if (elementItemBBox2.isBeWrappedByBBox2(bbox2) && elementItem.model.layerItemId === selectedDrawLayerShapeItem.layerItemId) {
-                results.push(elementItem);
+                results.add(elementItem);
             }
         }
         return results;
@@ -1256,14 +1358,15 @@ var AssistLineShape_1 = __webpack_require__(/*! ../objects/assist/AssistLineShap
 var Manage_1 = __webpack_require__(/*! ../objects/base/Manage */ "./src/objects/base/Manage.ts");
 var SystemConfig_1 = __webpack_require__(/*! ./SystemConfig */ "./src/controller/SystemConfig.ts");
 var Color_1 = __webpack_require__(/*! ../utils/Color */ "./src/utils/Color.ts");
+var FrameCommand_1 = __webpack_require__(/*! ../config/FrameCommand */ "./src/config/FrameCommand.ts");
 var SelectManager = /** @class */ (function (_super) {
     __extends(SelectManager, _super);
     function SelectManager() {
         var _this = _super.call(this) || this;
         _this._selectionBoxLines = [];
         _this._isBoxSelection = false;
-        _this._leftDownRealAbsoluteX = 0;
-        _this._leftDownRealAbsoluteY = 0;
+        _this._leftDownRealPhysicsX = 0;
+        _this._leftDownRealPhysicsY = 0;
         return _this;
     }
     SelectManager.prototype.getAllSelectItems = function () {
@@ -1284,13 +1387,25 @@ var SelectManager = /** @class */ (function (_super) {
         }
         return selects;
     };
+    SelectManager.prototype.keyDownHandler = function (inputInfo) {
+        Constant_1.handlerControl.keyDownHandler(inputInfo);
+    };
+    SelectManager.prototype.keyUpHandler = function (inputInfo) {
+        Constant_1.handlerControl.keyUpHandler(inputInfo);
+    };
     SelectManager.prototype.mouseLeftDownHandler = function (inputInfo) {
         var e_2, _a;
         this._isBoxSelection = false;
-        this._leftDownRealAbsoluteX = inputInfo.leftDownRealAbsoluteX;
-        this._leftDownRealAbsoluteY = inputInfo.leftDownRealAbsoluteY;
-        Constant_1.handlerControl.clearProcessor();
+        this._leftDownRealPhysicsX = inputInfo.leftDownRealPhysicsX;
+        this._leftDownRealPhysicsY = inputInfo.leftDownRealPhysicsY;
+        var clickSelect = Constant_1.handlerControl.mouseLeftDownSelect(inputInfo);
         var selectResults = this.pointSelect(inputInfo);
+        if (clickSelect) {
+            selectResults.add(clickSelect);
+        }
+        else {
+            Constant_1.handlerControl.clearProcessor();
+        }
         if (this.items.size <= 0) {
             this.setSelectStatus(selectResults);
         }
@@ -1299,7 +1414,7 @@ var SelectManager = /** @class */ (function (_super) {
             try {
                 for (var _b = __values(this.items), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var _d = __read(_c.value, 2), key = _d[0], item = _d[1];
-                    if (selectResults.indexOf(item) >= 0) {
+                    if (selectResults.has(item)) {
                         hit = true;
                         break;
                     }
@@ -1316,7 +1431,7 @@ var SelectManager = /** @class */ (function (_super) {
                 this.setSelectStatus(selectResults);
             }
         }
-        Constant_1.handlerControl.updateProcessor(inputInfo);
+        Constant_1.handlerControl.updateProcessor(inputInfo, clickSelect);
     };
     SelectManager.prototype.mouseMiddleDownHandler = function (inputInfo) {
         this.destorySelectionBox();
@@ -1326,13 +1441,15 @@ var SelectManager = /** @class */ (function (_super) {
     };
     SelectManager.prototype.mouseLeftUpHandler = function (inputInfo) {
         this.destorySelectionBox();
+        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.REFRESH_RTREE);
         Constant_1.handlerControl.mouseLeftUpHandler(inputInfo);
         if (this._isBoxSelection) {
             var selectResults = this.boxSelect(inputInfo);
             this.setSelectStatus(selectResults);
         }
-        this._leftDownRealAbsoluteX = -Number.MAX_SAFE_INTEGER;
-        this._leftDownRealAbsoluteY = -Number.MAX_SAFE_INTEGER;
+        this._leftDownRealPhysicsX = -Number.MAX_SAFE_INTEGER;
+        this._leftDownRealPhysicsY = -Number.MAX_SAFE_INTEGER;
+        Constant_1.handlerControl.updateProcessor(inputInfo, null);
     };
     SelectManager.prototype.mouseMoveHandler = function (inputInfo) {
         if (inputInfo.leftMouseDown) {
@@ -1352,43 +1469,56 @@ var SelectManager = /** @class */ (function (_super) {
                 Constant_1.handlerControl.mouseMoveHandler(inputInfo);
             }
         }
+        else {
+            Constant_1.handlerControl.mouseUpMoveHandler(inputInfo);
+        }
     };
     SelectManager.prototype.pointSelect = function (inputInfo) {
-        var sourceResults = Constant_1.filterManager.pointSelectBeforeFilter(inputInfo.leftDownRealAbsoluteX, inputInfo.leftDownRealAbsoluteY);
+        var sourceResults = Constant_1.filterManager.pointSelectBeforeFilter(inputInfo.leftDownRealPhysicsX, inputInfo.leftDownRealPhysicsY);
         return sourceResults;
     };
     SelectManager.prototype.boxSelect = function (inputInfo) {
-        var rangeBBox2 = new BBox2_1.BBox2(this._leftDownRealAbsoluteX, this._leftDownRealAbsoluteY, inputInfo.moveRealAbsoluteX, inputInfo.moveRealAbsoluteY);
+        var rangeBBox2 = new BBox2_1.BBox2(this._leftDownRealPhysicsX, this._leftDownRealPhysicsY, inputInfo.moveRealPhysicsX, inputInfo.moveRealPhysicsY);
         var sourceResults = Constant_1.filterManager.boxSelectBeforeFilter(rangeBBox2);
         return sourceResults;
     };
     SelectManager.prototype.setSelectStatus = function (selectedItems) {
-        var e_3, _a;
+        var e_3, _a, e_4, _b;
         try {
-            for (var _b = __values(this.items), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var _d = __read(_c.value, 2), key = _d[0], item = _d[1];
+            for (var _c = __values(this.items), _d = _c.next(); !_d.done; _d = _c.next()) {
+                var _e = __read(_d.value, 2), key = _e[0], item = _e[1];
                 item.setUnSelect();
             }
         }
         catch (e_3_1) { e_3 = { error: e_3_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
             }
             finally { if (e_3) throw e_3.error; }
         }
         this.items.clear();
-        for (var i = 0; i < selectedItems.length; i++) {
-            selectedItems[i].setSelect();
-            this.items.set(selectedItems[i].elementItemId, selectedItems[i]);
+        try {
+            for (var selectedItems_1 = __values(selectedItems), selectedItems_1_1 = selectedItems_1.next(); !selectedItems_1_1.done; selectedItems_1_1 = selectedItems_1.next()) {
+                var selectedItem = selectedItems_1_1.value;
+                selectedItem.setSelect();
+                this.items.set(selectedItem.elementItemId, selectedItem);
+            }
+        }
+        catch (e_4_1) { e_4 = { error: e_4_1 }; }
+        finally {
+            try {
+                if (selectedItems_1_1 && !selectedItems_1_1.done && (_b = selectedItems_1.return)) _b.call(selectedItems_1);
+            }
+            finally { if (e_4) throw e_4.error; }
         }
     };
     SelectManager.prototype.updateSelectionBox = function (inputInfo) {
         if (this._selectionBoxLines.length <= 0) {
-            var line1 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.leftDownRealAbsoluteY), new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.leftDownRealAbsoluteY), false);
-            var line2 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.leftDownRealAbsoluteY), new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.moveRealAbsoluteY), false);
-            var line3 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.moveRealAbsoluteY), new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.moveRealAbsoluteY), false);
-            var line4 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.leftDownRealAbsoluteY), new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.moveRealAbsoluteY), false);
+            var line1 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.leftDownRealPhysicsY), new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.leftDownRealPhysicsY), false);
+            var line2 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.leftDownRealPhysicsY), new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.moveRealPhysicsY), false);
+            var line3 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.moveRealPhysicsY), new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.moveRealPhysicsY), false);
+            var line4 = (0, AssistLineShape_1.buildAssistLineShape)(DrawLayerConfig_1.EDrawLayerCode.MaskLayer, new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.leftDownRealPhysicsY), new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.moveRealPhysicsY), false);
             line1.strokeColor =
                 line2.strokeColor =
                     line3.strokeColor =
@@ -1400,12 +1530,12 @@ var SelectManager = /** @class */ (function (_super) {
             this._selectionBoxLines.push(line4);
         }
         else {
-            this._selectionBoxLines[0].endPoint = new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.leftDownRealAbsoluteY);
-            this._selectionBoxLines[1].startPoint = new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.leftDownRealAbsoluteY);
-            this._selectionBoxLines[1].endPoint = new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.moveRealAbsoluteY);
-            this._selectionBoxLines[2].startPoint = new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.moveRealAbsoluteY);
-            this._selectionBoxLines[2].endPoint = new Vector2_1.Vector2(inputInfo.moveRealAbsoluteX, inputInfo.moveRealAbsoluteY);
-            this._selectionBoxLines[3].endPoint = new Vector2_1.Vector2(inputInfo.leftDownRealAbsoluteX, inputInfo.moveRealAbsoluteY);
+            this._selectionBoxLines[0].endPoint = new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.leftDownRealPhysicsY);
+            this._selectionBoxLines[1].startPoint = new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.leftDownRealPhysicsY);
+            this._selectionBoxLines[1].endPoint = new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.moveRealPhysicsY);
+            this._selectionBoxLines[2].startPoint = new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.moveRealPhysicsY);
+            this._selectionBoxLines[2].endPoint = new Vector2_1.Vector2(inputInfo.moveRealPhysicsX, inputInfo.moveRealPhysicsY);
+            this._selectionBoxLines[3].endPoint = new Vector2_1.Vector2(inputInfo.leftDownRealPhysicsX, inputInfo.moveRealPhysicsY);
         }
     };
     SelectManager.prototype.destorySelectionBox = function () {
@@ -1947,6 +2077,7 @@ var Utils_1 = __webpack_require__(/*! ../../../utils/Utils */ "./src/utils/Utils
 var Constant_1 = __webpack_require__(/*! ../../../Constant */ "./src/Constant.ts");
 var AssistLine_1 = __webpack_require__(/*! ../primitives/AssistLine */ "./src/engine/canvas/primitives/AssistLine.ts");
 var Circle_1 = __webpack_require__(/*! ../primitives/Circle */ "./src/engine/canvas/primitives/Circle.ts");
+var AssistCircle_1 = __webpack_require__(/*! ../primitives/AssistCircle */ "./src/engine/canvas/primitives/AssistCircle.ts");
 var PlaneCanvas = /** @class */ (function (_super) {
     __extends(PlaneCanvas, _super);
     function PlaneCanvas(scene, planeId) {
@@ -1954,6 +2085,7 @@ var PlaneCanvas = /** @class */ (function (_super) {
         _this._linesProfile = new Map();
         _this._circlesProfile = new Map();
         _this._assistLinesProfile = new Map();
+        _this._assistCirclesProfile = new Map();
         return _this;
     }
     Object.defineProperty(PlaneCanvas.prototype, "linesProfile", {
@@ -1977,20 +2109,21 @@ var PlaneCanvas = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(PlaneCanvas.prototype, "assistCirclesProfile", {
+        get: function () {
+            return this._assistCirclesProfile;
+        },
+        enumerable: false,
+        configurable: true
+    });
     PlaneCanvas.prototype.addLineItems = function (targetSet) {
         var e_1, _a;
         var DPI = Constant_1.environment.DPI;
         try {
             for (var targetSet_1 = __values(targetSet), targetSet_1_1 = targetSet_1.next(); !targetSet_1_1.done; targetSet_1_1 = targetSet_1.next()) {
                 var _b = __read(targetSet_1_1.value, 2), key = _b[0], value = _b[1];
-                var startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
-                var startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]);
-                var endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
-                var endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]);
-                var width = (0, Utils_1.mm2px)(value.width, DPI[0]);
                 var strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
-                var lineCap = value.lineCap;
-                this.linesProfile.set(key, new Line_1.Line(startX, startY, endX, endY, width, strokeColor, lineCap));
+                this.linesProfile.set(key, new Line_1.Line((0, Utils_1.mm2px)(value.startPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]), (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]), (0, Utils_1.mm2px)(value.strokeWidth, DPI[0]), strokeColor, value.lineCap));
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -2011,19 +2144,13 @@ var PlaneCanvas = /** @class */ (function (_super) {
                     continue;
                 }
                 var primitiveItem = this.linesProfile.get(key);
-                var startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
-                var startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]);
-                var endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
-                var endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]);
-                var width = (0, Utils_1.mm2px)(value.width, DPI[0]);
-                var lineCap = value.lineCap;
-                primitiveItem.startX = startX;
-                primitiveItem.startY = startY;
-                primitiveItem.endX = endX;
-                primitiveItem.endY = endY;
-                primitiveItem.width = width;
+                primitiveItem.startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
+                primitiveItem.startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]);
+                primitiveItem.endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
+                primitiveItem.endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]);
+                primitiveItem.strokeWidth = (0, Utils_1.mm2px)(value.strokeWidth, DPI[0]);
                 primitiveItem.strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
-                primitiveItem.lineCap = lineCap;
+                primitiveItem.lineCap = value.lineCap;
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -2035,12 +2162,12 @@ var PlaneCanvas = /** @class */ (function (_super) {
         }
     };
     PlaneCanvas.prototype.deleteLineItems = function (targetIds) {
-        var arrLineIds = Array.from(targetIds);
-        for (var i = 0; i < arrLineIds.length; i++) {
-            if (!this.linesProfile.has(arrLineIds[i])) {
+        var arrTargetIds = Array.from(targetIds);
+        for (var i = 0; i < arrTargetIds.length; i++) {
+            if (!this.linesProfile.has(arrTargetIds[i])) {
                 continue;
             }
-            this.linesProfile.delete(arrLineIds[i]);
+            this.linesProfile.delete(arrTargetIds[i]);
         }
     };
     PlaneCanvas.prototype.addCircleItems = function (targetSet) {
@@ -2049,14 +2176,9 @@ var PlaneCanvas = /** @class */ (function (_super) {
         try {
             for (var targetSet_3 = __values(targetSet), targetSet_3_1 = targetSet_3.next(); !targetSet_3_1.done; targetSet_3_1 = targetSet_3.next()) {
                 var _b = __read(targetSet_3_1.value, 2), key = _b[0], value = _b[1];
-                var centerX = (0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]);
-                var centerY = (0, Utils_1.mm2px)(value.centerPoint.y, DPI[1]);
-                var radius = (0, Utils_1.mm2px)(value.radius, DPI[0]);
-                var strokeWidth = (0, Utils_1.mm2px)(value.strokeWidth, DPI[1]);
                 var strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
                 var fillColor = "rgba(".concat(value.fillColor.red * 255, ", ").concat(value.fillColor.green * 255, ", ").concat(value.fillColor.blue * 255, ", ").concat(value.fillColor.alpha, ")");
-                var lineCap = value.lineCap;
-                this.circlesProfile.set(key, new Circle_1.Circle(centerX, centerY, radius, strokeWidth, strokeColor, fillColor, lineCap));
+                this.circlesProfile.set(key, new Circle_1.Circle((0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.centerPoint.y, DPI[1]), (0, Utils_1.mm2px)(value.radius, DPI[0]), (0, Utils_1.mm2px)(value.strokeWidth, DPI[1]), strokeColor, fillColor, value.lineCap));
             }
         }
         catch (e_3_1) { e_3 = { error: e_3_1 }; }
@@ -2077,18 +2199,13 @@ var PlaneCanvas = /** @class */ (function (_super) {
                     continue;
                 }
                 var primitiveItem = this.circlesProfile.get(key);
-                var centerX = (0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]);
-                var centerY = (0, Utils_1.mm2px)(value.centerPoint.y, DPI[1]);
-                var radius = (0, Utils_1.mm2px)(value.radius, DPI[0]);
-                var strokeWidth = (0, Utils_1.mm2px)(value.strokeWidth, DPI[1]);
-                var lineCap = value.lineCap;
-                primitiveItem.centerX = centerX;
-                primitiveItem.centerY = centerY;
-                primitiveItem.radius = radius;
-                primitiveItem.strokeWidth = strokeWidth;
+                primitiveItem.centerX = (0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]);
+                primitiveItem.centerY = (0, Utils_1.mm2px)(value.centerPoint.y, DPI[1]);
+                primitiveItem.radius = (0, Utils_1.mm2px)(value.radius, DPI[0]);
+                primitiveItem.strokeWidth = (0, Utils_1.mm2px)(value.strokeWidth, DPI[1]);
                 primitiveItem.strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
                 primitiveItem.fillColor = "rgba(".concat(value.fillColor.red * 255, ", ").concat(value.fillColor.green * 255, ", ").concat(value.fillColor.blue * 255, ", ").concat(value.fillColor.alpha, ")");
-                primitiveItem.lineCap = lineCap;
+                primitiveItem.lineCap = value.lineCap;
             }
         }
         catch (e_4_1) { e_4 = { error: e_4_1 }; }
@@ -2100,94 +2217,258 @@ var PlaneCanvas = /** @class */ (function (_super) {
         }
     };
     PlaneCanvas.prototype.deleteCircleItems = function (targetIds) {
-        var arrLineIds = Array.from(targetIds);
-        for (var i = 0; i < arrLineIds.length; i++) {
-            if (!this.circlesProfile.has(arrLineIds[i])) {
+        var arrTargetIds = Array.from(targetIds);
+        for (var i = 0; i < arrTargetIds.length; i++) {
+            if (!this.circlesProfile.has(arrTargetIds[i])) {
                 continue;
             }
-            this.circlesProfile.delete(arrLineIds[i]);
+            this.circlesProfile.delete(arrTargetIds[i]);
         }
     };
-    PlaneCanvas.prototype.addAssistLineItems = function (lines) {
+    PlaneCanvas.prototype.addAssistLineItems = function (targetPrimitives) {
         var e_5, _a;
         var DPI = Constant_1.environment.DPI;
         try {
-            for (var lines_1 = __values(lines), lines_1_1 = lines_1.next(); !lines_1_1.done; lines_1_1 = lines_1.next()) {
-                var _b = __read(lines_1_1.value, 2), key = _b[0], value = _b[1];
-                var startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
-                var startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]);
-                var endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
-                var endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]);
+            for (var targetPrimitives_1 = __values(targetPrimitives), targetPrimitives_1_1 = targetPrimitives_1.next(); !targetPrimitives_1_1.done; targetPrimitives_1_1 = targetPrimitives_1.next()) {
+                var _b = __read(targetPrimitives_1_1.value, 2), key = _b[0], value = _b[1];
                 var strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
-                var fixedPixelWidth = value.fixedPixelWidth;
-                // const lineCap: TCanvasLineCap = value.lineCap
-                this.assistLinesProfile.set(key, new AssistLine_1.AssistLine(startX, startY, endX, endY, strokeColor, value.isSolid, fixedPixelWidth));
+                this.assistLinesProfile.set(key, new AssistLine_1.AssistLine((0, Utils_1.mm2px)(value.startPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]), (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]), strokeColor, value.isSolid, value.fixedPixelWidth));
             }
         }
         catch (e_5_1) { e_5 = { error: e_5_1 }; }
         finally {
             try {
-                if (lines_1_1 && !lines_1_1.done && (_a = lines_1.return)) _a.call(lines_1);
+                if (targetPrimitives_1_1 && !targetPrimitives_1_1.done && (_a = targetPrimitives_1.return)) _a.call(targetPrimitives_1);
             }
             finally { if (e_5) throw e_5.error; }
         }
     };
-    PlaneCanvas.prototype.updateAssistLineItems = function (lines) {
+    PlaneCanvas.prototype.updateAssistLineItems = function (targetPrimitives) {
         var e_6, _a;
         var DPI = Constant_1.environment.DPI;
         try {
-            for (var lines_2 = __values(lines), lines_2_1 = lines_2.next(); !lines_2_1.done; lines_2_1 = lines_2.next()) {
-                var _b = __read(lines_2_1.value, 2), key = _b[0], value = _b[1];
+            for (var targetPrimitives_2 = __values(targetPrimitives), targetPrimitives_2_1 = targetPrimitives_2.next(); !targetPrimitives_2_1.done; targetPrimitives_2_1 = targetPrimitives_2.next()) {
+                var _b = __read(targetPrimitives_2_1.value, 2), key = _b[0], value = _b[1];
                 if (!this.assistLinesProfile.has(key)) {
                     continue;
                 }
                 var primitiveItem = this.assistLinesProfile.get(key);
-                var startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
-                var startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[1]);
-                var endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
-                var endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[1]);
-                var fixedPixelWidth = value.fixedPixelWidth;
-                // const lineCap: TCanvasLineCap = value.lineCap
-                primitiveItem.startX = startX;
-                primitiveItem.startY = startY;
-                primitiveItem.endX = endX;
-                primitiveItem.endY = endY;
-                primitiveItem.fixedPixelWidth = fixedPixelWidth;
+                primitiveItem.startX = (0, Utils_1.mm2px)(value.startPoint.x, DPI[0]);
+                primitiveItem.startY = (0, Utils_1.mm2px)(value.startPoint.y, DPI[0]);
+                primitiveItem.endX = (0, Utils_1.mm2px)(value.endPoint.x, DPI[0]);
+                primitiveItem.endY = (0, Utils_1.mm2px)(value.endPoint.y, DPI[0]);
+                primitiveItem.fixedPixelWidth = value.fixedPixelWidth;
                 primitiveItem.strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
             }
         }
         catch (e_6_1) { e_6 = { error: e_6_1 }; }
         finally {
             try {
-                if (lines_2_1 && !lines_2_1.done && (_a = lines_2.return)) _a.call(lines_2);
+                if (targetPrimitives_2_1 && !targetPrimitives_2_1.done && (_a = targetPrimitives_2.return)) _a.call(targetPrimitives_2);
             }
             finally { if (e_6) throw e_6.error; }
         }
     };
-    PlaneCanvas.prototype.deleteAssistLineItems = function (lineIds) {
-        var arrAssistLineIds = Array.from(lineIds);
-        for (var i = 0; i < arrAssistLineIds.length; i++) {
-            if (!this.assistLinesProfile.has(arrAssistLineIds[i])) {
+    PlaneCanvas.prototype.deleteAssistLineItems = function (targetIds) {
+        var arrTargetIds = Array.from(targetIds);
+        for (var i = 0; i < arrTargetIds.length; i++) {
+            if (!this.assistLinesProfile.has(arrTargetIds[i])) {
                 continue;
             }
-            this.assistLinesProfile.delete(arrAssistLineIds[i]);
+            this.assistLinesProfile.delete(arrTargetIds[i]);
+        }
+    };
+    PlaneCanvas.prototype.addAssistCircleItems = function (targetPrimitives) {
+        var e_7, _a;
+        var DPI = Constant_1.environment.DPI;
+        try {
+            for (var targetPrimitives_3 = __values(targetPrimitives), targetPrimitives_3_1 = targetPrimitives_3.next(); !targetPrimitives_3_1.done; targetPrimitives_3_1 = targetPrimitives_3.next()) {
+                var _b = __read(targetPrimitives_3_1.value, 2), key = _b[0], value = _b[1];
+                var strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
+                var fillColor = "rgba(".concat(value.fillColor.red * 255, ", ").concat(value.fillColor.green * 255, ", ").concat(value.fillColor.blue * 255, ", ").concat(value.fillColor.alpha, ")");
+                this.assistCirclesProfile.set(key, new AssistCircle_1.AssistCircle((0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]), (0, Utils_1.mm2px)(value.centerPoint.y, DPI[1]), strokeColor, (0, Utils_1.mm2px)(value.strokeWidth, DPI[1]), fillColor, undefined, (0, Utils_1.mm2px)(value.radius, DPI[1])));
+            }
+        }
+        catch (e_7_1) { e_7 = { error: e_7_1 }; }
+        finally {
+            try {
+                if (targetPrimitives_3_1 && !targetPrimitives_3_1.done && (_a = targetPrimitives_3.return)) _a.call(targetPrimitives_3);
+            }
+            finally { if (e_7) throw e_7.error; }
+        }
+    };
+    PlaneCanvas.prototype.updateAssistCircleItems = function (targetPrimitives) {
+        var e_8, _a;
+        var DPI = Constant_1.environment.DPI;
+        try {
+            for (var targetPrimitives_4 = __values(targetPrimitives), targetPrimitives_4_1 = targetPrimitives_4.next(); !targetPrimitives_4_1.done; targetPrimitives_4_1 = targetPrimitives_4.next()) {
+                var _b = __read(targetPrimitives_4_1.value, 2), key = _b[0], value = _b[1];
+                if (!this.assistCirclesProfile.has(key)) {
+                    continue;
+                }
+                var primitiveItem = this.assistCirclesProfile.get(key);
+                var strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
+                var fillColor = "rgba(".concat(value.fillColor.red * 255, ", ").concat(value.fillColor.green * 255, ", ").concat(value.fillColor.blue * 255, ", ").concat(value.fillColor.alpha, ")");
+                primitiveItem.centerX = (0, Utils_1.mm2px)(value.centerPoint.x, DPI[0]);
+                primitiveItem.centerY = (0, Utils_1.mm2px)(value.centerPoint.y, DPI[0]);
+                primitiveItem.strokeColor = strokeColor;
+                primitiveItem.strokeWidth = (0, Utils_1.mm2px)(value.strokeWidth, DPI[0]);
+                primitiveItem.fillColor = fillColor;
+                primitiveItem.strokeColor = "rgba(".concat(value.strokeColor.red * 255, ", ").concat(value.strokeColor.green * 255, ", ").concat(value.strokeColor.blue * 255, ", ").concat(value.strokeColor.alpha, ")");
+                primitiveItem.radius = (0, Utils_1.mm2px)(value.radius, DPI[0]);
+            }
+        }
+        catch (e_8_1) { e_8 = { error: e_8_1 }; }
+        finally {
+            try {
+                if (targetPrimitives_4_1 && !targetPrimitives_4_1.done && (_a = targetPrimitives_4.return)) _a.call(targetPrimitives_4);
+            }
+            finally { if (e_8) throw e_8.error; }
+        }
+    };
+    PlaneCanvas.prototype.deleteAssistCircleItems = function (targetIds) {
+        var arrTargetIds = Array.from(targetIds);
+        for (var i = 0; i < arrTargetIds.length; i++) {
+            if (!this.assistCirclesProfile.has(arrTargetIds[i])) {
+                continue;
+            }
+            this.assistCirclesProfile.delete(arrTargetIds[i]);
         }
     };
     PlaneCanvas.prototype.render = function (ctx) {
         var targetProfile = __spreadArray(__spreadArray([], __read(this.linesProfile.values()), false), __read(this.circlesProfile.values()), false);
-        var assistLinsProfile = Array.from(this.assistLinesProfile.values());
+        var assistProfile = __spreadArray(__spreadArray([], __read(this.assistLinesProfile.values()), false), __read(this.assistCirclesProfile.values()), false);
         for (var i = 0; i < targetProfile.length; i++) {
             var targetProfileItem = targetProfile[i];
             targetProfileItem.render(ctx, this.scene);
         }
-        for (var i = 0; i < assistLinsProfile.length; i++) {
-            var assistLinsProfileItem = assistLinsProfile[i];
-            assistLinsProfileItem.render(ctx, this.scene);
+        for (var i = 0; i < assistProfile.length; i++) {
+            var assistProfileItem = assistProfile[i];
+            assistProfileItem.render(ctx, this.scene);
         }
     };
     return PlaneCanvas;
 }(Plane_1.Plane));
 exports.PlaneCanvas = PlaneCanvas;
+
+
+/***/ }),
+
+/***/ "./src/engine/canvas/primitives/AssistCircle.ts":
+/*!******************************************************!*\
+  !*** ./src/engine/canvas/primitives/AssistCircle.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AssistCircle = void 0;
+var Matrix_1 = __webpack_require__(/*! ../../../geometry/Matrix */ "./src/geometry/Matrix.ts");
+var Camera_1 = __webpack_require__(/*! ../../common/Camera */ "./src/engine/common/Camera.ts");
+var AssistCircle = /** @class */ (function () {
+    function AssistCircle(centerX, centerY, strokeColor, strokeWidth, fillColor, lineCap, radius) {
+        if (strokeColor === void 0) { strokeColor = "rgba(0, 0, 0, 1)"; }
+        if (strokeWidth === void 0) { strokeWidth = 1; }
+        if (fillColor === void 0) { fillColor = "rgba(0, 0, 0, 0)"; }
+        if (lineCap === void 0) { lineCap = 'round'; }
+        if (radius === void 0) { radius = 1; }
+        this._centerX = centerX;
+        this._centerY = centerY;
+        this._strokeWidth = strokeWidth;
+        this._strokeColor = strokeColor;
+        this._fillColor = fillColor;
+        this._lineCap = lineCap;
+        this._radius = radius;
+    }
+    Object.defineProperty(AssistCircle.prototype, "centerX", {
+        get: function () {
+            return this._centerX;
+        },
+        set: function (value) {
+            this._centerX = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "centerY", {
+        get: function () {
+            return this._centerY;
+        },
+        set: function (value) {
+            this._centerY = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "strokeWidth", {
+        get: function () {
+            return this._strokeWidth;
+        },
+        set: function (value) {
+            this._strokeWidth = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "strokeColor", {
+        get: function () {
+            return this._strokeColor;
+        },
+        set: function (value) {
+            this._strokeColor = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "fillColor", {
+        get: function () {
+            return this._fillColor;
+        },
+        set: function (value) {
+            this._fillColor = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "lineCap", {
+        get: function () {
+            return this._lineCap;
+        },
+        set: function (value) {
+            this._lineCap = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistCircle.prototype, "radius", {
+        get: function () {
+            return this._radius;
+        },
+        set: function (value) {
+            this._radius = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    AssistCircle.prototype.render = function (ctx, scene) {
+        var camera = Camera_1.Camera.getInstance();
+        var pointMatrix = new Matrix_1.Matrix(1, 4, [this.centerX, this.centerY, 0, 1]);
+        var transformMatrix4 = camera.getSourceMatrix();
+        var matrixResult = pointMatrix.multiply(transformMatrix4).data;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.lineCap = this.lineCap;
+        ctx.lineWidth = this.strokeWidth;
+        ctx.strokeStyle = this.strokeColor;
+        ctx.arc(matrixResult[0], matrixResult[1], this.radius, 0, Math.PI * 2, false);
+        ctx.stroke();
+        ctx.fillStyle = this.fillColor;
+        ctx.fill();
+        ctx.closePath();
+    };
+    return AssistCircle;
+}());
+exports.AssistCircle = AssistCircle;
 
 
 /***/ }),
@@ -2403,7 +2684,7 @@ var Circle = /** @class */ (function () {
     });
     Circle.prototype.render = function (ctx, scene) {
         var camera = Camera_1.Camera.getInstance();
-        var pointMatrix = new Matrix_1.Matrix(1, 4, [this.centerX, this.centerY, 0, 1]);
+        var pointMatrix = new Matrix_1.Matrix(1, 4, [this.centerX, this.centerY, this.radius, 1]);
         var transformMatrix4 = camera.getSourceMatrix();
         var matrixResult = pointMatrix.multiply(transformMatrix4).data;
         var zoomCanvas = camera.getZoomRatio();
@@ -2437,14 +2718,14 @@ exports.Line = void 0;
 var Matrix_1 = __webpack_require__(/*! ../../../geometry/Matrix */ "./src/geometry/Matrix.ts");
 var Camera_1 = __webpack_require__(/*! ../../common/Camera */ "./src/engine/common/Camera.ts");
 var Line = /** @class */ (function () {
-    function Line(startX, startY, endX, endY, width, strokeColor, lineCap) {
+    function Line(startX, startY, endX, endY, strokeWidth, strokeColor, lineCap) {
         if (strokeColor === void 0) { strokeColor = "rgba(0, 0, 0, 1)"; }
         if (lineCap === void 0) { lineCap = 'round'; }
         this._startX = startX;
         this._startY = startY;
         this._endX = endX;
         this._endY = endY;
-        this._width = width;
+        this._strokeWidth = strokeWidth;
         this._strokeColor = strokeColor;
         this._lineCap = lineCap;
     }
@@ -2488,12 +2769,12 @@ var Line = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Line.prototype, "width", {
+    Object.defineProperty(Line.prototype, "strokeWidth", {
         get: function () {
-            return this._width;
+            return this._strokeWidth;
         },
         set: function (value) {
-            this._width = value;
+            this._strokeWidth = value;
         },
         enumerable: false,
         configurable: true
@@ -2527,7 +2808,7 @@ var Line = /** @class */ (function () {
         ctx.setLineDash([]);
         ctx.beginPath();
         ctx.lineCap = this.lineCap;
-        ctx.lineWidth = this.width * zoomCanvas;
+        ctx.lineWidth = this.strokeWidth * zoomCanvas;
         ctx.strokeStyle = this.strokeColor;
         ctx.moveTo(matrixResult[0] - 0.5, matrixResult[1] - 0.5);
         ctx.lineTo(matrixResult[4] - 0.5, matrixResult[5] - 0.5);
@@ -5517,8 +5798,9 @@ function init() {
                     canvasContainer = document.getElementById('canvasContainer');
                     canvasElement = (0, Main_1.createCanvasElement)(canvasContainer);
                     floatWindowElement0 = (0, floatWindow_1.appendFloatContainerWindow)(document.body);
-                    floatWindow_1.inforPanelControl.appendTo(floatWindowElement0);
-                    floatWindow_1.performanceControl.appendTo(floatWindowElement0);
+                    floatWindow_1.iputsPanelControl.appendTo(floatWindowElement0);
+                    floatWindow_1.canvasPanelControl.appendTo(floatWindowElement0);
+                    floatWindow_1.resourceControl.appendTo(floatWindowElement0);
                     floatWindow_1.profileControl.appendTo(floatWindowElement0);
                     webCanvas = new Main_1.WebCanvas(canvasElement);
                     return [4 /*yield*/, webCanvas.init()];
@@ -5532,13 +5814,18 @@ function init() {
 function mainHandle(webCanvas) {
     var systemConfig = webCanvas.getSystemConfig();
     floatWindow_1.profileControl.update(systemConfig);
+    /* ... */
+    floatWindow_1.canvasPanelControl.update({ zoomRatio: webCanvas.getCanvasZoomRatio() });
 }
 function eventHandle(webCanvas) {
     webCanvas.addInputsChangedListener(function (data) {
-        floatWindow_1.inforPanelControl.update(data);
+        floatWindow_1.iputsPanelControl.update(data);
     });
-    webCanvas.addStatisticsListener(function (data) {
-        floatWindow_1.performanceControl.update(data);
+    webCanvas.addResourceChangedListener(function (data) {
+        floatWindow_1.resourceControl.update(data);
+    });
+    webCanvas.addCanvasChangedListener(function (data) {
+        floatWindow_1.canvasPanelControl.update(data);
     });
     webCanvas.addProfileListener(function (data) {
         floatWindow_1.profileControl.update(data);
@@ -5551,6 +5838,7 @@ function eventHandle(webCanvas) {
         }
         if (action === 'resetCanvasView') {
             webCanvas.resetCanvasView();
+            // webCanvas.canvasController.zoomCanvas(5)
             return;
         }
     });
@@ -5561,6 +5849,9 @@ window.addEventListener('DOMContentLoaded', function () {
         mainHandle(webCanvas);
         /* ... */
         (0, clock_1.drawClockInit)(webCanvas);
+        // const layerItemAId: string = drawLayerController.createLayerShapeItem(`Layer A`)
+        // drawTestLine(webCanvas, layerItemAId)
+        // drawTestCircle(webCanvas, layerItemAId)
         console.log(webCanvas);
     });
 });
@@ -5595,20 +5886,23 @@ exports.AssistLineShape = exports.buildAssistLineShape = void 0;
 var ElementConfig_1 = __webpack_require__(/*! ../../config/ElementConfig */ "./src/config/ElementConfig.ts");
 var LineModel_1 = __webpack_require__(/*! ../models/items/LineModel */ "./src/objects/models/items/LineModel.ts");
 var LineShape_1 = __webpack_require__(/*! ../shapes/items/LineShape */ "./src/objects/shapes/items/LineShape.ts");
-function buildAssistLineShape(layerItemId, startPoint, endPoint, isSolid) {
+function buildAssistLineShape(layerItemId, startPoint, endPoint, isSolid, parent) {
     if (isSolid === void 0) { isSolid = true; }
+    if (parent === void 0) { parent = null; }
     var lineModelItem = (0, LineModel_1.buildLineModel)(layerItemId, startPoint, endPoint, 1);
-    var assistLineShapeItem = new AssistLineShape(lineModelItem, isSolid);
+    var assistLineShapeItem = new AssistLineShape(lineModelItem, isSolid, parent);
     return assistLineShapeItem;
 }
 exports.buildAssistLineShape = buildAssistLineShape;
 var AssistLineShape = /** @class */ (function (_super) {
     __extends(AssistLineShape, _super);
-    function AssistLineShape(model, isSolid) {
+    function AssistLineShape(model, isSolid, parent) {
         if (isSolid === void 0) { isSolid = true; }
+        if (parent === void 0) { parent = null; }
         var _this = _super.call(this, model) || this;
         _this._fixedPixelWidth = 1;
         _this.solid = isSolid;
+        _this._parent = parent;
         _this.refreshRender();
         return _this;
     }
@@ -5619,6 +5913,16 @@ var AssistLineShape = /** @class */ (function (_super) {
         set: function (value) {
             this._fixedPixelWidth = value;
             this.refreshRender();
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AssistLineShape.prototype, "parent", {
+        get: function () {
+            return this._parent;
+        },
+        set: function (value) {
+            this.parent = value;
         },
         enumerable: false,
         configurable: true
@@ -5639,7 +5943,7 @@ var AssistLineShape = /** @class */ (function (_super) {
             elementItemId: itemModel.elementItemId,
             startPoint: itemModel.startPoint,
             endPoint: itemModel.endPoint,
-            width: itemModel.width,
+            strokeWidth: itemModel.strokeWidth,
             length: itemModel.length,
             strokeColor: itemModel.strokeColor.toRGBAJSON(),
             lineCap: itemModel.lineCap,
@@ -5650,6 +5954,104 @@ var AssistLineShape = /** @class */ (function (_super) {
     return AssistLineShape;
 }(LineShape_1.LineShape));
 exports.AssistLineShape = AssistLineShape;
+
+
+/***/ }),
+
+/***/ "./src/objects/assist/AssistPointShape.ts":
+/*!************************************************!*\
+  !*** ./src/objects/assist/AssistPointShape.ts ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AssistPointShape = exports.buildAssistPointShape = void 0;
+var ElementConfig_1 = __webpack_require__(/*! ../../config/ElementConfig */ "./src/config/ElementConfig.ts");
+var Vector2_1 = __webpack_require__(/*! ../../geometry/Vector2 */ "./src/geometry/Vector2.ts");
+var Color_1 = __webpack_require__(/*! ../../utils/Color */ "./src/utils/Color.ts");
+var CircleModel_1 = __webpack_require__(/*! ../models/items/CircleModel */ "./src/objects/models/items/CircleModel.ts");
+var CircleShape_1 = __webpack_require__(/*! ../shapes/items/CircleShape */ "./src/objects/shapes/items/CircleShape.ts");
+function buildAssistPointShape(layerItemId, centerPoint, parent) {
+    if (parent === void 0) { parent = null; }
+    var lineModelItem = (0, CircleModel_1.buildCircleModel)(layerItemId, centerPoint, 1);
+    var assistLineShapeItem = new AssistPointShape(lineModelItem, parent);
+    return assistLineShapeItem;
+}
+exports.buildAssistPointShape = buildAssistPointShape;
+var AssistPointShape = /** @class */ (function (_super) {
+    __extends(AssistPointShape, _super);
+    function AssistPointShape(model, parent) {
+        if (parent === void 0) { parent = null; }
+        var _this = _super.call(this, model) || this;
+        _this.strokeColor = Color_1.Color.GREEN;
+        _this.fillColor = Color_1.Color.GREEN;
+        _this.strokeWidth = 0.5;
+        _this.solid = true;
+        _this._parent = parent;
+        _this.refreshRender();
+        return _this;
+    }
+    Object.defineProperty(AssistPointShape.prototype, "parent", {
+        get: function () {
+            return this._parent;
+        },
+        set: function (value) {
+            this.parent = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    AssistPointShape.prototype.isSelect = function (x, y) {
+        var point = new Vector2_1.Vector2(x, y);
+        var centerPoint = this.centerPoint;
+        var distOfClickPointAndCenterPoint = point.sub(centerPoint).length;
+        if (distOfClickPointAndCenterPoint <= this.radius + this.strokeWidth / 2) {
+            return true;
+        }
+        return false;
+    };
+    AssistPointShape.prototype.getType = function () {
+        return ElementConfig_1.EElementType.AssistCircle;
+    };
+    AssistPointShape.prototype.getStatus = function () {
+        return this.status;
+    };
+    AssistPointShape.prototype.getRenderData = function () {
+        var itemModel = this.model;
+        return {
+            type: this.getType(),
+            modelType: this.model.modelType,
+            status: this.status,
+            layerItemId: itemModel.layerItemId,
+            elementItemId: itemModel.elementItemId,
+            centerPoint: itemModel.centerPoint,
+            strokeWidth: itemModel.strokeWidth,
+            strokeColor: itemModel.strokeColor.toRGBAJSON(),
+            fillColor: itemModel.fillColor.toRGBAJSON(),
+            lineCap: itemModel.lineCap,
+            isSolid: itemModel.solid,
+            radius: itemModel.radius,
+        };
+    };
+    return AssistPointShape;
+}(CircleShape_1.CircleShape));
+exports.AssistPointShape = AssistPointShape;
 
 
 /***/ }),
@@ -5800,7 +6202,7 @@ var CircleModel = /** @class */ (function (_super) {
         _this.buffer[ECircleModelBufferOffset.LINE_CAP] = (0, Utils_1.setLineCap2Code)(lineCap);
         _this.buffer[ECircleModelBufferOffset.SOLID] = isSolid ? 1 : 0;
         if (!bbox2) {
-            _this.bbox2 = (0, Circle_Utils_1.createCircleBbox2)(new Vector2_1.Vector2(centerX, centerY), radius);
+            _this.bbox2 = (0, Circle_Utils_1.createCircleBbox2)(new Vector2_1.Vector2(centerX, centerY), radius, strokeWidth);
         }
         return _this;
     }
@@ -5900,7 +6302,7 @@ var CircleModel = /** @class */ (function (_super) {
         return this.bbox2;
     };
     CircleModel.prototype.createBBox2 = function () {
-        var bbox2 = (0, Circle_Utils_1.createCircleBbox2)(this.centerPoint, this.radius);
+        var bbox2 = (0, Circle_Utils_1.createCircleBbox2)(this.centerPoint, this.radius, this.strokeWidth);
         return bbox2;
     };
     CircleModel.prototype.updateBBox2 = function () {
@@ -5908,11 +6310,10 @@ var CircleModel = /** @class */ (function (_super) {
         return this.bbox2;
     };
     CircleModel.prototype.isInGraphical = function (x, y) {
-        var fillColor = this.fillColor;
-        var isFill = fillColor.alpha > 0;
-        var clickPoiintVector2 = new Vector2_1.Vector2(x, y);
+        var isFill = this.fillColor.alpha > 0;
+        var clickPointVector2 = new Vector2_1.Vector2(x, y);
         var centerPoint = this.centerPoint;
-        var distOfClickPointAndCenterPoint = clickPoiintVector2.sub(centerPoint).length;
+        var distOfClickPointAndCenterPoint = clickPointVector2.sub(centerPoint).length;
         if (isFill) {
             if (distOfClickPointAndCenterPoint <= this.radius + this.strokeWidth / 2) {
                 return true;
@@ -6007,7 +6408,7 @@ var ELineModelBufferOffset;
     ELineModelBufferOffset[ELineModelBufferOffset["START_Y"] = 1] = "START_Y";
     ELineModelBufferOffset[ELineModelBufferOffset["END_X"] = 2] = "END_X";
     ELineModelBufferOffset[ELineModelBufferOffset["END_Y"] = 3] = "END_Y";
-    ELineModelBufferOffset[ELineModelBufferOffset["WIDTH"] = 4] = "WIDTH";
+    ELineModelBufferOffset[ELineModelBufferOffset["STROKE_WIDTH"] = 4] = "STROKE_WIDTH";
     ELineModelBufferOffset[ELineModelBufferOffset["STROKE_COLOR_R"] = 5] = "STROKE_COLOR_R";
     ELineModelBufferOffset[ELineModelBufferOffset["STROKE_COLOR_G"] = 6] = "STROKE_COLOR_G";
     ELineModelBufferOffset[ELineModelBufferOffset["STROKE_COLOR_B"] = 7] = "STROKE_COLOR_B";
@@ -6016,16 +6417,17 @@ var ELineModelBufferOffset;
     ELineModelBufferOffset[ELineModelBufferOffset["SOLID"] = 10] = "SOLID";
     ELineModelBufferOffset[ELineModelBufferOffset["$end"] = 11] = "$end";
 })(ELineModelBufferOffset = exports.ELineModelBufferOffset || (exports.ELineModelBufferOffset = {}));
-function buildLineModel(layerItemId, startPoint, endPoint, width) {
+function buildLineModel(layerItemId, startPoint, endPoint, strokeWidth) {
+    if (strokeWidth === void 0) { strokeWidth = 1; }
     var elementItemId = Constant_1.globalIdenManager.getElementIden();
-    var lineModelItem = new LineModel(elementItemId, layerItemId, startPoint.x, startPoint.y, endPoint.x, endPoint.y, width);
+    var lineModelItem = new LineModel(elementItemId, layerItemId, startPoint.x, startPoint.y, endPoint.x, endPoint.y, strokeWidth);
     return lineModelItem;
 }
 exports.buildLineModel = buildLineModel;
 var LineModel = /** @class */ (function (_super) {
     __extends(LineModel, _super);
-    function LineModel(elementItemId, layerItemId, startX, startY, endX, endY, width, strokeColor, lineCap, isSolid, bbox2) {
-        if (width === void 0) { width = 1; }
+    function LineModel(elementItemId, layerItemId, startX, startY, endX, endY, strokeWidth, strokeColor, lineCap, isSolid, bbox2) {
+        if (strokeWidth === void 0) { strokeWidth = 1; }
         if (strokeColor === void 0) { strokeColor = new Color_1.Color(0, 0, 0, 1); }
         if (lineCap === void 0) { lineCap = 'round'; }
         if (isSolid === void 0) { isSolid = true; }
@@ -6036,7 +6438,7 @@ var LineModel = /** @class */ (function (_super) {
         _this.buffer[ELineModelBufferOffset.START_Y] = startY;
         _this.buffer[ELineModelBufferOffset.END_X] = endX;
         _this.buffer[ELineModelBufferOffset.END_Y] = endY;
-        _this.buffer[ELineModelBufferOffset.WIDTH] = width;
+        _this.buffer[ELineModelBufferOffset.STROKE_WIDTH] = strokeWidth;
         _this.buffer[ELineModelBufferOffset.STROKE_COLOR_R] = strokeColor.red;
         _this.buffer[ELineModelBufferOffset.STROKE_COLOR_G] = strokeColor.green;
         _this.buffer[ELineModelBufferOffset.STROKE_COLOR_B] = strokeColor.blue;
@@ -6044,7 +6446,7 @@ var LineModel = /** @class */ (function (_super) {
         _this.buffer[ELineModelBufferOffset.LINE_CAP] = (0, Utils_1.setLineCap2Code)(lineCap);
         _this.buffer[ELineModelBufferOffset.SOLID] = isSolid ? 1 : 0;
         if (!bbox2) {
-            _this.bbox2 = (0, Line_Utils_1.createLineBbox2)(new Vector2_1.Vector2(startX, startY), new Vector2_1.Vector2(endX, endY), width);
+            _this.bbox2 = (0, Line_Utils_1.createLineBbox2)(new Vector2_1.Vector2(startX, startY), new Vector2_1.Vector2(endX, endY), strokeWidth);
         }
         return _this;
     }
@@ -6070,12 +6472,12 @@ var LineModel = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(LineModel.prototype, "width", {
+    Object.defineProperty(LineModel.prototype, "strokeWidth", {
         get: function () {
-            return this.buffer[ELineModelBufferOffset.WIDTH];
+            return this.buffer[ELineModelBufferOffset.STROKE_WIDTH];
         },
         set: function (value) {
-            this.buffer[ELineModelBufferOffset.WIDTH] = value;
+            this.buffer[ELineModelBufferOffset.STROKE_WIDTH] = value;
         },
         enumerable: false,
         configurable: true
@@ -6156,7 +6558,7 @@ var LineModel = /** @class */ (function (_super) {
         return this.bbox2;
     };
     LineModel.prototype.createBBox2 = function () {
-        var bbox2 = (0, Line_Utils_1.createLineBbox2)(this.startPoint, this.endPoint, this.buffer[ELineModelBufferOffset.WIDTH]);
+        var bbox2 = (0, Line_Utils_1.createLineBbox2)(this.startPoint, this.endPoint, this.buffer[ELineModelBufferOffset.STROKE_WIDTH]);
         return bbox2;
     };
     LineModel.prototype.updateBBox2 = function () {
@@ -6164,7 +6566,7 @@ var LineModel = /** @class */ (function (_super) {
         return this.bbox2;
     };
     LineModel.prototype.isInGraphical = function (x, y) {
-        var width = this.width;
+        var strokeWidth = this.strokeWidth;
         var dStartPointx = x - this.startPoint.x;
         var dStartPointy = y - this.startPoint.y;
         var dEndPointx = x - this.endPoint.x;
@@ -6172,18 +6574,18 @@ var LineModel = /** @class */ (function (_super) {
         var dWidth = this.endPoint.x - this.startPoint.x;
         var dHeight = this.endPoint.y - this.startPoint.y;
         var vertical = new Vector2_1.Vector2(-dHeight, dWidth).normalize();
-        var limitX = dWidth + (vertical.x * width) / 2;
-        var limitY = dHeight + (vertical.y * width) / 2;
+        var limitX = dWidth + (vertical.x * strokeWidth) / 2;
+        var limitY = dHeight + (vertical.y * strokeWidth) / 2;
         var limit = limitX * limitX + limitY * limitY;
         var sumSquStart = dStartPointx * dStartPointx + dStartPointy * dStartPointy;
         var sumSquEnd = dEndPointx * dEndPointx + dEndPointy * dEndPointy;
         var area = Math.abs(dStartPointx * dHeight - dStartPointy * dWidth) / 2;
         var length = Math.sqrt(dWidth * dWidth + dHeight * dHeight);
-        var areaContent = (length * width) / 4;
+        var areaContent = (length * strokeWidth) / 4;
         if (area <= areaContent && sumSquStart <= limit && sumSquEnd <= limit) {
             return true;
         }
-        var r = width / 2;
+        var r = strokeWidth / 2;
         if (sumSquStart <= r * r) {
             return true;
         }
@@ -6584,9 +6986,9 @@ var LineModelManager = /** @class */ (function (_super) {
         }
         return LineModelManager.thisInstance;
     };
-    LineModelManager.prototype.createModelItem = function (layerItemId, startPoint, endPoint, width) {
-        if (width === void 0) { width = 1; }
-        var lineModelItem = (0, LineModel_1.buildLineModel)(layerItemId, startPoint, endPoint, width);
+    LineModelManager.prototype.createModelItem = function (layerItemId, startPoint, endPoint, strokeWidth) {
+        if (strokeWidth === void 0) { strokeWidth = 1; }
+        var lineModelItem = (0, LineModel_1.buildLineModel)(layerItemId, startPoint, endPoint, strokeWidth);
         this.items.set(lineModelItem.elementItemId, lineModelItem);
         return lineModelItem;
     };
@@ -6629,6 +7031,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CircleShape = exports.buildCircleShape = void 0;
 var ElementConfig_1 = __webpack_require__(/*! ../../../config/ElementConfig */ "./src/config/ElementConfig.ts");
+var Vector2_1 = __webpack_require__(/*! ../../../geometry/Vector2 */ "./src/geometry/Vector2.ts");
 var Color_1 = __webpack_require__(/*! ../../../utils/Color */ "./src/utils/Color.ts");
 var ElementShapeItemBase_1 = __webpack_require__(/*! ./elementBase/ElementShapeItemBase */ "./src/objects/shapes/items/elementBase/ElementShapeItemBase.ts");
 var CircleModel_1 = __webpack_require__(/*! ../../models/items/CircleModel */ "./src/objects/models/items/CircleModel.ts");
@@ -6680,6 +7083,9 @@ var CircleShape = /** @class */ (function (_super) {
             return this.model.radius;
         },
         set: function (value) {
+            if (value < 0) {
+                value = -value;
+            }
             ;
             this.model.radius = value;
             this.refreshRender();
@@ -6753,6 +7159,13 @@ var CircleShape = /** @class */ (function (_super) {
     CircleShape.prototype.transform = function (value) {
         var centerPoint = this.centerPoint.multiplyMatrix4(value);
         this.centerPoint = centerPoint;
+        this.refreshRender();
+    };
+    CircleShape.prototype.updateRadius = function (x, y) {
+        var point = new Vector2_1.Vector2(x, y);
+        var centerPoint = this.centerPoint;
+        var distOfClickPointAndCenterPoint = point.sub(centerPoint).length;
+        this.radius = distOfClickPointAndCenterPoint;
     };
     CircleShape.prototype.getType = function () {
         return ElementConfig_1.EElementType.Circle;
@@ -6868,9 +7281,10 @@ var ElementConfig_1 = __webpack_require__(/*! ../../../config/ElementConfig */ "
 var LineModel_1 = __webpack_require__(/*! ../../models/items/LineModel */ "./src/objects/models/items/LineModel.ts");
 var Color_1 = __webpack_require__(/*! ../../../utils/Color */ "./src/utils/Color.ts");
 var ElementShapeItemBase_1 = __webpack_require__(/*! ./elementBase/ElementShapeItemBase */ "./src/objects/shapes/items/elementBase/ElementShapeItemBase.ts");
-function buildLineShape(layerItemId, startPoint, endPoint, width, strokeColor) {
+function buildLineShape(layerItemId, startPoint, endPoint, strokeWidth, strokeColor) {
+    if (strokeWidth === void 0) { strokeWidth = 1; }
     if (strokeColor === void 0) { strokeColor = Color_1.Color.BLACK; }
-    var lineModelItem = (0, LineModel_1.buildLineModel)(layerItemId, startPoint, endPoint, width);
+    var lineModelItem = (0, LineModel_1.buildLineModel)(layerItemId, startPoint, endPoint, strokeWidth);
     var lineShapeItem = new LineShape(lineModelItem);
     lineShapeItem.strokeColor = strokeColor;
     return lineShapeItem;
@@ -6920,13 +7334,13 @@ var LineShape = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(LineShape.prototype, "width", {
+    Object.defineProperty(LineShape.prototype, "strokeWidth", {
         get: function () {
-            return this.model.width;
+            return this.model.strokeWidth;
         },
         set: function (value) {
             ;
-            this.model.width = value;
+            this.model.strokeWidth = value;
             this.refreshRender();
         },
         enumerable: false,
@@ -6995,6 +7409,7 @@ var LineShape = /** @class */ (function (_super) {
         var endPoint = this.endPoint.multiplyMatrix4(value);
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        this.refreshRender();
     };
     LineShape.prototype.getType = function () {
         return ElementConfig_1.EElementType.Line;
@@ -7012,7 +7427,7 @@ var LineShape = /** @class */ (function (_super) {
             elementItemId: itemModel.elementItemId,
             startPoint: itemModel.startPoint,
             endPoint: itemModel.endPoint,
-            width: itemModel.width,
+            strokeWidth: itemModel.strokeWidth,
             length: itemModel.length,
             lineCap: itemModel.lineCap,
             isSolid: itemModel.solid,
@@ -8110,38 +8525,38 @@ var EventsLoader = /** @class */ (function (_super) {
         var offsetOfCanvasViewOrigin = offsetOfCanvasElementCenter.multiplyMatrix4(Camera_1.Camera.getInstance().matrix4.getInverseMatrix());
         this.inputInfo.moveTransPixelX = offsetOfCanvasViewOrigin.x;
         this.inputInfo.moveTransPixelY = offsetOfCanvasViewOrigin.y;
-        this.inputInfo.moveRealAbsoluteX = this.inputInfo.moveAbsoluteX = (0, Utils_1.px2mm)(this.inputInfo.moveTransPixelX, DPI[0]);
-        this.inputInfo.moveRealAbsoluteY = this.inputInfo.moveAbsoluteY = (0, Utils_1.px2mm)(this.inputInfo.moveTransPixelY, DPI[1]);
+        this.inputInfo.moveRealPhysicsX = this.inputInfo.movePhysicsX = (0, Utils_1.px2mm)(this.inputInfo.moveTransPixelX, DPI[0]);
+        this.inputInfo.moveRealPhysicsY = this.inputInfo.movePhysicsY = (0, Utils_1.px2mm)(this.inputInfo.moveTransPixelY, DPI[1]);
         if (this._systemConfig.alignGrid) {
-            var position = new Vector2_1.Vector2(this.inputInfo.moveAbsoluteX, this.inputInfo.moveAbsoluteY);
+            var position = new Vector2_1.Vector2(this.inputInfo.movePhysicsX, this.inputInfo.movePhysicsY);
             var offset = Constant_1.adsorption.adsorpGrid(position);
-            this.inputInfo.moveAbsoluteX = offset.x;
-            this.inputInfo.moveAbsoluteY = offset.y;
+            this.inputInfo.movePhysicsX = offset.x;
+            this.inputInfo.movePhysicsY = offset.y;
         }
         if (this.inputInfo.type === 'mousedown') {
             if (this.inputInfo.leftMouseDown) {
                 this.inputInfo.leftDownTransPixelX = this.inputInfo.moveTransPixelX;
                 this.inputInfo.leftDownTransPixelY = this.inputInfo.moveTransPixelY;
-                this.inputInfo.leftDownAbsoluteX = this.inputInfo.moveAbsoluteX;
-                this.inputInfo.leftDownAbsoluteY = this.inputInfo.moveAbsoluteY;
-                this.inputInfo.leftDownRealAbsoluteX = this.inputInfo.moveRealAbsoluteX;
-                this.inputInfo.leftDownRealAbsoluteY = this.inputInfo.moveRealAbsoluteY;
+                this.inputInfo.leftDownPhysicsX = this.inputInfo.movePhysicsX;
+                this.inputInfo.leftDownPhysicsY = this.inputInfo.movePhysicsY;
+                this.inputInfo.leftDownRealPhysicsX = this.inputInfo.moveRealPhysicsX;
+                this.inputInfo.leftDownRealPhysicsY = this.inputInfo.moveRealPhysicsY;
             }
             if (this.inputInfo.middleMouseDown) {
                 this.inputInfo.middleDownTransPixelX = this.inputInfo.moveTransPixelX;
                 this.inputInfo.middleDownTransPixelY = this.inputInfo.moveTransPixelY;
-                this.inputInfo.middleDownAbsoluteX = this.inputInfo.moveAbsoluteX;
-                this.inputInfo.middleDownAbsoluteY = this.inputInfo.moveAbsoluteY;
-                this.inputInfo.middleDownRealAbsoluteX = this.inputInfo.moveRealAbsoluteX;
-                this.inputInfo.middleDownRealAbsoluteY = this.inputInfo.moveRealAbsoluteY;
+                this.inputInfo.middleDownPhysicsX = this.inputInfo.movePhysicsX;
+                this.inputInfo.middleDownPhysicsY = this.inputInfo.movePhysicsY;
+                this.inputInfo.middleDownRealPhysicsX = this.inputInfo.moveRealPhysicsX;
+                this.inputInfo.middleDownRealPhysicsY = this.inputInfo.moveRealPhysicsY;
             }
             if (this.inputInfo.rightMouseDown) {
                 this.inputInfo.rightDownTransPixelX = this.inputInfo.moveTransPixelX;
                 this.inputInfo.rightDownTransPixelY = this.inputInfo.moveTransPixelY;
-                this.inputInfo.rightDownAbsoluteX = this.inputInfo.moveAbsoluteX;
-                this.inputInfo.rightDownAbsoluteY = this.inputInfo.moveAbsoluteY;
-                this.inputInfo.rightDownRealAbsoluteX = this.inputInfo.moveRealAbsoluteX;
-                this.inputInfo.rightDownRealAbsoluteY = this.inputInfo.moveRealAbsoluteY;
+                this.inputInfo.rightDownPhysicsX = this.inputInfo.movePhysicsX;
+                this.inputInfo.rightDownPhysicsY = this.inputInfo.movePhysicsY;
+                this.inputInfo.rightDownRealPhysicsX = this.inputInfo.moveRealPhysicsX;
+                this.inputInfo.rightDownRealPhysicsY = this.inputInfo.moveRealPhysicsY;
             }
         }
         if (this.inputInfo.type === 'mouseup') {
@@ -8151,18 +8566,18 @@ var EventsLoader = /** @class */ (function (_super) {
             this.inputInfo.middleDownTransPixelY = NaN;
             this.inputInfo.rightDownTransPixelX = NaN;
             this.inputInfo.rightDownTransPixelY = NaN;
-            this.inputInfo.leftDownAbsoluteX = NaN;
-            this.inputInfo.leftDownAbsoluteY = NaN;
-            this.inputInfo.middleDownAbsoluteX = NaN;
-            this.inputInfo.middleDownAbsoluteY = NaN;
-            this.inputInfo.rightDownAbsoluteX = NaN;
-            this.inputInfo.rightDownAbsoluteY = NaN;
-            this.inputInfo.leftDownRealAbsoluteX = NaN;
-            this.inputInfo.leftDownRealAbsoluteY = NaN;
-            this.inputInfo.middleDownRealAbsoluteX = NaN;
-            this.inputInfo.middleDownRealAbsoluteY = NaN;
-            this.inputInfo.rightDownRealAbsoluteX = NaN;
-            this.inputInfo.rightDownRealAbsoluteY = NaN;
+            this.inputInfo.leftDownPhysicsX = NaN;
+            this.inputInfo.leftDownPhysicsY = NaN;
+            this.inputInfo.middleDownPhysicsX = NaN;
+            this.inputInfo.middleDownPhysicsY = NaN;
+            this.inputInfo.rightDownPhysicsX = NaN;
+            this.inputInfo.rightDownPhysicsY = NaN;
+            this.inputInfo.leftDownRealPhysicsX = NaN;
+            this.inputInfo.leftDownRealPhysicsY = NaN;
+            this.inputInfo.middleDownRealPhysicsX = NaN;
+            this.inputInfo.middleDownRealPhysicsY = NaN;
+            this.inputInfo.rightDownRealPhysicsX = NaN;
+            this.inputInfo.rightDownRealPhysicsY = NaN;
         }
     };
     return EventsLoader;
@@ -8200,10 +8615,10 @@ var Tool_1 = __webpack_require__(/*! ./Tool */ "./src/tool/Tool.ts");
 var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Vector3_1 = __webpack_require__(/*! ../geometry/Vector3 */ "./src/geometry/Vector3.ts");
 var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
-var Matrix4_1 = __webpack_require__(/*! ../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
 var Config_1 = __webpack_require__(/*! ../config/Config */ "./src/config/Config.ts");
 var EventConfig_1 = __webpack_require__(/*! ../config/EventConfig */ "./src/config/EventConfig.ts");
 var SystemConfig_1 = __webpack_require__(/*! ../controller/SystemConfig */ "./src/controller/SystemConfig.ts");
+var Profile_1 = __webpack_require__(/*! ../config/Profile */ "./src/config/Profile.ts");
 var FrameTool = /** @class */ (function (_super) {
     __extends(FrameTool, _super);
     function FrameTool() {
@@ -8266,6 +8681,35 @@ var FrameTool = /** @class */ (function (_super) {
             }
             else if (inputInfo.keyCode === 189) {
                 this.zoomCanvas(inputInfo, 100);
+            }
+        }
+        else {
+            switch (inputInfo.keyCode) {
+                case Profile_1.EDIRECTION_KEY.LEFT: {
+                    if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate && Constant_1.selectManager.items.size <= 0) {
+                        this._camera.refreshByVector3(new Vector3_1.Vector3(-Config_1.DIRECTION_KEY_MOVE_STEP, 0, 0));
+                    }
+                    break;
+                }
+                case Profile_1.EDIRECTION_KEY.UP: {
+                    if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate && Constant_1.selectManager.items.size <= 0) {
+                        this._camera.refreshByVector3(new Vector3_1.Vector3(0, Config_1.DIRECTION_KEY_MOVE_STEP, 0));
+                    }
+                    break;
+                }
+                case Profile_1.EDIRECTION_KEY.RIGHT: {
+                    if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate && Constant_1.selectManager.items.size <= 0) {
+                        this._camera.refreshByVector3(new Vector3_1.Vector3(Config_1.DIRECTION_KEY_MOVE_STEP, 0, 0));
+                    }
+                    break;
+                }
+                case Profile_1.EDIRECTION_KEY.DOWN: {
+                    if (SystemConfig_1.SystemConfig.getInstance().enableCanvasTranslate && Constant_1.selectManager.items.size <= 0) {
+                        this._camera.refreshByVector3(new Vector3_1.Vector3(0, -Config_1.DIRECTION_KEY_MOVE_STEP, 0));
+                    }
+                    break;
+                }
+                default:
             }
         }
         this.emitInputsChanged(inputInfo);
@@ -8397,20 +8841,8 @@ var FrameTool = /** @class */ (function (_super) {
         else {
             scale = 1 / Config_1.MOUSE_WHEEL_ZOOM_RATIO;
         }
-        var camreaMatrix4 = this._camera.matrix4;
-        var currentScale = Math.sqrt(camreaMatrix4.data[0] * camreaMatrix4.data[0] + camreaMatrix4.data[1] * camreaMatrix4.data[1]);
-        if (!isNaN(currentScale) && currentScale !== 0) {
-            var r = currentScale * scale;
-            if (r < 0.05) {
-                scale = 0.05 / currentScale;
-            }
-            if (r > 100) {
-                scale = 100 / currentScale;
-            }
-            var newMatrix4 = Matrix4_1.Matrix4.createScaleMatrix4ByCoordinate(scale, scale, 1).setOriginByVector3(zoomCenterVector3);
-            this._camera.matrix4 = this._camera.matrix4.multiply4(newMatrix4);
-            this._camera.isNeedUpdate = true;
-        }
+        var currentScale = this._camera.getZoomRatio();
+        Constant_1.canvasController.zoomCanvas(scale * currentScale, zoomCenterVector3);
     };
     FrameTool.prototype.verticalScrollCanvas = function (inputInfo) {
         var delta = inputInfo.deltaSourcePixelY;
@@ -8553,25 +8985,25 @@ var InputContext = /** @class */ (function () {
         this._moveTransPixelX = 0;
         this._moveTransPixelY = 0;
         /* ... */
-        this._leftDownAbsoluteX = 0;
-        this._leftDownAbsoluteY = 0;
-        this._middleDownAbsoluteX = 0;
-        this._middleDownAbsoluteY = 0;
-        this._rightDownAbsoluteX = 0;
-        this._rightDownAbsoluteY = 0;
+        this._leftDownPhysicsX = 0;
+        this._leftDownPhysicsY = 0;
+        this._middleDownPhysicsX = 0;
+        this._middleDownPhysicsY = 0;
+        this._rightDownPhysicsX = 0;
+        this._rightDownPhysicsY = 0;
         /* ... */
-        this._moveAbsoluteX = 0;
-        this._moveAbsoluteY = 0;
+        this._movePhysicsX = 0;
+        this._movePhysicsY = 0;
         /* ... */
-        this._leftDownRealAbsoluteX = 0;
-        this._leftDownRealAbsoluteY = 0;
-        this._middleDownRealAbsoluteX = 0;
-        this._middleDownRealAbsoluteY = 0;
-        this._rightDownRealAbsoluteX = 0;
-        this._rightDownRealAbsoluteY = 0;
+        this._leftDownRealPhysicsX = 0;
+        this._leftDownRealPhysicsY = 0;
+        this._middleDownRealPhysicsX = 0;
+        this._middleDownRealPhysicsY = 0;
+        this._rightDownRealPhysicsX = 0;
+        this._rightDownRealPhysicsY = 0;
         /* ... */
-        this._moveRealAbsoluteX = 0;
-        this._moveRealAbsoluteY = 0;
+        this._moveRealPhysicsX = 0;
+        this._moveRealPhysicsY = 0;
         /* ... */
         this._shiftKey = false;
         this._ctrlKey = false;
@@ -8794,170 +9226,170 @@ var InputContext = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "leftDownAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "leftDownPhysicsX", {
         /************************************************************/
         /************************************************************/
         get: function () {
-            return this._leftDownAbsoluteX;
+            return this._leftDownPhysicsX;
         },
         set: function (value) {
-            this._leftDownAbsoluteX = value;
+            this._leftDownPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "leftDownAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "leftDownPhysicsY", {
         get: function () {
-            return this._leftDownAbsoluteY;
+            return this._leftDownPhysicsY;
         },
         set: function (value) {
-            this._leftDownAbsoluteY = value;
+            this._leftDownPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "middleDownAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "middleDownPhysicsX", {
         get: function () {
-            return this._middleDownAbsoluteX;
+            return this._middleDownPhysicsX;
         },
         set: function (value) {
-            this._middleDownAbsoluteX = value;
+            this._middleDownPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "middleDownAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "middleDownPhysicsY", {
         get: function () {
-            return this._middleDownAbsoluteY;
+            return this._middleDownPhysicsY;
         },
         set: function (value) {
-            this._middleDownAbsoluteY = value;
+            this._middleDownPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "rightDownAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "rightDownPhysicsX", {
         get: function () {
-            return this._rightDownAbsoluteX;
+            return this._rightDownPhysicsX;
         },
         set: function (value) {
-            this._rightDownAbsoluteX = value;
+            this._rightDownPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "rightDownAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "rightDownPhysicsY", {
         get: function () {
-            return this._rightDownAbsoluteY;
+            return this._rightDownPhysicsY;
         },
         set: function (value) {
-            this._rightDownAbsoluteY = value;
+            this._rightDownPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "moveAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "movePhysicsX", {
         /************************************************************/
         /************************************************************/
         get: function () {
-            return this._moveAbsoluteX;
+            return this._movePhysicsX;
         },
         set: function (value) {
-            this._moveAbsoluteX = value;
+            this._movePhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "leftDownRealAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "leftDownRealPhysicsX", {
         /************************************************************/
         /************************************************************/
         get: function () {
-            return this._leftDownRealAbsoluteX;
+            return this._leftDownRealPhysicsX;
         },
         set: function (value) {
-            this._leftDownRealAbsoluteX = value;
+            this._leftDownRealPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "leftDownRealAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "leftDownRealPhysicsY", {
         get: function () {
-            return this._leftDownRealAbsoluteY;
+            return this._leftDownRealPhysicsY;
         },
         set: function (value) {
-            this._leftDownRealAbsoluteY = value;
+            this._leftDownRealPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "middleDownRealAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "middleDownRealPhysicsX", {
         get: function () {
-            return this._middleDownRealAbsoluteX;
+            return this._middleDownRealPhysicsX;
         },
         set: function (value) {
-            this._middleDownRealAbsoluteX = value;
+            this._middleDownRealPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "middleDownRealAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "middleDownRealPhysicsY", {
         get: function () {
-            return this._middleDownRealAbsoluteY;
+            return this._middleDownRealPhysicsY;
         },
         set: function (value) {
-            this._middleDownRealAbsoluteY = value;
+            this._middleDownRealPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "rightDownRealAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "rightDownRealPhysicsX", {
         get: function () {
-            return this._rightDownRealAbsoluteX;
+            return this._rightDownRealPhysicsX;
         },
         set: function (value) {
-            this._rightDownRealAbsoluteX = value;
+            this._rightDownRealPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "rightDownRealAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "rightDownRealPhysicsY", {
         get: function () {
-            return this._rightDownRealAbsoluteY;
+            return this._rightDownRealPhysicsY;
         },
         set: function (value) {
-            this._rightDownRealAbsoluteY = value;
+            this._rightDownRealPhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "moveAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "movePhysicsY", {
         /************************************************************/
         /************************************************************/
         get: function () {
-            return this._moveAbsoluteY;
+            return this._movePhysicsY;
         },
         set: function (value) {
-            this._moveAbsoluteY = value;
+            this._movePhysicsY = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "moveRealAbsoluteX", {
+    Object.defineProperty(InputContext.prototype, "moveRealPhysicsX", {
         get: function () {
-            return this._moveRealAbsoluteX;
+            return this._moveRealPhysicsX;
         },
         set: function (value) {
-            this._moveRealAbsoluteX = value;
+            this._moveRealPhysicsX = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(InputContext.prototype, "moveRealAbsoluteY", {
+    Object.defineProperty(InputContext.prototype, "moveRealPhysicsY", {
         get: function () {
-            return this._moveRealAbsoluteY;
+            return this._moveRealPhysicsY;
         },
         set: function (value) {
-            this._moveRealAbsoluteY = value;
+            this._moveRealPhysicsY = value;
         },
         enumerable: false,
         configurable: true
@@ -9096,25 +9528,25 @@ var InputInfo = /** @class */ (function (_super) {
             moveTransPixelX: this.moveTransPixelX,
             moveTransPixelY: this.moveTransPixelY,
             /* ... */
-            leftDownAbsoluteX: this.leftDownAbsoluteX,
-            leftDownAbsoluteY: this.leftDownAbsoluteY,
-            middleDownAbsoluteX: this.middleDownAbsoluteX,
-            middleDownAbsoluteY: this.middleDownAbsoluteY,
-            rightDownAbsoluteX: this.rightDownAbsoluteX,
-            rightDownAbsoluteY: this.rightDownAbsoluteY,
+            leftDownPhysicsX: this.leftDownPhysicsX,
+            leftDownPhysicsY: this.leftDownPhysicsY,
+            middleDownPhysicsX: this.middleDownPhysicsX,
+            middleDownPhysicsY: this.middleDownPhysicsY,
+            rightDownPhysicsX: this.rightDownPhysicsX,
+            rightDownPhysicsY: this.rightDownPhysicsY,
             /* ... */
-            moveAbsoluteX: this.moveAbsoluteX,
-            moveAbsoluteY: this.moveAbsoluteY,
+            movePhysicsX: this.movePhysicsX,
+            movePhysicsY: this.movePhysicsY,
             /* ... */
-            leftDownRealAbsoluteX: this.leftDownRealAbsoluteX,
-            leftDownRealAbsoluteY: this.leftDownRealAbsoluteY,
-            middleDownRealAbsoluteX: this.middleDownRealAbsoluteX,
-            middleDownRealAbsoluteY: this.middleDownRealAbsoluteY,
-            rightDownRealAbsoluteX: this.rightDownRealAbsoluteX,
-            rightDownRealAbsoluteY: this.rightDownRealAbsoluteY,
+            leftDownRealPhysicsX: this.leftDownRealPhysicsX,
+            leftDownRealPhysicsY: this.leftDownRealPhysicsY,
+            middleDownRealPhysicsX: this.middleDownRealPhysicsX,
+            middleDownRealPhysicsY: this.middleDownRealPhysicsY,
+            rightDownRealPhysicsX: this.rightDownRealPhysicsX,
+            rightDownRealPhysicsY: this.rightDownRealPhysicsY,
             /* ... */
-            moveRealAbsoluteX: this.moveRealAbsoluteX,
-            moveRealAbsoluteY: this.moveRealAbsoluteY,
+            moveRealPhysicsX: this.moveRealPhysicsX,
+            moveRealPhysicsY: this.moveRealPhysicsY,
             /* ... */
             shiftKey: this.shiftKey,
             ctrlKey: this.ctrlKey,
@@ -9302,10 +9734,10 @@ var CrossAssist = /** @class */ (function (_super) {
     CrossAssist.prototype.update = function (inputInfo) {
         var camera = Camera_1.Camera.getInstance();
         var zoomCanvas = camera.getZoomRatio();
-        this._xLineShape.startPoint = new Vector2_1.Vector2((-1 * Constant_1.environment.canvasElement.width) / 2 / zoomCanvas, inputInfo.moveAbsoluteY);
-        this._xLineShape.endPoint = new Vector2_1.Vector2(Constant_1.environment.canvasElement.width / 2 / zoomCanvas, inputInfo.moveAbsoluteY);
-        this._yLineShape.startPoint = new Vector2_1.Vector2(inputInfo.moveAbsoluteX, (-1 * Constant_1.environment.canvasElement.height) / 2 / zoomCanvas);
-        this._yLineShape.endPoint = new Vector2_1.Vector2(inputInfo.moveAbsoluteX, Constant_1.environment.canvasElement.height / 2 / zoomCanvas);
+        this._xLineShape.startPoint = new Vector2_1.Vector2((-1 * Constant_1.environment.canvasElement.width) / 2 / zoomCanvas, inputInfo.movePhysicsY);
+        this._xLineShape.endPoint = new Vector2_1.Vector2(Constant_1.environment.canvasElement.width / 2 / zoomCanvas, inputInfo.movePhysicsY);
+        this._yLineShape.startPoint = new Vector2_1.Vector2(inputInfo.movePhysicsX, (-1 * Constant_1.environment.canvasElement.height) / 2 / zoomCanvas);
+        this._yLineShape.endPoint = new Vector2_1.Vector2(inputInfo.movePhysicsX, Constant_1.environment.canvasElement.height / 2 / zoomCanvas);
     };
     CrossAssist.prototype.destory = function () {
         this._xLineShape.setDelete();
@@ -9353,9 +9785,11 @@ var DropDragTool = /** @class */ (function (_super) {
     }
     DropDragTool.prototype.keyDownHandler = function (inputInfo) {
         // console.log(`DropDragTool: KeyDownHandler`)
+        Constant_1.selectManager.keyDownHandler(inputInfo);
     };
     DropDragTool.prototype.keyUpHandler = function (inputInfo) {
         // console.log(`DropDragTool: KeyUpHandler`)
+        Constant_1.selectManager.keyUpHandler(inputInfo);
     };
     DropDragTool.prototype.mouseLeftDownHandler = function (inputInfo) {
         // console.log(`DropDragTool: MouseLeftDown`, inputInfo)
@@ -9501,7 +9935,7 @@ var DrawLineShape = /** @class */ (function () {
         if (this.shapeInstances.length) {
             for (var i = 0; i < this.shapeInstances.length; i++) {
                 var targetShapeItem = this.shapeInstances[i];
-                var newTargetShapeItem = LineShapeManager_1.LineShapeManager.getInstance().createShapeItem(this.selectedDrawLayerShapeItem.model.layerItemId, targetShapeItem.startPoint, targetShapeItem.endPoint, targetShapeItem.width);
+                var newTargetShapeItem = LineShapeManager_1.LineShapeManager.getInstance().createShapeItem(this.selectedDrawLayerShapeItem.model.layerItemId, targetShapeItem.startPoint, targetShapeItem.endPoint, targetShapeItem.strokeWidth);
                 newTargetShapeItem.strokeColor = targetShapeItem.strokeColor;
                 targetShapeItem.setDelete();
             }
@@ -9513,7 +9947,7 @@ var DrawLineShape = /** @class */ (function () {
     };
     DrawLineShape.prototype.updateShapes = function (inputInfo) {
         var len = this.shapeInstances.length;
-        this.shapeInstances[len - 1].endPoint = new Vector2_1.Vector2(inputInfo.moveAbsoluteX, inputInfo.moveAbsoluteY);
+        this.shapeInstances[len - 1].endPoint = new Vector2_1.Vector2(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
     };
     DrawLineShape.prototype.createShapes = function (x, y) {
         this.selectedDrawLayerShapeItem = DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().getActiveItem();
@@ -9630,7 +10064,7 @@ var DrawLineShapeTool = /** @class */ (function (_super) {
     DrawLineShapeTool.prototype.mouseLeftUpHandler = function (inputInfo) {
         if (!this._isDrawing) {
             this._isDrawing = true;
-            this._drawTargetShape.createShapes(inputInfo.moveAbsoluteX, inputInfo.moveAbsoluteY);
+            this._drawTargetShape.createShapes(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
         }
         else {
             this._isDrawing = false;
@@ -9708,33 +10142,155 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CircleShapeSelectionTool = void 0;
+var Config_1 = __webpack_require__(/*! ../../config/Config */ "./src/config/Config.ts");
+var Profile_1 = __webpack_require__(/*! ../../config/Profile */ "./src/config/Profile.ts");
 var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var Matrix4_1 = __webpack_require__(/*! ../../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
+var Main_1 = __webpack_require__(/*! ../../Main */ "./src/Main.ts");
+var AssistPointShape_1 = __webpack_require__(/*! ../../objects/assist/AssistPointShape */ "./src/objects/assist/AssistPointShape.ts");
 var SelectionTool_1 = __webpack_require__(/*! ./base/SelectionTool */ "./src/tool/selection/base/SelectionTool.ts");
 var CircleShapeSelectionTool = /** @class */ (function (_super) {
     __extends(CircleShapeSelectionTool, _super);
-    function CircleShapeSelectionTool() {
+    function CircleShapeSelectionTool(selectedItem) {
         var _this = _super.call(this) || this;
-        _this._moveAbsoluteX = 0;
-        _this._moveAbsoluteY = 0;
+        _this._selectedItem = selectedItem;
+        _this._movePhysicsX = 0;
+        _this._movePhysicsY = 0;
+        _this._isSelectedPoint1 = false;
+        _this._isSelectedPoint2 = false;
+        _this._isSelectedPoint3 = false;
+        _this._isSelectedPoint4 = false;
+        _this._isSelectedPoint5 = false;
+        _this.initPointsPosition(_this._selectedItem.model.layerItemId, _this._selectedItem.centerPoint, _this._selectedItem.radius);
         return _this;
     }
+    CircleShapeSelectionTool.prototype.mouseLeftDownSelect = function (inputInfo) {
+        var allControlAssistPoints = [this._point1, this._point2, this._point3, this._point4, this._point5];
+        var hitItem = null;
+        for (var i = 0; i < allControlAssistPoints.length; i++) {
+            if (allControlAssistPoints[i].isSelect(inputInfo.movePhysicsX, inputInfo.movePhysicsY)) {
+                hitItem = allControlAssistPoints[i];
+                break;
+            }
+        }
+        return hitItem ? hitItem.parent : null;
+    };
+    CircleShapeSelectionTool.prototype.keyDownHandler = function (inputInfo) {
+        switch (inputInfo.keyCode) {
+            case Profile_1.EDIRECTION_KEY.LEFT: {
+                this.moveSelectedItem(-Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.UP: {
+                this.moveSelectedItem(0, Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.RIGHT: {
+                this.moveSelectedItem(Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.DOWN: {
+                this.moveSelectedItem(0, -Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            default:
+        }
+    };
+    CircleShapeSelectionTool.prototype.keyUpHandler = function (inputInfo) { };
     CircleShapeSelectionTool.prototype.mouseLeftDownHandler = function (inputInfo) {
-        this._moveAbsoluteX = inputInfo.leftDownAbsoluteX;
-        this._moveAbsoluteY = inputInfo.leftDownAbsoluteY;
+        this._movePhysicsX = inputInfo.leftDownPhysicsX;
+        this._movePhysicsY = inputInfo.leftDownPhysicsY;
+        this._isSelectedPoint1 = this._point1.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
+        this._isSelectedPoint2 = this._point2.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
+        this._isSelectedPoint3 = this._point3.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
+        this._isSelectedPoint4 = this._point4.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
+        this._isSelectedPoint5 = this._point5.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
     };
     CircleShapeSelectionTool.prototype.mouseLeftUpHandler = function (inputInfo) { };
     CircleShapeSelectionTool.prototype.mouseMoveHandler = function (inputInfo) {
-        var diffX = inputInfo.moveAbsoluteX - this._moveAbsoluteX;
-        var diffY = inputInfo.moveAbsoluteY - this._moveAbsoluteY;
-        var allSelectItems = Constant_1.selectManager.getAllSelectItems();
-        var translateMatrix4 = Matrix4_1.Matrix4.createTranslateMatrix4ByCoordinate(diffX, diffY, 0);
-        for (var i = 0; i < allSelectItems.length; i++) {
-            var item = allSelectItems[i];
-            item.transform(translateMatrix4);
+        var diffX = inputInfo.movePhysicsX - this._movePhysicsX;
+        var diffY = inputInfo.movePhysicsY - this._movePhysicsY;
+        if (this._isSelectedPoint1) {
+            this._selectedItem.updateRadius(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+            this.updatePointsPosition(this._selectedItem.centerPoint, this._selectedItem.radius);
         }
-        this._moveAbsoluteX = inputInfo.moveAbsoluteX;
-        this._moveAbsoluteY = inputInfo.moveAbsoluteY;
+        else if (this._isSelectedPoint2) {
+            this._selectedItem.updateRadius(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+            this.updatePointsPosition(this._selectedItem.centerPoint, this._selectedItem.radius);
+        }
+        else if (this._isSelectedPoint3) {
+            this._selectedItem.updateRadius(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+            this.updatePointsPosition(this._selectedItem.centerPoint, this._selectedItem.radius);
+        }
+        else if (this._isSelectedPoint4) {
+            this._selectedItem.updateRadius(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+            this.updatePointsPosition(this._selectedItem.centerPoint, this._selectedItem.radius);
+        }
+        else if (this._isSelectedPoint5) {
+            this.moveSelectedItem(diffX, diffY);
+        }
+        else {
+            this.moveSelectedItem(diffX, diffY);
+        }
+        this._movePhysicsX = inputInfo.movePhysicsX;
+        this._movePhysicsY = inputInfo.movePhysicsY;
+    };
+    CircleShapeSelectionTool.prototype.mouseUpMoveHandler = function (inputInfo) {
+        var allControlAssistPoints = [this._point1, this._point2, this._point3, this._point4, this._point5];
+        var hit = false;
+        for (var i = 0; i < allControlAssistPoints.length; i++) {
+            if (allControlAssistPoints[i].isSelect(inputInfo.movePhysicsX, inputInfo.movePhysicsY)) {
+                hit = true;
+                break;
+            }
+        }
+        if (hit) {
+            Constant_1.environment.updateCanvasMouseCursor('pointer');
+        }
+        else {
+            Constant_1.environment.updateCanvasMouseCursor('default');
+        }
+    };
+    CircleShapeSelectionTool.prototype.clear = function () {
+        this._selectedItem = null;
+        this._point1.setDelete();
+        this._point2.setDelete();
+        this._point3.setDelete();
+        this._point4.setDelete();
+        this._point5.setDelete();
+        this._point1 = null;
+        this._point2 = null;
+        this._point3 = null;
+        this._point4 = null;
+        this._point5 = null;
+        this._isSelectedPoint1 = false;
+        this._isSelectedPoint2 = false;
+        this._isSelectedPoint3 = false;
+        this._isSelectedPoint4 = false;
+        this._isSelectedPoint5 = false;
+    };
+    CircleShapeSelectionTool.prototype.initPointsPosition = function (layerItemId, circleCenterPoint, circleRadius) {
+        this._point1 = (0, AssistPointShape_1.buildAssistPointShape)(layerItemId, new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y + circleRadius), this._selectedItem);
+        this._point2 = (0, AssistPointShape_1.buildAssistPointShape)(layerItemId, new Main_1.Vector2(circleCenterPoint.x + circleRadius, circleCenterPoint.y), this._selectedItem);
+        this._point3 = (0, AssistPointShape_1.buildAssistPointShape)(layerItemId, new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y - circleRadius), this._selectedItem);
+        this._point4 = (0, AssistPointShape_1.buildAssistPointShape)(layerItemId, new Main_1.Vector2(circleCenterPoint.x - circleRadius, circleCenterPoint.y), this._selectedItem);
+        this._point5 = (0, AssistPointShape_1.buildAssistPointShape)(layerItemId, new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y), this._selectedItem);
+    };
+    CircleShapeSelectionTool.prototype.updatePointsPosition = function (circleCenterPoint, circleRadius) {
+        this._point1.centerPoint = new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y + circleRadius);
+        this._point2.centerPoint = new Main_1.Vector2(circleCenterPoint.x + circleRadius, circleCenterPoint.y);
+        this._point3.centerPoint = new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y - circleRadius);
+        this._point4.centerPoint = new Main_1.Vector2(circleCenterPoint.x - circleRadius, circleCenterPoint.y);
+        this._point5.centerPoint = new Main_1.Vector2(circleCenterPoint.x, circleCenterPoint.y);
+    };
+    CircleShapeSelectionTool.prototype.moveSelectedItem = function (diffX, diffY) {
+        var translateMatrix4 = Matrix4_1.Matrix4.createTranslateMatrix4ByCoordinate(diffX, diffY, 0);
+        this._selectedItem.transform(translateMatrix4);
+        this._point1.transform(translateMatrix4);
+        this._point2.transform(translateMatrix4);
+        this._point3.transform(translateMatrix4);
+        this._point4.transform(translateMatrix4);
+        this._point5.transform(translateMatrix4);
     };
     return CircleShapeSelectionTool;
 }(SelectionTool_1.SelectionTool));
@@ -9753,50 +10309,71 @@ exports.CircleShapeSelectionTool = CircleShapeSelectionTool;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HandlerControl = void 0;
 var ElementConfig_1 = __webpack_require__(/*! ../../config/ElementConfig */ "./src/config/ElementConfig.ts");
-var FrameCommand_1 = __webpack_require__(/*! ../../config/FrameCommand */ "./src/config/FrameCommand.ts");
-var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var LineShapeSelectionTool_1 = __webpack_require__(/*! ./LineShapeSelectionTool */ "./src/tool/selection/LineShapeSelectionTool.ts");
 var CircleShapeSelectionTool_1 = __webpack_require__(/*! ./CircleShapeSelectionTool */ "./src/tool/selection/CircleShapeSelectionTool.ts");
 var MoveOperSelectionTool_1 = __webpack_require__(/*! ./MoveOperSelectionTool */ "./src/tool/selection/MoveOperSelectionTool.ts");
+var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var HandlerControl = /** @class */ (function () {
     function HandlerControl() {
         this._processor = null;
     }
+    HandlerControl.prototype.mouseLeftDownSelect = function (inputInfo) {
+        if (!this.hasProcessor()) {
+            return null;
+        }
+        return this._processor.mouseLeftDownSelect(inputInfo);
+    };
     HandlerControl.prototype.hasProcessor = function () {
-        return this._processor === null;
+        return this._processor !== null;
     };
     HandlerControl.prototype.clearProcessor = function () {
+        this._processor && this._processor.clear();
         this._processor = null;
     };
-    HandlerControl.prototype.updateProcessor = function (inputInfo) {
-        var allSelectItems = Constant_1.selectManager.getAllSelectItems();
-        if (allSelectItems.length <= 0) {
+    HandlerControl.prototype.updateProcessor = function (inputInfo, clickSelect) {
+        var selectedItems = Constant_1.selectManager.getAllItems();
+        if (selectedItems.length <= 0 && !clickSelect) {
+            this.clearProcessor();
             return;
         }
-        if (allSelectItems.length >= 2) {
+        if (this._processor) {
+            this._processor.mouseLeftDownHandler(inputInfo);
+            return;
+        }
+        if (selectedItems.length >= 2) {
             this._processor = new MoveOperSelectionTool_1.MoveOperSelectionTool();
             this._processor.mouseLeftDownHandler(inputInfo);
             return;
         }
-        if (allSelectItems[0].getType() === ElementConfig_1.EElementType.Line) {
-            this._processor = new LineShapeSelectionTool_1.LineShapeSelectionTool();
+        var selectItem = selectedItems[0];
+        if (selectItem.getType() === ElementConfig_1.EElementType.Line) {
+            this._processor = new LineShapeSelectionTool_1.LineShapeSelectionTool(selectItem);
             this._processor.mouseLeftDownHandler(inputInfo);
             return;
         }
-        if (allSelectItems[0].getType() === ElementConfig_1.EElementType.Circle) {
-            this._processor = new CircleShapeSelectionTool_1.CircleShapeSelectionTool();
+        if (selectItem.getType() === ElementConfig_1.EElementType.Circle) {
+            this._processor = new CircleShapeSelectionTool_1.CircleShapeSelectionTool(selectItem);
             this._processor.mouseLeftDownHandler(inputInfo);
             return;
         }
     };
-    HandlerControl.prototype.mouseLeftDownHandler = function (inputInfo) { };
+    HandlerControl.prototype.keyDownHandler = function (inputInfo) {
+        this._processor && this._processor.keyDownHandler(inputInfo);
+    };
+    HandlerControl.prototype.keyUpHandler = function (inputInfo) {
+        this._processor && this._processor.keyUpHandler(inputInfo);
+    };
+    HandlerControl.prototype.mouseLeftDownHandler = function (inputInfo) {
+        this._processor && this._processor.mouseLeftDownHandler(inputInfo);
+    };
     HandlerControl.prototype.mouseLeftUpHandler = function (inputInfo) {
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.REFRESH_RTREE);
+        this._processor && this._processor.mouseLeftUpHandler(inputInfo);
     };
     HandlerControl.prototype.mouseMoveHandler = function (inputInfo) {
-        if (this._processor) {
-            this._processor.mouseMoveHandler(inputInfo);
-        }
+        this._processor && this._processor.mouseMoveHandler(inputInfo);
+    };
+    HandlerControl.prototype.mouseUpMoveHandler = function (inputInfo) {
+        this._processor && this._processor.mouseUpMoveHandler(inputInfo);
     };
     return HandlerControl;
 }());
@@ -9829,33 +10406,113 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LineShapeSelectionTool = void 0;
+var Config_1 = __webpack_require__(/*! ../../config/Config */ "./src/config/Config.ts");
+var Profile_1 = __webpack_require__(/*! ../../config/Profile */ "./src/config/Profile.ts");
 var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var Matrix4_1 = __webpack_require__(/*! ../../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
+var AssistPointShape_1 = __webpack_require__(/*! ../../objects/assist/AssistPointShape */ "./src/objects/assist/AssistPointShape.ts");
 var SelectionTool_1 = __webpack_require__(/*! ./base/SelectionTool */ "./src/tool/selection/base/SelectionTool.ts");
 var LineShapeSelectionTool = /** @class */ (function (_super) {
     __extends(LineShapeSelectionTool, _super);
-    function LineShapeSelectionTool() {
+    function LineShapeSelectionTool(selectedItem) {
         var _this = _super.call(this) || this;
-        _this._moveAbsoluteX = 0;
-        _this._moveAbsoluteY = 0;
+        _this._selectedItem = selectedItem;
+        _this._movePhysicsX = 0;
+        _this._movePhysicsY = 0;
+        _this._lineStartPoint = (0, AssistPointShape_1.buildAssistPointShape)(_this._selectedItem.model.layerItemId, _this._selectedItem.startPoint, _this._selectedItem);
+        _this._lineEndPoint = (0, AssistPointShape_1.buildAssistPointShape)(_this._selectedItem.model.layerItemId, _this._selectedItem.endPoint, _this._selectedItem);
+        _this._isSelectedStartPoint = false;
+        _this._isSelectedEndPoint = false;
         return _this;
     }
+    LineShapeSelectionTool.prototype.mouseLeftDownSelect = function (inputInfo) {
+        var allControlAssistPoints = [this._lineStartPoint, this._lineEndPoint];
+        var hitItem = null;
+        for (var i = 0; i < allControlAssistPoints.length; i++) {
+            if (allControlAssistPoints[i].isSelect(inputInfo.movePhysicsX, inputInfo.movePhysicsY)) {
+                hitItem = allControlAssistPoints[i];
+                break;
+            }
+        }
+        return hitItem ? hitItem.parent : null;
+    };
+    LineShapeSelectionTool.prototype.keyDownHandler = function (inputInfo) {
+        switch (inputInfo.keyCode) {
+            case Profile_1.EDIRECTION_KEY.LEFT: {
+                this.moveSelectedItem(-Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.UP: {
+                this.moveSelectedItem(0, Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.RIGHT: {
+                this.moveSelectedItem(Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.DOWN: {
+                this.moveSelectedItem(0, -Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            default:
+        }
+    };
+    LineShapeSelectionTool.prototype.keyUpHandler = function (inputInfo) { };
     LineShapeSelectionTool.prototype.mouseLeftDownHandler = function (inputInfo) {
-        this._moveAbsoluteX = inputInfo.leftDownAbsoluteX;
-        this._moveAbsoluteY = inputInfo.leftDownAbsoluteY;
+        this._movePhysicsX = inputInfo.leftDownPhysicsX;
+        this._movePhysicsY = inputInfo.leftDownPhysicsY;
+        this._isSelectedStartPoint = this._lineStartPoint.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
+        this._isSelectedEndPoint = this._lineEndPoint.isSelect(inputInfo.leftDownPhysicsX, inputInfo.leftDownPhysicsY);
     };
     LineShapeSelectionTool.prototype.mouseLeftUpHandler = function (inputInfo) { };
     LineShapeSelectionTool.prototype.mouseMoveHandler = function (inputInfo) {
-        var diffX = inputInfo.moveAbsoluteX - this._moveAbsoluteX;
-        var diffY = inputInfo.moveAbsoluteY - this._moveAbsoluteY;
-        var allSelectItems = Constant_1.selectManager.getAllSelectItems();
+        var diffX = inputInfo.movePhysicsX - this._movePhysicsX;
+        var diffY = inputInfo.movePhysicsY - this._movePhysicsY;
         var translateMatrix4 = Matrix4_1.Matrix4.createTranslateMatrix4ByCoordinate(diffX, diffY, 0);
-        for (var i = 0; i < allSelectItems.length; i++) {
-            var item = allSelectItems[i];
-            item.transform(translateMatrix4);
+        if (this._isSelectedStartPoint) {
+            this._selectedItem.startPoint = this._selectedItem.startPoint.multiplyMatrix4(translateMatrix4);
+            this._lineStartPoint.transform(translateMatrix4);
         }
-        this._moveAbsoluteX = inputInfo.moveAbsoluteX;
-        this._moveAbsoluteY = inputInfo.moveAbsoluteY;
+        else if (this._isSelectedEndPoint) {
+            this._selectedItem.endPoint = this._selectedItem.endPoint.multiplyMatrix4(translateMatrix4);
+            this._lineEndPoint.transform(translateMatrix4);
+        }
+        else {
+            this.moveSelectedItem(diffX, diffY);
+        }
+        this._movePhysicsX = inputInfo.movePhysicsX;
+        this._movePhysicsY = inputInfo.movePhysicsY;
+    };
+    LineShapeSelectionTool.prototype.mouseUpMoveHandler = function (inputInfo) {
+        var allControlAssistPoints = [this._lineStartPoint, this._lineEndPoint];
+        var hit = false;
+        for (var i = 0; i < allControlAssistPoints.length; i++) {
+            if (allControlAssistPoints[i].isSelect(inputInfo.movePhysicsX, inputInfo.movePhysicsY)) {
+                hit = true;
+                break;
+            }
+        }
+        if (hit) {
+            Constant_1.environment.updateCanvasMouseCursor('pointer');
+        }
+        else {
+            Constant_1.environment.updateCanvasMouseCursor('default');
+        }
+    };
+    LineShapeSelectionTool.prototype.clear = function () {
+        this._selectedItem = null;
+        this._lineStartPoint.setDelete();
+        this._lineEndPoint.setDelete();
+        this._lineStartPoint = null;
+        this._lineEndPoint = null;
+        this._isSelectedStartPoint = false;
+        this._isSelectedEndPoint = false;
+    };
+    LineShapeSelectionTool.prototype.moveSelectedItem = function (diffX, diffY) {
+        var translateMatrix4 = Matrix4_1.Matrix4.createTranslateMatrix4ByCoordinate(diffX, diffY, 0);
+        this._selectedItem.transform(translateMatrix4);
+        this._lineStartPoint.transform(translateMatrix4);
+        this._lineEndPoint.transform(translateMatrix4);
     };
     return LineShapeSelectionTool;
 }(SelectionTool_1.SelectionTool));
@@ -9888,6 +10545,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MoveOperSelectionTool = void 0;
+var Config_1 = __webpack_require__(/*! ../../config/Config */ "./src/config/Config.ts");
+var Profile_1 = __webpack_require__(/*! ../../config/Profile */ "./src/config/Profile.ts");
 var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var Matrix4_1 = __webpack_require__(/*! ../../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
 var SelectionTool_1 = __webpack_require__(/*! ./base/SelectionTool */ "./src/tool/selection/base/SelectionTool.ts");
@@ -9895,26 +10554,56 @@ var MoveOperSelectionTool = /** @class */ (function (_super) {
     __extends(MoveOperSelectionTool, _super);
     function MoveOperSelectionTool() {
         var _this = _super.call(this) || this;
-        _this._moveAbsoluteX = 0;
-        _this._moveAbsoluteY = 0;
+        _this._movePhysicsX = 0;
+        _this._movePhysicsY = 0;
         return _this;
     }
+    MoveOperSelectionTool.prototype.mouseLeftDownSelect = function (inputInfo) {
+        return null;
+    };
+    MoveOperSelectionTool.prototype.keyDownHandler = function (inputInfo) {
+        switch (inputInfo.keyCode) {
+            case Profile_1.EDIRECTION_KEY.LEFT: {
+                this.moveSelectedItems(-Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.UP: {
+                this.moveSelectedItems(0, Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.RIGHT: {
+                this.moveSelectedItems(Config_1.DIRECTION_KEY_MOVE_STEP, 0);
+                break;
+            }
+            case Profile_1.EDIRECTION_KEY.DOWN: {
+                this.moveSelectedItems(0, -Config_1.DIRECTION_KEY_MOVE_STEP);
+                break;
+            }
+            default:
+        }
+    };
+    MoveOperSelectionTool.prototype.keyUpHandler = function (inputInfo) { };
     MoveOperSelectionTool.prototype.mouseLeftDownHandler = function (inputInfo) {
-        this._moveAbsoluteX = inputInfo.leftDownAbsoluteX;
-        this._moveAbsoluteY = inputInfo.leftDownAbsoluteY;
+        this._movePhysicsX = inputInfo.leftDownPhysicsX;
+        this._movePhysicsY = inputInfo.leftDownPhysicsY;
     };
     MoveOperSelectionTool.prototype.mouseLeftUpHandler = function (inputInfo) { };
     MoveOperSelectionTool.prototype.mouseMoveHandler = function (inputInfo) {
-        var diffX = inputInfo.moveAbsoluteX - this._moveAbsoluteX;
-        var diffY = inputInfo.moveAbsoluteY - this._moveAbsoluteY;
+        var diffX = inputInfo.movePhysicsX - this._movePhysicsX;
+        var diffY = inputInfo.movePhysicsY - this._movePhysicsY;
+        this.moveSelectedItems(diffX, diffY);
+        this._movePhysicsX = inputInfo.movePhysicsX;
+        this._movePhysicsY = inputInfo.movePhysicsY;
+    };
+    MoveOperSelectionTool.prototype.mouseUpMoveHandler = function (inputInfo) { };
+    MoveOperSelectionTool.prototype.clear = function () { };
+    MoveOperSelectionTool.prototype.moveSelectedItems = function (diffX, diffY) {
         var allSelectItems = Constant_1.selectManager.getAllSelectItems();
         var translateMatrix4 = Matrix4_1.Matrix4.createTranslateMatrix4ByCoordinate(diffX, diffY, 0);
         for (var i = 0; i < allSelectItems.length; i++) {
             var item = allSelectItems[i];
             item.transform(translateMatrix4);
         }
-        this._moveAbsoluteX = inputInfo.moveAbsoluteX;
-        this._moveAbsoluteY = inputInfo.moveAbsoluteY;
     };
     return MoveOperSelectionTool;
 }(SelectionTool_1.SelectionTool));
@@ -9937,6 +10626,16 @@ var SelectionTool = /** @class */ (function () {
         this._moveStartPosition = null;
         this._lastPosition = null;
     }
+    Object.defineProperty(SelectionTool.prototype, "selectedItems", {
+        get: function () {
+            return this._selectedItems;
+        },
+        set: function (value) {
+            this._selectedItems = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(SelectionTool.prototype, "moveStartPosition", {
         get: function () {
             return this._moveStartPosition;
@@ -10235,22 +10934,42 @@ exports.Context = Context;
 
 /***/ }),
 
-/***/ "./src/utils/CreateStatiData.ts":
-/*!**************************************!*\
-  !*** ./src/utils/CreateStatiData.ts ***!
-  \**************************************/
+/***/ "./src/utils/CreateCanvasData.ts":
+/*!***************************************!*\
+  !*** ./src/utils/CreateCanvasData.ts ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createStatiData = void 0;
-function createStatiData(params) {
+exports.createCanvasData = void 0;
+function createCanvasData(params) {
+    if (params === void 0) { params = {}; }
+    return {
+        zoomRatio: params.zoomRatio || 0,
+    };
+}
+exports.createCanvasData = createCanvasData;
+
+
+/***/ }),
+
+/***/ "./src/utils/CreateResouceData.ts":
+/*!****************************************!*\
+  !*** ./src/utils/CreateResouceData.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createResouceData = void 0;
+function createResouceData(params) {
     if (params === void 0) { params = {}; }
     return {
         fps: params.fps || 0,
     };
 }
-exports.createStatiData = createStatiData;
+exports.createResouceData = createResouceData;
 
 
 /***/ }),
@@ -10784,8 +11503,8 @@ exports.setCodeCap2LineCap = setCodeCap2LineCap;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createCircleBbox2 = void 0;
 var BBox2_1 = __webpack_require__(/*! ../../geometry/BBox2 */ "./src/geometry/BBox2.ts");
-function createCircleBbox2(centerPoint, radius) {
-    var halfWidth = radius;
+function createCircleBbox2(centerPoint, radius, skrokeWidth) {
+    var halfWidth = radius + skrokeWidth * 0.5;
     var minX = centerPoint.x - halfWidth;
     var minY = centerPoint.y - halfWidth;
     var maxX = centerPoint.x + halfWidth;
@@ -10807,8 +11526,8 @@ exports.createCircleBbox2 = createCircleBbox2;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createLineBbox2 = void 0;
 var BBox2_1 = __webpack_require__(/*! ../../geometry/BBox2 */ "./src/geometry/BBox2.ts");
-function createLineBbox2(startPoint, endPoint, width) {
-    var halfWidth = width * 0.5;
+function createLineBbox2(startPoint, endPoint, strokeWidth) {
+    var halfWidth = strokeWidth * 0.5;
     var minX = Math.min(startPoint.x, endPoint.x) - halfWidth;
     var minY = Math.min(startPoint.y, endPoint.y) - halfWidth;
     var maxX = Math.max(startPoint.x, endPoint.x) + halfWidth;
@@ -11068,6 +11787,11 @@ var ElementViewManager = /** @class */ (function () {
                     newElementItem = new LineView_1.LineView(data.elementItemId, data.layerItemId, data.type);
                     break;
                 }
+                case ElementConfig_1.EElementType.AssistCircle: {
+                    var data = elementItemData;
+                    newElementItem = new CircleView_1.CircleView(data.elementItemId, data.layerItemId, data.type);
+                    break;
+                }
                 case ElementConfig_1.EElementType.Circle: {
                     var data = elementItemData;
                     newElementItem = new CircleView_1.CircleView(data.elementItemId, data.layerItemId, data.type);
@@ -11159,6 +11883,7 @@ var ElementConfig_1 = __webpack_require__(/*! ../../config/ElementConfig */ "./s
 var ShapeElementViewBase_1 = __webpack_require__(/*! ./ShapeElementViewBase */ "./src/view/views/ShapeElementViewBase.ts");
 var BaseCircle_1 = __webpack_require__(/*! ./elements/BaseCircle */ "./src/view/views/elements/BaseCircle.ts");
 var createMaskColor_1 = __webpack_require__(/*! ../utils/createMaskColor */ "./src/view/utils/createMaskColor.ts");
+var BaseAssisCircle_1 = __webpack_require__(/*! ./elements/BaseAssisCircle */ "./src/view/views/elements/BaseAssisCircle.ts");
 var CircleView = /** @class */ (function (_super) {
     __extends(CircleView, _super);
     function CircleView(id, layerItemId, type) {
@@ -11168,8 +11893,8 @@ var CircleView = /** @class */ (function (_super) {
         _this._centerPoint = null;
         _this._radius = 0;
         _this._strokeWidth = 0;
-        _this._mainLine = null;
-        _this._maskLine = null;
+        _this._mainPrimitive = null;
+        _this._maskPrimitive = null;
         return _this;
     }
     Object.defineProperty(CircleView.prototype, "type", {
@@ -11229,11 +11954,15 @@ var CircleView = /** @class */ (function (_super) {
         this.centerPoint = centerPoint;
         this.radius = radius;
         this.strokeWidth = strokeWidth;
-        if (!this._mainLine) {
+        if (!this._mainPrimitive) {
             this.delete();
             switch (type) {
                 case ElementConfig_1.EElementType.Circle: {
-                    this._mainLine = new BaseCircle_1.BaseCircle(layerItemId, this);
+                    this._mainPrimitive = new BaseCircle_1.BaseCircle(layerItemId, this);
+                    break;
+                }
+                case ElementConfig_1.EElementType.AssistCircle: {
+                    this._mainPrimitive = new BaseAssisCircle_1.BaseAssisCircle(layerItemId, this);
                     break;
                 }
             }
@@ -11254,25 +11983,25 @@ var CircleView = /** @class */ (function (_super) {
         // } else {
         // 	console.log(`CircleView ${this.id} 非锁定.`)
         // }
-        if (this._mainLine) {
-            this._mainLine.modify(elementStatus, elementItemData);
+        if (this._mainPrimitive) {
+            this._mainPrimitive.modify(elementStatus, elementItemData);
         }
-        if (this._maskLine) {
+        if (this._maskPrimitive) {
             var maskElementItemData = __assign(__assign({}, elementItemData), { strokeColor: (0, createMaskColor_1.createStrokeMaskColor)(), fillColor: (0, createMaskColor_1.createFillMaskColor)(fillColor) });
-            this._maskLine.modify(elementStatus, maskElementItemData);
+            this._maskPrimitive.modify(elementStatus, maskElementItemData);
         }
     };
     CircleView.prototype.delete = function () {
-        this._mainLine && this._mainLine.delete();
-        this._maskLine && this._maskLine.delete();
+        this._mainPrimitive && this._mainPrimitive.delete();
+        this._maskPrimitive && this._maskPrimitive.delete();
     };
     CircleView.prototype.normalview = function () {
-        this._maskLine && this._maskLine.delete();
-        this._maskLine = null;
+        this._maskPrimitive && this._maskPrimitive.delete();
+        this._maskPrimitive = null;
     };
     CircleView.prototype.hightlighting = function (layerItemId) {
-        this._maskLine && this._maskLine.delete();
-        this._maskLine = new BaseCircle_1.BaseCircle(layerItemId, this);
+        this._maskPrimitive && this._maskPrimitive.delete();
+        this._maskPrimitive = new BaseCircle_1.BaseCircle(layerItemId, this);
     };
     return CircleView;
 }(ShapeElementViewBase_1.ShapeElementViewBase));
@@ -11436,6 +12165,9 @@ var DrawLayerViewPayloads = /** @class */ (function () {
         this._assistLinesProfileCreated = new Map();
         this._assistLinesProfileUpdated = new Map();
         this._assistLinesProfileDeleted = new Set();
+        this._assistCirclesProfileCreated = new Map();
+        this._assistCirclesProfileUpdated = new Map();
+        this._assistCirclesProfileDeleted = new Set();
     }
     Object.defineProperty(DrawLayerViewPayloads.prototype, "parent", {
         get: function () {
@@ -11477,6 +12209,17 @@ var DrawLayerViewPayloads = /** @class */ (function () {
     DrawLayerViewPayloads.prototype.deletedAssistLineProfileItem = function (id) {
         this._assistLinesProfileDeleted.add(id);
     };
+    DrawLayerViewPayloads.prototype.addAssistCircleProfileItem = function (data) {
+        var id = Constant_1.globalIdenManager.getComponentIden();
+        this._assistCirclesProfileCreated.set(id, data);
+        return id;
+    };
+    DrawLayerViewPayloads.prototype.updateAssistCircleProfileItem = function (id, data) {
+        this._assistCirclesProfileUpdated.set(id, data);
+    };
+    DrawLayerViewPayloads.prototype.deletedAssistCircleProfileItem = function (id) {
+        this._assistCirclesProfileDeleted.add(id);
+    };
     DrawLayerViewPayloads.prototype.notify = function () {
         var plane = this.parent.plane;
         if (this._linesProfileCreated.size > 0) {
@@ -11506,6 +12249,15 @@ var DrawLayerViewPayloads = /** @class */ (function () {
         if (this._assistLinesProfileDeleted.size > 0) {
             plane.deleteAssistLineItems(this._assistLinesProfileDeleted);
         }
+        if (this._assistCirclesProfileCreated.size > 0) {
+            plane.addAssistCircleItems(this._assistCirclesProfileCreated);
+        }
+        if (this._assistCirclesProfileUpdated.size > 0) {
+            plane.updateAssistCircleItems(this._assistCirclesProfileUpdated);
+        }
+        if (this._assistCirclesProfileDeleted.size > 0) {
+            plane.deleteAssistCircleItems(this._assistCirclesProfileDeleted);
+        }
         this._linesProfileCreated.clear();
         this._linesProfileUpdated.clear();
         this._linesProfileDeleted.clear();
@@ -11515,6 +12267,9 @@ var DrawLayerViewPayloads = /** @class */ (function () {
         this._assistLinesProfileCreated.clear();
         this._assistLinesProfileUpdated.clear();
         this._assistLinesProfileDeleted.clear();
+        this._assistCirclesProfileCreated.clear();
+        this._assistCirclesProfileUpdated.clear();
+        this._assistCirclesProfileDeleted.clear();
     };
     return DrawLayerViewPayloads;
 }());
@@ -11571,8 +12326,8 @@ var LineView = /** @class */ (function (_super) {
         _this._layerItemId = layerItemId;
         _this._startPoint = null;
         _this._endPoint = null;
-        _this._mainLine = null;
-        _this._maskLine = null;
+        _this._mainPrimitive = null;
+        _this._maskPrimitive = null;
         return _this;
     }
     Object.defineProperty(LineView.prototype, "type", {
@@ -11621,15 +12376,15 @@ var LineView = /** @class */ (function (_super) {
         this.status = status;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
-        if (!this._mainLine) {
+        if (!this._mainPrimitive) {
             this.delete();
             switch (type) {
                 case ElementConfig_1.EElementType.Line: {
-                    this._mainLine = new BaseLine_1.BaseLine(layerItemId, this);
+                    this._mainPrimitive = new BaseLine_1.BaseLine(layerItemId, this);
                     break;
                 }
                 case ElementConfig_1.EElementType.AssistLine: {
-                    this._mainLine = new BaseAssistLine_1.BaseAssistLine(layerItemId, this);
+                    this._mainPrimitive = new BaseAssistLine_1.BaseAssistLine(layerItemId, this);
                     break;
                 }
             }
@@ -11650,25 +12405,25 @@ var LineView = /** @class */ (function (_super) {
         // } else {
         // 	console.log(`LineView ${this.id} 非锁定.`)
         // }
-        if (this._mainLine) {
-            this._mainLine.modify(elementStatus, elementItemData);
+        if (this._mainPrimitive) {
+            this._mainPrimitive.modify(elementStatus, elementItemData);
         }
-        if (this._maskLine) {
+        if (this._maskPrimitive) {
             var maskElementItemData = __assign(__assign({}, elementItemData), { strokeColor: (0, createMaskColor_1.createStrokeMaskColor)() });
-            this._maskLine.modify(elementStatus, maskElementItemData);
+            this._maskPrimitive.modify(elementStatus, maskElementItemData);
         }
     };
     LineView.prototype.delete = function () {
-        this._mainLine && this._mainLine.delete();
-        this._maskLine && this._maskLine.delete();
+        this._mainPrimitive && this._mainPrimitive.delete();
+        this._maskPrimitive && this._maskPrimitive.delete();
     };
     LineView.prototype.normalview = function () {
-        this._maskLine && this._maskLine.delete();
-        this._maskLine = null;
+        this._maskPrimitive && this._maskPrimitive.delete();
+        this._maskPrimitive = null;
     };
     LineView.prototype.hightlighting = function (layerItemId) {
-        this._maskLine && this._maskLine.delete();
-        this._maskLine = new BaseLine_1.BaseLine(layerItemId, this);
+        this._maskPrimitive && this._maskPrimitive.delete();
+        this._maskPrimitive = new BaseLine_1.BaseLine(layerItemId, this);
     };
     return LineView;
 }(ShapeElementViewBase_1.ShapeElementViewBase));
@@ -11767,6 +12522,58 @@ var ShapeElementViewBase = /** @class */ (function (_super) {
     return ShapeElementViewBase;
 }(Context_1.Context));
 exports.ShapeElementViewBase = ShapeElementViewBase;
+
+
+/***/ }),
+
+/***/ "./src/view/views/elements/BaseAssisCircle.ts":
+/*!****************************************************!*\
+  !*** ./src/view/views/elements/BaseAssisCircle.ts ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BaseAssisCircle = void 0;
+var ElementItemBase_1 = __webpack_require__(/*! ./base/ElementItemBase */ "./src/view/views/elements/base/ElementItemBase.ts");
+var BaseAssisCircle = /** @class */ (function (_super) {
+    __extends(BaseAssisCircle, _super);
+    function BaseAssisCircle(layerItemId, parent) {
+        var _this = _super.call(this, layerItemId) || this;
+        _this.parent = parent;
+        return _this;
+    }
+    BaseAssisCircle.prototype.modify = function (status, data) {
+        var drawLayerViewItem = this.getDrawLayerViewItem(this.layerItemId);
+        if (this.belongId === null) {
+            this.belongId = drawLayerViewItem.layerPayloads.addAssistCircleProfileItem(data);
+        }
+        else {
+            drawLayerViewItem.layerPayloads.updateAssistCircleProfileItem(this.belongId, data);
+        }
+    };
+    BaseAssisCircle.prototype.delete = function () {
+        var drawLayerViewItem = this.getDrawLayerViewItem(this.layerItemId);
+        drawLayerViewItem.layerPayloads.deletedAssistCircleProfileItem(this.belongId);
+    };
+    return BaseAssisCircle;
+}(ElementItemBase_1.ElementItemBase));
+exports.BaseAssisCircle = BaseAssisCircle;
 
 
 /***/ }),

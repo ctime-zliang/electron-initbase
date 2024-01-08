@@ -1,4 +1,4 @@
-import { TElementAssistLineViewRenderData, TElementCircleViewRenderData, TElementLineViewRenderData } from '../../types/ElementViewType';
+import { TElementAssistCircleViewRenderData, TElementAssistLineViewRenderData, TElementCircleViewRenderData, TElementLineViewRenderData } from '../../types/ElementViewType';
 export declare abstract class Plane<T> {
     private _planeId;
     private _scene;
@@ -14,5 +14,8 @@ export declare abstract class Plane<T> {
     abstract addAssistLineItems(v: Map<string, TElementAssistLineViewRenderData>): void;
     abstract updateAssistLineItems(v: Map<string, TElementAssistLineViewRenderData>): void;
     abstract deleteAssistLineItems(v: Set<string>): void;
+    abstract addAssistCircleItems(v: Map<string, TElementAssistCircleViewRenderData>): void;
+    abstract updateAssistCircleItems(v: Map<string, TElementAssistCircleViewRenderData>): void;
+    abstract deleteAssistCircleItems(v: Set<string>): void;
     abstract render(ctx: any): void;
 }

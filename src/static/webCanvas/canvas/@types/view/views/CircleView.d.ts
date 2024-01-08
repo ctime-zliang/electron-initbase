@@ -8,8 +8,8 @@ export declare class CircleView extends ShapeElementViewBase {
     private _centerPoint;
     private _radius;
     private _strokeWidth;
-    private _mainLine;
-    private _maskLine;
+    private _mainPrimitive;
+    private _maskPrimitive;
     constructor(id: string, layerItemId: string, type: EElementType);
     get type(): EElementType;
     set type(value: EElementType);

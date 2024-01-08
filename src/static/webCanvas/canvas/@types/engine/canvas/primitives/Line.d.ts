@@ -5,10 +5,10 @@ export declare class Line {
     private _startY;
     private _endX;
     private _endY;
-    private _width;
+    private _strokeWidth;
     private _strokeColor;
     private _lineCap;
-    constructor(startX: number, startY: number, endX: number, endY: number, width: number, strokeColor?: string, lineCap?: TCanvasLineCap);
+    constructor(startX: number, startY: number, endX: number, endY: number, strokeWidth: number, strokeColor?: string, lineCap?: TCanvasLineCap);
     get startX(): number;
     set startX(value: number);
     get startY(): number;
@@ -17,8 +17,8 @@ export declare class Line {
     set endX(value: number);
     get endY(): number;
     set endY(value: number);
-    get width(): number;
-    set width(value: number);
+    get strokeWidth(): number;
+    set strokeWidth(value: number);
     get strokeColor(): string;
     set strokeColor(value: string);
     get lineCap(): TCanvasLineCap;

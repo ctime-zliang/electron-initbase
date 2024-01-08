@@ -1,6 +1,7 @@
 export declare const OUT_EVENT_NS: string;
 export declare enum EOutEventCommand {
     INPUTS_CHANGED = "INPUTS_CHANGED",
-    STATISTICS = "STATISTICS",
+    CANVAS_CHANGED = "CANVAS_CHANGED",
+    RESOURCE_CHANGED = "RESOURCE_CHANGED",
     PROFILE_CHANGED = "PROFILE_CHANGED"
 }

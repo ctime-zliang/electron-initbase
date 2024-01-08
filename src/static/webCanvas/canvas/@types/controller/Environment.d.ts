@@ -26,4 +26,5 @@ export declare class Environment {
     updateCanvasTheme(isDarkTheme: boolean): void;
     updateCanvasRectSize(canvasWidth: number, canvasHeight: number, canvasLeft: number, canvasTop: number): void;
     getCanvasBoundingRect(): TCanvasBoundingRect;
+    updateCanvasMouseCursor(cursor: string): void;
 }

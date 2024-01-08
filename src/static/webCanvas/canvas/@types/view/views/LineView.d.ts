@@ -7,8 +7,8 @@ export declare class LineView extends ShapeElementViewBase {
     private _layerItemId;
     private _startPoint;
     private _endPoint;
-    private _mainLine;
-    private _maskLine;
+    private _mainPrimitive;
+    private _maskPrimitive;
     constructor(id: string, layerItemId: string, type: EElementType);
     get type(): EElementType;
     set type(value: EElementType);

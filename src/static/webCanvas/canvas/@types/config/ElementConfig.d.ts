@@ -8,5 +8,6 @@ export declare enum EElementStatus {
 export declare enum EElementType {
     AssistLine = "AssistLine",
     Line = "Line",
+    AssistCircle = "AssistCircle",
     Circle = "Circle"
 }

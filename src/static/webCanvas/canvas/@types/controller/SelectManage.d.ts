@@ -4,10 +4,12 @@ import { Manager } from '../objects/base/Manage';
 export declare class SelectManager extends Manager<ElementShapeItemBase> {
     private _selectionBoxLines;
     private _isBoxSelection;
-    private _leftDownRealAbsoluteX;
-    private _leftDownRealAbsoluteY;
+    private _leftDownRealPhysicsX;
+    private _leftDownRealPhysicsY;
     constructor();
     getAllSelectItems(): Array<ElementShapeItemBase>;
+    keyDownHandler(inputInfo: InputInfo): void;
+    keyUpHandler(inputInfo: InputInfo): void;
     mouseLeftDownHandler(inputInfo: InputInfo): void;
     mouseMiddleDownHandler(inputInfo: InputInfo): void;
     mouseRightDownHandler(inputInfo: InputInfo): void;

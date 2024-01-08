@@ -1,4 +1,4 @@
-import { TElementAssistLineViewRenderData, TElementCircleViewRenderData, TElementLineViewRenderData } from '../../types/ElementViewType';
+import { TElementAssistCircleViewRenderData, TElementAssistLineViewRenderData, TElementCircleViewRenderData, TElementLineViewRenderData } from '../../types/ElementViewType';
 import { DrawLayerView } from './DrawLayerView';
 export declare class DrawLayerViewPayloads {
     private _parent;
@@ -11,6 +11,9 @@ export declare class DrawLayerViewPayloads {
     private _assistLinesProfileCreated;
     private _assistLinesProfileUpdated;
     private _assistLinesProfileDeleted;
+    private _assistCirclesProfileCreated;
+    private _assistCirclesProfileUpdated;
+    private _assistCirclesProfileDeleted;
     constructor(parent: DrawLayerView);
     get parent(): DrawLayerView;
     addLineProfileItem(data: TElementLineViewRenderData): string;
@@ -22,5 +25,8 @@ export declare class DrawLayerViewPayloads {
     addAssistLineProfileItem(data: TElementAssistLineViewRenderData): string;
     updateAssistLineProfileItem(id: string, data: TElementAssistLineViewRenderData): void;
     deletedAssistLineProfileItem(id: string): void;
+    addAssistCircleProfileItem(data: TElementAssistCircleViewRenderData): string;
+    updateAssistCircleProfileItem(id: string, data: TElementAssistCircleViewRenderData): void;
+    deletedAssistCircleProfileItem(id: string): void;
     notify(): void;
 }

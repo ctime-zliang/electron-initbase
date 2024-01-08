@@ -38,8 +38,11 @@ export type TElementItemResult = {
     elementItemModelType: EElementType;
 };
 export type TCanvasLineCap = 'butt' | 'round' | 'square';
-export type TStatisticsData = {
+export type TResouceChangedData = {
     fps: number;
+};
+export type TCanvasChangedData = {
+    zoomRatio: number;
 };
 export type TSystemConfigProfile = {
     isDarkTheme: boolean;

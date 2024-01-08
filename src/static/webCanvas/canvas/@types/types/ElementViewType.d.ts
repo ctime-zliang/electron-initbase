@@ -12,7 +12,7 @@ export type TElementLineViewRenderBaseData = {
     lineCap: TCanvasLineCap;
     modelType: EElementType;
     length: number;
-    width: number;
+    strokeWidth: number;
     isSolid: boolean;
 };
 export type TElementLineViewRenderData = TElementLineViewRenderBaseData & {};
@@ -36,3 +36,4 @@ export type TElementCircleViewRenderBaseData = {
     isSolid: boolean;
 };
 export type TElementCircleViewRenderData = TElementCircleViewRenderBaseData & {};
+export type TElementAssistCircleViewRenderData = TElementCircleViewRenderBaseData & {};

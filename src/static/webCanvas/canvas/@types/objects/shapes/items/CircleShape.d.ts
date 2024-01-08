@@ -27,6 +27,7 @@ export declare class CircleShape extends ElementShapeItemBase {
     set solid(value: boolean);
     isSelect(x: number, y: number): boolean;
     transform(value: Matrix4): void;
+    updateRadius(x: number, y: number): void;
     getType(): EElementType;
     getStatus(): EElementStatus;
     getRenderData(): TElementCircleViewRenderData;

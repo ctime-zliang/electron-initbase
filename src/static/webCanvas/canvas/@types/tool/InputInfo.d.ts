@@ -36,32 +36,32 @@ export declare abstract class InputContext {
      * 鼠标按下时的坐标(物理单位)(相对于画布原点)
      * 		在开启吸附网点设置下会自动修正为最近的网点坐标
      */
-    private _leftDownAbsoluteX;
-    private _leftDownAbsoluteY;
-    private _middleDownAbsoluteX;
-    private _middleDownAbsoluteY;
-    private _rightDownAbsoluteX;
-    private _rightDownAbsoluteY;
+    private _leftDownPhysicsX;
+    private _leftDownPhysicsY;
+    private _middleDownPhysicsX;
+    private _middleDownPhysicsY;
+    private _rightDownPhysicsX;
+    private _rightDownPhysicsY;
     /**
      * 鼠标任意时刻的坐标(物理单位)(相对于画布原点)
      * 		在开启吸附网点设置下会自动修正为最近的网点坐标
      */
-    private _moveAbsoluteX;
-    private _moveAbsoluteY;
+    private _movePhysicsX;
+    private _movePhysicsY;
     /**
      * 鼠标按下时的坐标(物理单位)(相对于画布原点)
      */
-    private _leftDownRealAbsoluteX;
-    private _leftDownRealAbsoluteY;
-    private _middleDownRealAbsoluteX;
-    private _middleDownRealAbsoluteY;
-    private _rightDownRealAbsoluteX;
-    private _rightDownRealAbsoluteY;
+    private _leftDownRealPhysicsX;
+    private _leftDownRealPhysicsY;
+    private _middleDownRealPhysicsX;
+    private _middleDownRealPhysicsY;
+    private _rightDownRealPhysicsX;
+    private _rightDownRealPhysicsY;
     /**
      * 鼠标任意时刻的坐标(物理单位)(相对于画布原点)
      */
-    private _moveRealAbsoluteX;
-    private _moveRealAbsoluteY;
+    private _moveRealPhysicsX;
+    private _moveRealPhysicsY;
     private _shiftKey;
     private _ctrlKey;
     private _altKey;
@@ -123,44 +123,44 @@ export declare abstract class InputContext {
     set moveTransPixelY(value: number);
     /************************************************************/
     /************************************************************/
-    get leftDownAbsoluteX(): number;
-    set leftDownAbsoluteX(value: number);
-    get leftDownAbsoluteY(): number;
-    set leftDownAbsoluteY(value: number);
-    get middleDownAbsoluteX(): number;
-    set middleDownAbsoluteX(value: number);
-    get middleDownAbsoluteY(): number;
-    set middleDownAbsoluteY(value: number);
-    get rightDownAbsoluteX(): number;
-    set rightDownAbsoluteX(value: number);
-    get rightDownAbsoluteY(): number;
-    set rightDownAbsoluteY(value: number);
+    get leftDownPhysicsX(): number;
+    set leftDownPhysicsX(value: number);
+    get leftDownPhysicsY(): number;
+    set leftDownPhysicsY(value: number);
+    get middleDownPhysicsX(): number;
+    set middleDownPhysicsX(value: number);
+    get middleDownPhysicsY(): number;
+    set middleDownPhysicsY(value: number);
+    get rightDownPhysicsX(): number;
+    set rightDownPhysicsX(value: number);
+    get rightDownPhysicsY(): number;
+    set rightDownPhysicsY(value: number);
     /************************************************************/
     /************************************************************/
-    get moveAbsoluteX(): number;
-    set moveAbsoluteX(value: number);
+    get movePhysicsX(): number;
+    set movePhysicsX(value: number);
     /************************************************************/
     /************************************************************/
-    get leftDownRealAbsoluteX(): number;
-    set leftDownRealAbsoluteX(value: number);
-    get leftDownRealAbsoluteY(): number;
-    set leftDownRealAbsoluteY(value: number);
-    get middleDownRealAbsoluteX(): number;
-    set middleDownRealAbsoluteX(value: number);
-    get middleDownRealAbsoluteY(): number;
-    set middleDownRealAbsoluteY(value: number);
-    get rightDownRealAbsoluteX(): number;
-    set rightDownRealAbsoluteX(value: number);
-    get rightDownRealAbsoluteY(): number;
-    set rightDownRealAbsoluteY(value: number);
+    get leftDownRealPhysicsX(): number;
+    set leftDownRealPhysicsX(value: number);
+    get leftDownRealPhysicsY(): number;
+    set leftDownRealPhysicsY(value: number);
+    get middleDownRealPhysicsX(): number;
+    set middleDownRealPhysicsX(value: number);
+    get middleDownRealPhysicsY(): number;
+    set middleDownRealPhysicsY(value: number);
+    get rightDownRealPhysicsX(): number;
+    set rightDownRealPhysicsX(value: number);
+    get rightDownRealPhysicsY(): number;
+    set rightDownRealPhysicsY(value: number);
     /************************************************************/
     /************************************************************/
-    get moveAbsoluteY(): number;
-    set moveAbsoluteY(value: number);
-    get moveRealAbsoluteX(): number;
-    set moveRealAbsoluteX(value: number);
-    get moveRealAbsoluteY(): number;
-    set moveRealAbsoluteY(value: number);
+    get movePhysicsY(): number;
+    set movePhysicsY(value: number);
+    get moveRealPhysicsX(): number;
+    set moveRealPhysicsX(value: number);
+    get moveRealPhysicsY(): number;
+    set moveRealPhysicsY(value: number);
     /************************************************************/
     /************************************************************/
     get shiftKey(): boolean;

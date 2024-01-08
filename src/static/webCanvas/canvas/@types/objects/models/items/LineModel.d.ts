@@ -9,7 +9,7 @@ export declare enum ELineModelBufferOffset {
     START_Y = 1,
     END_X = 2,
     END_Y = 3,
-    WIDTH = 4,
+    STROKE_WIDTH = 4,
     STROKE_COLOR_R = 5,
     STROKE_COLOR_G = 6,
     STROKE_COLOR_B = 7,
@@ -18,15 +18,15 @@ export declare enum ELineModelBufferOffset {
     SOLID = 10,
     $end = 11
 }
-export declare function buildLineModel(layerItemId: string, startPoint: Vector2, endPoint: Vector2, width: number): LineModel;
+export declare function buildLineModel(layerItemId: string, startPoint: Vector2, endPoint: Vector2, strokeWidth?: number): LineModel;
 export declare class LineModel extends ElementModelItemBase {
-    constructor(elementItemId: string, layerItemId: string, startX: number, startY: number, endX: number, endY: number, width?: number, strokeColor?: Color, lineCap?: TCanvasLineCap, isSolid?: boolean, bbox2?: BBox2);
+    constructor(elementItemId: string, layerItemId: string, startX: number, startY: number, endX: number, endY: number, strokeWidth?: number, strokeColor?: Color, lineCap?: TCanvasLineCap, isSolid?: boolean, bbox2?: BBox2);
     get startPoint(): Vector2;
     set startPoint(value: Vector2);
     get endPoint(): Vector2;
     set endPoint(value: Vector2);
-    get width(): number;
-    set width(value: number);
+    get strokeWidth(): number;
+    set strokeWidth(value: number);
     get length(): number;
     set length(value: number);
     get direct(): Vector2;

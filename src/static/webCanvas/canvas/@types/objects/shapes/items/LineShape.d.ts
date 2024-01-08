@@ -6,7 +6,7 @@ import { Color } from '../../../utils/Color';
 import { ElementShapeItemBase } from './elementBase/ElementShapeItemBase';
 import { Matrix4 } from '../../../geometry/Matrix4';
 import { TCanvasLineCap } from '../../../types/Common';
-export declare function buildLineShape(layerItemId: string, startPoint: Vector2, endPoint: Vector2, width: number, strokeColor?: Color): LineShape;
+export declare function buildLineShape(layerItemId: string, startPoint: Vector2, endPoint: Vector2, strokeWidth?: number, strokeColor?: Color): LineShape;
 export declare class LineShape extends ElementShapeItemBase {
     constructor(model: LineModel);
     get elementItemName(): string;
@@ -15,8 +15,8 @@ export declare class LineShape extends ElementShapeItemBase {
     set startPoint(value: Vector2);
     get endPoint(): Vector2;
     set endPoint(value: Vector2);
-    get width(): number;
-    set width(value: number);
+    get strokeWidth(): number;
+    set strokeWidth(value: number);
     get length(): number;
     set length(value: number);
     get strokeColor(): Color;
