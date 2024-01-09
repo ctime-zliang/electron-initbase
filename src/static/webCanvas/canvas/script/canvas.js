@@ -222,12 +222,16 @@ exports.iputsPanelControl = {
 };
 exports.canvasPanelControl = {
     appendTo: function (container) {
-        var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E\u6BD4\u4F8B:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"infoCanvasZoomRatio\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
+        var wrapperHTML = "\n\t\t\t<main style=\"".concat(panelPublicStyle, "\">\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u7F29\u653E\u6BD4\u4F8B:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"canvasZoomRatio\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>\u753B\u5E03\u5C3A\u5BF8:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"canvasBoundingRect\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t\t<div style=\"padding: 2px 0; display: flex; justify-content: flex-start; align-items: center; align-content: center; color: #efefef;\">\n\t\t\t\t\t<div>DPI:&nbsp;&nbsp;</div>\n\t\t\t\t\t<div id=\"viewDPI\" style=\"min-width: 75px;\">-%</div>\n\t\t\t\t</div>\n\t\t\t</main>\n\t\t");
         container.append(document.createRange().createContextualFragment(wrapperHTML));
     },
     update: function (data) {
         //@ts-ignore
-        document.getElementById('infoCanvasZoomRatio').innerHTML = "".concat(Number((data.zoomRatio * 100).toString().match(/^\d+(?:\.\d{0,2})?/)) + '%');
+        document.getElementById('canvasZoomRatio').innerHTML = "".concat(Number((data.zoomRatio * 100).toString().match(/^\d+(?:\.\d{0,2})?/)) + '%');
+        //@ts-ignore
+        document.getElementById('canvasBoundingRect').innerHTML = "".concat(data.canvasWidth, " x ").concat(data.canvasHeight);
+        //@ts-ignore
+        document.getElementById('viewDPI').innerHTML = "".concat(data.DPI[0], " * ").concat(data.DPI[1]);
     },
 };
 exports.resourceControl = {
@@ -449,6 +453,7 @@ var Utils_1 = __webpack_require__(/*! ./utils/Utils */ "./src/utils/Utils.ts");
 var SystemConfig_1 = __webpack_require__(/*! ./controller/SystemConfig */ "./src/controller/SystemConfig.ts");
 var Camera_1 = __webpack_require__(/*! ./engine/common/Camera */ "./src/engine/common/Camera.ts");
 var Vector3_1 = __webpack_require__(/*! ./geometry/Vector3 */ "./src/geometry/Vector3.ts");
+var CreateCanvasData_1 = __webpack_require__(/*! ./utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
 __exportStar(__webpack_require__(/*! ./utils/Color */ "./src/utils/Color.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/Decimals */ "./src/geometry/Decimals.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/DoubleKit */ "./src/geometry/DoubleKit.ts"), exports);
@@ -516,6 +521,9 @@ var WebCanvas = /** @class */ (function () {
     };
     WebCanvas.prototype.getSystemConfig = function () {
         return SystemConfig_1.SystemConfig.getInstance().toJSON();
+    };
+    WebCanvas.prototype.getCanvasData = function () {
+        return (0, CreateCanvasData_1.createCanvasData)({});
     };
     WebCanvas.prototype.applySystemConfig = function (key, value) {
         SystemConfig_1.SystemConfig.getInstance().update(key, value);
@@ -922,7 +930,7 @@ var CanvasController = /** @class */ (function () {
             this._camera.isNeedUpdate = true;
         }
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({ zoomRatio: this._camera.getZoomRatio() }), EventConfig_1.OUT_EVENT_NS);
+        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({}), EventConfig_1.OUT_EVENT_NS);
     };
     return CanvasController;
 }());
@@ -981,6 +989,9 @@ var DrawLayerController = /** @class */ (function () {
     DrawLayerController.prototype.setActiveLayerShapeItem = function (layerItemId) {
         DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().setActiveItem(layerItemId);
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+    };
+    DrawLayerController.prototype.clearAllSelectedDrawLayers = function () {
+        DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().selectedLayersId = new Set([]);
     };
     DrawLayerController.prototype.deleteDrawLayerElements = function (layerItemId) {
         var allElementShapes = Helper_1.Helper.getAllElementShapes();
@@ -1125,11 +1136,13 @@ exports.ElementController = ElementController;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Environment = void 0;
+var EventConfig_1 = __webpack_require__(/*! ../config/EventConfig */ "./src/config/EventConfig.ts");
 var FrameCommand_1 = __webpack_require__(/*! ../config/FrameCommand */ "./src/config/FrameCommand.ts");
 var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
 var Vector3_1 = __webpack_require__(/*! ../geometry/Vector3 */ "./src/geometry/Vector3.ts");
 var Color_1 = __webpack_require__(/*! ../utils/Color */ "./src/utils/Color.ts");
+var CreateCanvasData_1 = __webpack_require__(/*! ../utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
 var Environment = /** @class */ (function () {
     function Environment() {
         this._DPI = [96, 96];
@@ -1224,6 +1237,7 @@ var Environment = /** @class */ (function () {
         this.canvasTop = canvasTop;
         this.origin = new Vector3_1.Vector3(canvasWidth / 2, -canvasHeight / 2, 0);
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, this.origin);
+        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({}), EventConfig_1.OUT_EVENT_NS);
     };
     Environment.prototype.getCanvasBoundingRect = function () {
         return {
@@ -5789,6 +5803,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Main_1 = __webpack_require__(/*! ./Main */ "./src/Main.ts");
 var clock_1 = __webpack_require__(/*! ./$instance-case/modules/clock */ "./src/$instance-case/modules/clock.ts");
 var floatWindow_1 = __webpack_require__(/*! ./$instance-case/utils/floatWindow */ "./src/$instance-case/utils/floatWindow.ts");
+var Constant_1 = __webpack_require__(/*! ./Constant */ "./src/Constant.ts");
 function init() {
     return __awaiter(this, void 0, void 0, function () {
         var canvasContainer, canvasElement, floatWindowElement0, webCanvas;
@@ -5815,9 +5830,10 @@ function mainHandle(webCanvas) {
     var systemConfig = webCanvas.getSystemConfig();
     floatWindow_1.profileControl.update(systemConfig);
     /* ... */
-    floatWindow_1.canvasPanelControl.update({ zoomRatio: webCanvas.getCanvasZoomRatio() });
+    floatWindow_1.canvasPanelControl.update(webCanvas.getCanvasData());
 }
 function eventHandle(webCanvas) {
+    var canvasController = webCanvas.canvasController;
     webCanvas.addInputsChangedListener(function (data) {
         floatWindow_1.iputsPanelControl.update(data);
     });
@@ -5838,7 +5854,7 @@ function eventHandle(webCanvas) {
         }
         if (action === 'resetCanvasView') {
             webCanvas.resetCanvasView();
-            // webCanvas.canvasController.zoomCanvas(5)
+            // canvasController.zoomCanvas(5)
             return;
         }
     });
@@ -5849,6 +5865,7 @@ window.addEventListener('DOMContentLoaded', function () {
         mainHandle(webCanvas);
         /* ... */
         (0, clock_1.drawClockInit)(webCanvas);
+        Constant_1.drawLayerController.clearAllSelectedDrawLayers();
         // const layerItemAId: string = drawLayerController.createLayerShapeItem(`Layer A`)
         // drawTestLine(webCanvas, layerItemAId)
         // drawTestCircle(webCanvas, layerItemAId)
@@ -10938,15 +10955,20 @@ exports.Context = Context;
 /*!***************************************!*\
   !*** ./src/utils/CreateCanvasData.ts ***!
   \***************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createCanvasData = void 0;
+var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
+var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
 function createCanvasData(params) {
     if (params === void 0) { params = {}; }
     return {
-        zoomRatio: params.zoomRatio || 0,
+        zoomRatio: Camera_1.Camera.getInstance().getZoomRatio(),
+        canvasWidth: Camera_1.Camera.getInstance().width,
+        canvasHeight: Camera_1.Camera.getInstance().height,
+        DPI: Constant_1.environment.DPI,
     };
 }
 exports.createCanvasData = createCanvasData;

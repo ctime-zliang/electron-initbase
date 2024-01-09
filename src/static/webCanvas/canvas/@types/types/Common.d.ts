@@ -43,6 +43,9 @@ export type TResouceChangedData = {
 };
 export type TCanvasChangedData = {
     zoomRatio: number;
+    canvasWidth: number;
+    canvasHeight: number;
+    DPI: [number, number];
 };
 export type TSystemConfigProfile = {
     isDarkTheme: boolean;

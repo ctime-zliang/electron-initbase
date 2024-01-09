@@ -36,6 +36,7 @@ export declare class WebCanvas {
     getDPI(): [number, number];
     getCanvasZoomRatio(): number;
     getSystemConfig(): TSystemConfigProfile;
+    getCanvasData(): TCanvasChangedData;
     applySystemConfig(key: keyof SystemConfig, value: any): void;
     setDrawToolCommand(type: string): void;
     forceRender(): void;

@@ -7,5 +7,6 @@ export declare class DrawLayerController {
     deleteLayerShapeItem(layerItemId: string): void;
     getActiveLayerShapeItem(): DrawLayerShape;
     setActiveLayerShapeItem(layerItemId: string): void;
+    clearAllSelectedDrawLayers(): void;
     deleteDrawLayerElements(layerItemId: string): void;
 }
