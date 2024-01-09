@@ -453,7 +453,7 @@ var Utils_1 = __webpack_require__(/*! ./utils/Utils */ "./src/utils/Utils.ts");
 var SystemConfig_1 = __webpack_require__(/*! ./controller/SystemConfig */ "./src/controller/SystemConfig.ts");
 var Camera_1 = __webpack_require__(/*! ./engine/common/Camera */ "./src/engine/common/Camera.ts");
 var Vector3_1 = __webpack_require__(/*! ./geometry/Vector3 */ "./src/geometry/Vector3.ts");
-var CreateCanvasData_1 = __webpack_require__(/*! ./utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
+var CreateCanvasProfileData_1 = __webpack_require__(/*! ./utils/CreateCanvasProfileData */ "./src/utils/CreateCanvasProfileData.ts");
 __exportStar(__webpack_require__(/*! ./utils/Color */ "./src/utils/Color.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/Decimals */ "./src/geometry/Decimals.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/DoubleKit */ "./src/geometry/DoubleKit.ts"), exports);
@@ -516,14 +516,11 @@ var WebCanvas = /** @class */ (function () {
     WebCanvas.prototype.getDPI = function () {
         return Constant_1.environment.DPI;
     };
-    WebCanvas.prototype.getCanvasZoomRatio = function () {
-        return Camera_1.Camera.getInstance().getZoomRatio();
-    };
     WebCanvas.prototype.getSystemConfig = function () {
         return SystemConfig_1.SystemConfig.getInstance().toJSON();
     };
-    WebCanvas.prototype.getCanvasData = function () {
-        return (0, CreateCanvasData_1.createCanvasData)({});
+    WebCanvas.prototype.getCanvasProfileData = function () {
+        return (0, CreateCanvasProfileData_1.createCanvasProfileData)({});
     };
     WebCanvas.prototype.applySystemConfig = function (key, value) {
         SystemConfig_1.SystemConfig.getInstance().update(key, value);
@@ -549,8 +546,8 @@ var WebCanvas = /** @class */ (function () {
     WebCanvas.prototype.addResourceChangedListener = function (callback) {
         Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
     };
-    WebCanvas.prototype.addCanvasChangedListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+    WebCanvas.prototype.addCanvasProfileChangedListener = function (callback) {
+        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
     };
     WebCanvas.prototype.addProfileListener = function (callback) {
         Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
@@ -841,7 +838,7 @@ exports.OUT_EVENT_NS = 'OUT_EVENT_NS';
 var EOutEventCommand;
 (function (EOutEventCommand) {
     EOutEventCommand["INPUTS_CHANGED"] = "INPUTS_CHANGED";
-    EOutEventCommand["CANVAS_CHANGED"] = "CANVAS_CHANGED";
+    EOutEventCommand["CANVASPROFILE_CHANGED"] = "CANVASPROFILE_CHANGED";
     EOutEventCommand["RESOURCE_CHANGED"] = "RESOURCE_CHANGED";
     EOutEventCommand["PROFILE_CHANGED"] = "PROFILE_CHANGED";
 })(EOutEventCommand = exports.EOutEventCommand || (exports.EOutEventCommand = {}));
@@ -906,7 +903,7 @@ var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
 var Matrix4_1 = __webpack_require__(/*! ../geometry/Matrix4 */ "./src/geometry/Matrix4.ts");
 var Vector3_1 = __webpack_require__(/*! ../geometry/Vector3 */ "./src/geometry/Vector3.ts");
-var CreateCanvasData_1 = __webpack_require__(/*! ../utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
+var CreateCanvasProfileData_1 = __webpack_require__(/*! ../utils/CreateCanvasProfileData */ "./src/utils/CreateCanvasProfileData.ts");
 var CanvasController = /** @class */ (function () {
     function CanvasController() {
         this._camera = Camera_1.Camera.getInstance();
@@ -930,7 +927,7 @@ var CanvasController = /** @class */ (function () {
             this._camera.isNeedUpdate = true;
         }
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({}), EventConfig_1.OUT_EVENT_NS);
+        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}), EventConfig_1.OUT_EVENT_NS);
     };
     return CanvasController;
 }());
@@ -1142,7 +1139,7 @@ var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
 var Vector3_1 = __webpack_require__(/*! ../geometry/Vector3 */ "./src/geometry/Vector3.ts");
 var Color_1 = __webpack_require__(/*! ../utils/Color */ "./src/utils/Color.ts");
-var CreateCanvasData_1 = __webpack_require__(/*! ../utils/CreateCanvasData */ "./src/utils/CreateCanvasData.ts");
+var CreateCanvasProfileData_1 = __webpack_require__(/*! ../utils/CreateCanvasProfileData */ "./src/utils/CreateCanvasProfileData.ts");
 var Environment = /** @class */ (function () {
     function Environment() {
         this._DPI = [96, 96];
@@ -1237,7 +1234,7 @@ var Environment = /** @class */ (function () {
         this.canvasTop = canvasTop;
         this.origin = new Vector3_1.Vector3(canvasWidth / 2, -canvasHeight / 2, 0);
         Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, this.origin);
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVAS_CHANGED, (0, CreateCanvasData_1.createCanvasData)({}), EventConfig_1.OUT_EVENT_NS);
+        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}), EventConfig_1.OUT_EVENT_NS);
     };
     Environment.prototype.getCanvasBoundingRect = function () {
         return {
@@ -5830,7 +5827,7 @@ function mainHandle(webCanvas) {
     var systemConfig = webCanvas.getSystemConfig();
     floatWindow_1.profileControl.update(systemConfig);
     /* ... */
-    floatWindow_1.canvasPanelControl.update(webCanvas.getCanvasData());
+    floatWindow_1.canvasPanelControl.update(webCanvas.getCanvasProfileData());
 }
 function eventHandle(webCanvas) {
     var canvasController = webCanvas.canvasController;
@@ -5840,7 +5837,7 @@ function eventHandle(webCanvas) {
     webCanvas.addResourceChangedListener(function (data) {
         floatWindow_1.resourceControl.update(data);
     });
-    webCanvas.addCanvasChangedListener(function (data) {
+    webCanvas.addCanvasProfileChangedListener(function (data) {
         floatWindow_1.canvasPanelControl.update(data);
     });
     webCanvas.addProfileListener(function (data) {
@@ -10951,18 +10948,18 @@ exports.Context = Context;
 
 /***/ }),
 
-/***/ "./src/utils/CreateCanvasData.ts":
-/*!***************************************!*\
-  !*** ./src/utils/CreateCanvasData.ts ***!
-  \***************************************/
+/***/ "./src/utils/CreateCanvasProfileData.ts":
+/*!**********************************************!*\
+  !*** ./src/utils/CreateCanvasProfileData.ts ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createCanvasData = void 0;
+exports.createCanvasProfileData = void 0;
 var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Camera_1 = __webpack_require__(/*! ../engine/common/Camera */ "./src/engine/common/Camera.ts");
-function createCanvasData(params) {
+function createCanvasProfileData(params) {
     if (params === void 0) { params = {}; }
     return {
         zoomRatio: Camera_1.Camera.getInstance().getZoomRatio(),
@@ -10971,7 +10968,7 @@ function createCanvasData(params) {
         DPI: Constant_1.environment.DPI,
     };
 }
-exports.createCanvasData = createCanvasData;
+exports.createCanvasProfileData = createCanvasProfileData;
 
 
 /***/ }),

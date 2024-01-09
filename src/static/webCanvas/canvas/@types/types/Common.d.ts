@@ -41,7 +41,7 @@ export type TCanvasLineCap = 'butt' | 'round' | 'square';
 export type TResouceChangedData = {
     fps: number;
 };
-export type TCanvasChangedData = {
+export type TCanvasProfileChangedData = {
     zoomRatio: number;
     canvasWidth: number;
     canvasHeight: number;

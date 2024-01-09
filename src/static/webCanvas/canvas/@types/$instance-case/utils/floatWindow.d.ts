@@ -1,4 +1,4 @@
-import { CanvasChangedData, InputInfoData, ResouceChangedData, SystemConfigProfile } from '../../Main';
+import { CanvasProfileChangedData, InputInfoData, ResouceChangedData, SystemConfigProfile } from '../../Main';
 export declare function appendFloatContainerWindow(container: HTMLElement, position?: 'LT' | 'RT' | 'LB' | 'RB'): HTMLElement;
 export declare const iputsPanelControl: {
     appendTo(container: HTMLElement): void;
@@ -6,7 +6,7 @@ export declare const iputsPanelControl: {
 };
 export declare const canvasPanelControl: {
     appendTo(container: HTMLElement): void;
-    update(data: CanvasChangedData): void;
+    update(data: CanvasProfileChangedData): void;
 };
 export declare const resourceControl: {
     appendTo(container: HTMLElement): void;
