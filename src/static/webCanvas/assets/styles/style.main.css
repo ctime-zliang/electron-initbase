@@ -1397,3 +1397,64 @@ input::-webkit-inner-spin-button {
   opacity: 0.5;
 }
 
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].oneOf[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js??ruleSet[1].rules[0].oneOf[3].use[3]!./src/app/modules/drawActionPanel/index.module.less ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+.index-module_-DgVNH7pA {
+  position: absolute;
+  max-width: 1000px;
+  font-size: 12px;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin: 5px 5px;
+  padding: 5px 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255);
+  -webkit-box-shadow: 4px 4px 12px 4px rgba(255, 255, 255, 0.2);
+          box-shadow: 4px 4px 12px 4px rgba(255, 255, 255, 0.2);
+  color: #333333;
+}
+.index-module_-JdCN1VO3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  padding: 0 15px 0 0;
+}
+.index-module_-JdCN1VO3 .index-module_-U_U0NQY3 {
+  width: 60px;
+  padding: 0 5px 0 0;
+  text-align: right;
+  font-weight: bolder;
+}
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-alz00iHk {
+  padding: 3px 5px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-alz00iHk:hover {
+  font-weight: bolder;
+}
+

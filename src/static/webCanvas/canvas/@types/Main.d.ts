@@ -5,6 +5,8 @@ import { px2mm as _px2mm } from './utils/Utils';
 import { TDOMGetBoundingClientRectResult, TColorJSON, TDrawLayerItemResult, TElementItemResult, TResouceChangedData, TSystemConfigProfile, TCanvasProfileChangedData } from './types/Common';
 import { SystemConfig } from './controller/SystemConfig';
 import { CanvasController } from './controller/CanvasController';
+import { MessageBus } from './utils/messageBus/MessageBus';
+import { WindowMessageBridge } from './utils/messageBus/WindowMessageBridge';
 export type InputInfoData = InputInfo;
 export type DOMGetBoundingClientRectResult = TDOMGetBoundingClientRectResult;
 export type ColorJSON = TColorJSON;
@@ -23,6 +25,8 @@ export * from './geometry/Matrix';
 export * from './geometry/Matrix3';
 export * from './geometry/Matrix4';
 export declare const px2mm: typeof _px2mm;
+export declare const messageBus: MessageBus;
+export declare const windowMessageBridge: WindowMessageBridge;
 export declare const DRAW_TOOL_COMMAND: any;
 export declare class WebCanvas {
     private _canvasElement;

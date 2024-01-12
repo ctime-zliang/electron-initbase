@@ -163,6 +163,7 @@ function drawClockInit(webCanvas) {
     var drawLayerController = webCanvas.drawLayerController;
     var elementControl = webCanvas.elementController;
     var clockLayerItemId = drawLayerController.createLayerShapeItem("Layer Clock");
+    drawLayerController.clearAllSelectedDrawLayers();
     var DPI = webCanvas.getDPI();
     var canvasRect = webCanvas.getCanvasRect();
     var isWidthLess = canvasRect.width < canvasRect.height;
@@ -340,9 +341,8 @@ exports.profileControl = {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.dropDragTool = exports.adsorption = exports.rtree = exports.handlerControl = exports.service = exports.environment = exports.modifyController = exports.selectManager = exports.filterManager = exports.canvasController = exports.drawLayerController = exports.elementController = exports.eventBus = exports.globalIdenManager = void 0;
+exports.dropDragTool = exports.adsorption = exports.rtree = exports.handlerControl = exports.service = exports.environment = exports.modifyController = exports.selectManager = exports.filterManager = exports.canvasController = exports.drawLayerController = exports.elementController = exports.globalIdenManager = exports.messageTool = void 0;
 var GlobalIdenManager_1 = __webpack_require__(/*! ./tool/GlobalIdenManager */ "./src/tool/GlobalIdenManager.ts");
-var EventBus_1 = __webpack_require__(/*! ./utils/EventBus */ "./src/utils/EventBus.ts");
 var ElementController_1 = __webpack_require__(/*! ./controller/ElementController */ "./src/controller/ElementController.ts");
 var DrawLayerController_1 = __webpack_require__(/*! ./controller/DrawLayerController */ "./src/controller/DrawLayerController.ts");
 var ModifyController_1 = __webpack_require__(/*! ./presenter/ModifyController */ "./src/presenter/ModifyController.ts");
@@ -355,8 +355,9 @@ var HandlerControl_1 = __webpack_require__(/*! ./tool/selection/HandlerControl *
 var Service_1 = __webpack_require__(/*! ./service/Service */ "./src/service/Service.ts");
 var Adsorption_1 = __webpack_require__(/*! ./tool/Adsorption */ "./src/tool/Adsorption.ts");
 var CanvasController_1 = __webpack_require__(/*! ./controller/CanvasController */ "./src/controller/CanvasController.ts");
+var MessageTool_1 = __webpack_require__(/*! ./tool/MessageTool */ "./src/tool/MessageTool.ts");
+exports.messageTool = new MessageTool_1.MessageTool();
 exports.globalIdenManager = new GlobalIdenManager_1.GlobalIdenManager();
-exports.eventBus = new EventBus_1.EventBus();
 exports.elementController = new ElementController_1.ElementController();
 exports.drawLayerController = new DrawLayerController_1.DrawLayerController();
 exports.canvasController = new CanvasController_1.CanvasController();
@@ -442,7 +443,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createCanvasElement = exports.WebCanvas = exports.DRAW_TOOL_COMMAND = exports.px2mm = void 0;
+exports.createCanvasElement = exports.WebCanvas = exports.DRAW_TOOL_COMMAND = exports.messageTool = exports.px2mm = void 0;
 var DrawToolCommand_1 = __webpack_require__(/*! ./config/DrawToolCommand */ "./src/config/DrawToolCommand.ts");
 var Constant_1 = __webpack_require__(/*! ./Constant */ "./src/Constant.ts");
 var ViewInit_1 = __webpack_require__(/*! ./view/ViewInit */ "./src/view/ViewInit.ts");
@@ -464,6 +465,7 @@ __exportStar(__webpack_require__(/*! ./geometry/Matrix */ "./src/geometry/Matrix
 __exportStar(__webpack_require__(/*! ./geometry/Matrix3 */ "./src/geometry/Matrix3.ts"), exports);
 __exportStar(__webpack_require__(/*! ./geometry/Matrix4 */ "./src/geometry/Matrix4.ts"), exports);
 exports.px2mm = Utils_1.px2mm;
+exports.messageTool = Constant_1.messageTool;
 exports.DRAW_TOOL_COMMAND = __assign({}, DrawToolCommand_1.EDrawToolCommand);
 var WebCanvas = /** @class */ (function () {
     function WebCanvas(canvasElement) {
@@ -524,33 +526,33 @@ var WebCanvas = /** @class */ (function () {
     };
     WebCanvas.prototype.applySystemConfig = function (key, value) {
         SystemConfig_1.SystemConfig.getInstance().update(key, value);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        exports.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     WebCanvas.prototype.setDrawToolCommand = function (type) {
-        this._drawToolManager.update(type);
+        this._drawToolManager.update({ type: type });
     };
     WebCanvas.prototype.forceRender = function () {
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        exports.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     WebCanvas.prototype.resetCanvasView = function () {
         var camera = Camera_1.Camera.getInstance();
         var cameraOrigin = camera.getOrigin();
         camera.matrix4 = camera.matrix4.translateByVector3(new Vector3_1.Vector3(-cameraOrigin.x, -cameraOrigin.y, 0));
         camera.isNeedUpdate = true;
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
         Constant_1.canvasController.zoomCanvas(1);
+        exports.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     WebCanvas.prototype.addInputsChangedListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.INPUTS_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+        exports.messageTool.messageBus.subscribe(EventConfig_1.EOutEventCommand.INPUTS_CHANGED, callback);
     };
     WebCanvas.prototype.addResourceChangedListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+        exports.messageTool.messageBus.subscribe(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, callback);
     };
     WebCanvas.prototype.addCanvasProfileChangedListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+        exports.messageTool.messageBus.subscribe(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, callback);
     };
     WebCanvas.prototype.addProfileListener = function (callback) {
-        Constant_1.eventBus.on(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, callback, EventConfig_1.OUT_EVENT_NS);
+        exports.messageTool.messageBus.subscribe(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, callback);
     };
     return WebCanvas;
 }());
@@ -671,17 +673,17 @@ var Starter = /** @class */ (function () {
         this._isShouldUpdateCanvasView = false;
         this._isShouldHandleElementsFirst = false;
         Constant_1.environment.DPI = Device_1.Device.getAbsoluteDPI();
-        Constant_1.eventBus.on(FrameCommand_1.EFrameCommand.RENDER_FRAME, function (tag) {
-            _this._isShouldHandleElementsFirst = !!tag;
+        Constant_1.messageTool.messageBus.subscribe(FrameCommand_1.EFrameCommand.RENDER_FRAME, function (params) {
+            _this._isShouldHandleElementsFirst = !params ? false : !!params.elementPriority;
             _this._isShouldUpdateCanvasView = true;
         });
-        Constant_1.eventBus.on(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, function (origin) {
-            _this._scene.setCanvasOrigin(origin);
-            Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.subscribe(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, function (originData) {
+            _this._scene.setCanvasOrigin(originData);
+            Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
         });
-        Constant_1.eventBus.on(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_RECT, function () {
+        Constant_1.messageTool.messageBus.subscribe(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_RECT, function () {
             _this._scene.renderer.autoResize();
-            Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+            Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
         });
     }
     Starter.prototype.init = function () {
@@ -720,7 +722,7 @@ var Starter = /** @class */ (function () {
         if (SystemConfig_1.SystemConfig.getInstance().enableFPSCount) {
             this.fpsCount.calcFps();
             this.fpsCount.overInterval &&
-                Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, (0, CreateResouceData_1.createResouceData)({ fps: this.fpsCount.fps }), EventConfig_1.OUT_EVENT_NS);
+                Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.RESOURCE_CHANGED, (0, CreateResouceData_1.createResouceData)({ fps: this.fpsCount.fps }));
         }
     };
     return Starter;
@@ -926,8 +928,8 @@ var CanvasController = /** @class */ (function () {
             this._camera.matrix4 = this._camera.matrix4.multiply4(newMatrix4);
             this._camera.isNeedUpdate = true;
         }
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}), EventConfig_1.OUT_EVENT_NS);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
+        Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}));
     };
     return CanvasController;
 }());
@@ -973,19 +975,19 @@ var DrawLayerController = /** @class */ (function () {
     DrawLayerController.prototype.createLayerShapeItem = function (layerItemName) {
         if (layerItemName === void 0) { layerItemName = 'Untitled Layer'; }
         var drawLayerShapeItem = DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().createContentShapeItem(layerItemName);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
         return drawLayerShapeItem.model.layerItemId;
     };
     DrawLayerController.prototype.deleteLayerShapeItem = function (layerItemId) {
         DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().deleteContentShapeItem(layerItemId);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME, true);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, { elementPriority: true });
     };
     DrawLayerController.prototype.getActiveLayerShapeItem = function () {
         return DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().getActiveItem();
     };
     DrawLayerController.prototype.setActiveLayerShapeItem = function (layerItemId) {
         DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().setActiveItem(layerItemId);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     DrawLayerController.prototype.clearAllSelectedDrawLayers = function () {
         DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().selectedLayersId = new Set([]);
@@ -998,7 +1000,7 @@ var DrawLayerController = /** @class */ (function () {
             }
             Helper_1.Helper.deleteElementItem(allElementShapes[i]);
         }
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     return DrawLayerController;
 }());
@@ -1045,12 +1047,12 @@ var ElementController = /** @class */ (function () {
             return null;
         }
         var targetShapeItem = LineShapeManager_1.LineShapeManager.getInstance().createShapeItem(layerItemId, startPoint, endPoint, width);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
         return targetShapeItem.model.elementItemId;
     };
     ElementController.prototype.deleteLineShapeItem = function (elementItemId) {
         LineShapeManager_1.LineShapeManager.getInstance().deleteShapeItem(elementItemId);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     ElementController.prototype.createCircleShapeItem = function (layerItemId, centerX, centerY, radius, strokeWidth, strokeColor, fillColor) {
         if (strokeColor === void 0) { strokeColor = new Color_1.Color(1, 0, 0, 1); }
@@ -1064,12 +1066,12 @@ var ElementController = /** @class */ (function () {
         var targetShapeItem = CircleShapeManager_1.CircleShapeManager.getInstance().createShapeItem(layerItemId, centerPoint, radius, strokeWidth);
         targetShapeItem.strokeColor = strokeColor;
         targetShapeItem.fillColor = fillColor;
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
         return targetShapeItem.model.elementItemId;
     };
     ElementController.prototype.deleteCircleShapeItem = function (elementItemId) {
         CircleShapeManager_1.CircleShapeManager.getInstance().deleteShapeItem(elementItemId);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     ElementController.prototype.setElementItemStrokeColor = function (elementItemId, color) {
         var targetElement = Helper_1.Helper.getAllElementShapes().filter(function (elementItem) {
@@ -1233,8 +1235,8 @@ var Environment = /** @class */ (function () {
         this.canvasLeft = canvasLeft;
         this.canvasTop = canvasTop;
         this.origin = new Vector3_1.Vector3(canvasWidth / 2, -canvasHeight / 2, 0);
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, this.origin);
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}), EventConfig_1.OUT_EVENT_NS);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.UPDATE_CANVAS_ORIGIN, this.origin.toJSON());
+        Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.CANVASPROFILE_CHANGED, (0, CreateCanvasProfileData_1.createCanvasProfileData)({}));
     };
     Environment.prototype.getCanvasBoundingRect = function () {
         return {
@@ -1398,6 +1400,9 @@ var SelectManager = /** @class */ (function (_super) {
         }
         return selects;
     };
+    SelectManager.prototype.clearAllSelectItems = function () {
+        this.setSelectStatus(new Set([]));
+    };
     SelectManager.prototype.keyDownHandler = function (inputInfo) {
         Constant_1.handlerControl.keyDownHandler(inputInfo);
     };
@@ -1452,7 +1457,7 @@ var SelectManager = /** @class */ (function (_super) {
     };
     SelectManager.prototype.mouseLeftUpHandler = function (inputInfo) {
         this.destorySelectionBox();
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.REFRESH_RTREE);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.REFRESH_RTREE, null);
         Constant_1.handlerControl.mouseLeftUpHandler(inputInfo);
         if (this._isBoxSelection) {
             var selectResults = this.boxSelect(inputInfo);
@@ -1595,7 +1600,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._isDarkTheme = value;
-            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
+            Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON());
         },
         enumerable: false,
         configurable: true
@@ -1606,7 +1611,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._alignGrid = value;
-            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
+            Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON());
         },
         enumerable: false,
         configurable: true
@@ -1617,7 +1622,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableGrid = value;
-            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
+            Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON());
         },
         enumerable: false,
         configurable: true
@@ -1628,7 +1633,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableAxis = value;
-            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
+            Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON());
         },
         enumerable: false,
         configurable: true
@@ -1639,7 +1644,7 @@ var SystemConfig = /** @class */ (function () {
         },
         set: function (value) {
             this._enableFPSCount = value;
-            Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON(), EventConfig_1.OUT_EVENT_NS);
+            Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.PROFILE_CHANGED, this.toJSON());
         },
         enumerable: false,
         configurable: true
@@ -1712,6 +1717,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SceneCanvas = void 0;
 var DrawLayerConfig_1 = __webpack_require__(/*! ../../config/DrawLayerConfig */ "./src/config/DrawLayerConfig.ts");
+var Vector3_1 = __webpack_require__(/*! ../../geometry/Vector3 */ "./src/geometry/Vector3.ts");
 var Camera_1 = __webpack_require__(/*! ../common/Camera */ "./src/engine/common/Camera.ts");
 var Scene_1 = __webpack_require__(/*! ../common/Scene */ "./src/engine/common/Scene.ts");
 var GridCanvas_1 = __webpack_require__(/*! ./canvas/GridCanvas */ "./src/engine/canvas/canvas/GridCanvas.ts");
@@ -1730,9 +1736,9 @@ var SceneCanvas = /** @class */ (function (_super) {
         camera.height = _this.renderer.height;
         return _this;
     }
-    SceneCanvas.prototype.setCanvasOrigin = function (origin) {
-        this.renderer.origin = origin;
-        this.renderer.ctx.translate(origin.x, -origin.y);
+    SceneCanvas.prototype.setCanvasOrigin = function (originData) {
+        this.renderer.origin = new Vector3_1.Vector3(originData.x, originData.y, originData.z);
+        this.renderer.ctx.translate(originData.x, -originData.y);
         this.renderer.ctx.scale(1, -1);
     };
     SceneCanvas.prototype.addPlaneItem = function (planeId) {
@@ -4798,6 +4804,12 @@ var Vector2 = /** @class */ (function (_super) {
     Vector2.prototype.toString = function () {
         return "Vector2 (".concat(this.x, ", ").concat(this.y, ")");
     };
+    Vector2.prototype.toJSON = function () {
+        return {
+            x: this._x,
+            y: this._y,
+        };
+    };
     /**
      * 向量的单位向量
      */
@@ -4999,6 +5011,13 @@ var Vector3 = /** @class */ (function (_super) {
     };
     Vector3.prototype.toString = function () {
         return "Vector3 (".concat(this.x, ", ").concat(this.y, ", ").concat(this.z, ")");
+    };
+    Vector3.prototype.toJSON = function () {
+        return {
+            x: this._x,
+            y: this._y,
+            z: this._z,
+        };
     };
     /**
      * 向量的单位向量
@@ -5800,7 +5819,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Main_1 = __webpack_require__(/*! ./Main */ "./src/Main.ts");
 var clock_1 = __webpack_require__(/*! ./$instance-case/modules/clock */ "./src/$instance-case/modules/clock.ts");
 var floatWindow_1 = __webpack_require__(/*! ./$instance-case/utils/floatWindow */ "./src/$instance-case/utils/floatWindow.ts");
-var Constant_1 = __webpack_require__(/*! ./Constant */ "./src/Constant.ts");
 function init() {
     return __awaiter(this, void 0, void 0, function () {
         var canvasContainer, canvasElement, floatWindowElement0, webCanvas;
@@ -5824,10 +5842,16 @@ function init() {
     });
 }
 function mainHandle(webCanvas) {
-    var systemConfig = webCanvas.getSystemConfig();
-    floatWindow_1.profileControl.update(systemConfig);
-    /* ... */
-    floatWindow_1.canvasPanelControl.update(webCanvas.getCanvasProfileData());
+    return __awaiter(this, void 0, void 0, function () {
+        var systemConfig;
+        return __generator(this, function (_a) {
+            systemConfig = webCanvas.getSystemConfig();
+            floatWindow_1.profileControl.update(systemConfig);
+            /* ... */
+            floatWindow_1.canvasPanelControl.update(webCanvas.getCanvasProfileData());
+            return [2 /*return*/];
+        });
+    });
 }
 function eventHandle(webCanvas) {
     var canvasController = webCanvas.canvasController;
@@ -5851,23 +5875,76 @@ function eventHandle(webCanvas) {
         }
         if (action === 'resetCanvasView') {
             webCanvas.resetCanvasView();
+            // messageTest01()
             // canvasController.zoomCanvas(5)
             return;
         }
     });
 }
-window.addEventListener('DOMContentLoaded', function () {
-    init().then(function (webCanvas) {
-        eventHandle(webCanvas);
-        mainHandle(webCanvas);
-        /* ... */
-        (0, clock_1.drawClockInit)(webCanvas);
-        Constant_1.drawLayerController.clearAllSelectedDrawLayers();
-        // const layerItemAId: string = drawLayerController.createLayerShapeItem(`Layer A`)
-        // drawTestLine(webCanvas, layerItemAId)
-        // drawTestCircle(webCanvas, layerItemAId)
-        console.log(webCanvas);
+function messageHandle(webCanvas) {
+    return __awaiter(this, void 0, void 0, function () {
+        var drawLayerController;
+        var _this = this;
+        return __generator(this, function (_a) {
+            drawLayerController = webCanvas.drawLayerController;
+            Main_1.messageTool.messageBus.subscribe('toggleDrawMode', function (params) {
+                var cmd = params.cmd;
+                switch (cmd) {
+                    case 'DRAW_LINE': {
+                        webCanvas.setDrawToolCommand(Main_1.DRAW_TOOL_COMMAND.LINE);
+                        break;
+                    }
+                    case 'DRWA_CIRCLE': {
+                        webCanvas.setDrawToolCommand(Main_1.DRAW_TOOL_COMMAND.CIRCLE);
+                        break;
+                    }
+                    default:
+                }
+            });
+            Main_1.messageTool.messageBus.subscribe('toggleActionMode', function (params) {
+                var cmd = params.cmd;
+                switch (cmd) {
+                    case 'SET_SELECTION': {
+                        webCanvas.setDrawToolCommand(Main_1.DRAW_TOOL_COMMAND.BLANK_DROP);
+                        break;
+                    }
+                    default:
+                }
+            });
+            Main_1.messageTool.messageBus.registeAsyncService("fetchCanvasIframeData", function (parmas) { return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    console.log("[Canvas:RECEIVE][fetchCanvasIframeData]", parmas);
+                    return [2 /*return*/, new Promise(function (_) {
+                            window.setTimeout(function () {
+                                var allDrawLayers = drawLayerController.getAllDrawLayerResults();
+                                _({ timeStamp: performance.now(), allDrawLayers: allDrawLayers });
+                            }, 1000);
+                        })];
+                });
+            }); });
+            return [2 /*return*/];
+        });
     });
+}
+window.addEventListener('DOMContentLoaded', function () {
+    init().then(function (webCanvas) { return __awaiter(void 0, void 0, void 0, function () {
+        var drawLayerController, layerItemAId;
+        return __generator(this, function (_a) {
+            drawLayerController = webCanvas.drawLayerController;
+            layerItemAId = drawLayerController.createLayerShapeItem("Layer A");
+            eventHandle(webCanvas);
+            messageHandle(webCanvas);
+            mainHandle(webCanvas);
+            /* ... */
+            (0, clock_1.drawClockInit)(webCanvas);
+            // drawLayerController.setActiveLayerShapeItem(layerItemAId)
+            // drawTestLine(webCanvas, layerItemAId)
+            // drawTestCircle(webCanvas, layerItemAId)
+            console.log(webCanvas);
+            console.log(Main_1.messageTool);
+            return [2 /*return*/];
+        });
+    }); });
 });
 
 
@@ -8202,10 +8279,7 @@ var FrameCommand_1 = __webpack_require__(/*! ../config/FrameCommand */ "./src/co
 var Constant_1 = __webpack_require__(/*! ../Constant */ "./src/Constant.ts");
 var Service = /** @class */ (function () {
     function Service() {
-        var _this = this;
-        Constant_1.eventBus.on(FrameCommand_1.EFrameCommand.REFRESH_RTREE, function () {
-            _this.refreshRtree();
-        });
+        Constant_1.messageTool.messageBus.subscribe(FrameCommand_1.EFrameCommand.REFRESH_RTREE, this.refreshRtree.bind(this));
     }
     Service.prototype.refreshRtree = function () {
         var updateds = [];
@@ -8444,6 +8518,8 @@ var EventsLoader = /** @class */ (function (_super) {
     };
     EventsLoader.prototype.mouseDownHandler = function (e) {
         var _this = this;
+        this._canvasElement.focus();
+        window.focus();
         this.prepareSystemEventInputInfo(e);
         var handlerAction;
         if (e.button === 0) {
@@ -8883,7 +8959,7 @@ var FrameTool = /** @class */ (function (_super) {
     FrameTool.prototype.emitInputsChanged = function (inputInfo) {
         var data = inputInfo.toJSON();
         data.canvasZoom = this._camera.getZoomRatio();
-        Constant_1.eventBus.emit(EventConfig_1.EOutEventCommand.INPUTS_CHANGED, data, EventConfig_1.OUT_EVENT_NS);
+        Constant_1.messageTool.messageBus.publish(EventConfig_1.EOutEventCommand.INPUTS_CHANGED, data);
     };
     FrameTool.prototype.prepare = function (inputInfo) { };
     return FrameTool;
@@ -9580,6 +9656,43 @@ exports.InputInfo = InputInfo;
 
 /***/ }),
 
+/***/ "./src/tool/MessageTool.ts":
+/*!*********************************!*\
+  !*** ./src/tool/MessageTool.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageTool = void 0;
+var MessageBus_1 = __webpack_require__(/*! ../../../utils-section/messageBus/MessageBus */ "../utils-section/messageBus/MessageBus.ts");
+var WindowMessageBridge_1 = __webpack_require__(/*! ../../../utils-section/messageBus/WindowMessageBridge */ "../utils-section/messageBus/WindowMessageBridge.ts");
+var MessageTool = /** @class */ (function () {
+    function MessageTool() {
+        this._messageBus = new MessageBus_1.MessageBus();
+        this._windowMessageBridge = new WindowMessageBridge_1.WindowMessageBridge(this._messageBus);
+    }
+    Object.defineProperty(MessageTool.prototype, "messageBus", {
+        get: function () {
+            return this._messageBus;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(MessageTool.prototype, "windowMessageBridge", {
+        get: function () {
+            return this._windowMessageBridge;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return MessageTool;
+}());
+exports.MessageTool = MessageTool;
+
+
+/***/ }),
+
 /***/ "./src/tool/Tool.ts":
 /*!**************************!*\
   !*** ./src/tool/Tool.ts ***!
@@ -9628,7 +9741,7 @@ var Tool = /** @class */ (function (_super) {
         if (this.nextTool) {
             process(this.nextTool);
         }
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     Tool.prototype.viewResizeHandler = function (inputInfo, offset) { };
     return Tool;
@@ -9860,10 +9973,11 @@ var DrawToolCommand_1 = __webpack_require__(/*! ../../config/DrawToolCommand */ 
 var DrawLineShapeTool_1 = __webpack_require__(/*! ./drawLineShape/DrawLineShapeTool */ "./src/tool/draw/drawLineShape/DrawLineShapeTool.ts");
 var Constant_1 = __webpack_require__(/*! ../../Constant */ "./src/Constant.ts");
 var FrameCommand_1 = __webpack_require__(/*! ../../config/FrameCommand */ "./src/config/FrameCommand.ts");
+var DrawCircleShapeTool_1 = __webpack_require__(/*! ./drawCircleShape/DrawCircleShapeTool */ "./src/tool/draw/drawCircleShape/DrawCircleShapeTool.ts");
 var DrawToolManager = /** @class */ (function () {
     function DrawToolManager(frameToolHandler) {
         this._frameToolHandler = frameToolHandler;
-        Constant_1.eventBus.on(FrameCommand_1.EFrameCommand.SWITCH_DRAW_TOOL, this.update.bind(this));
+        Constant_1.messageTool.messageBus.subscribe(FrameCommand_1.EFrameCommand.SWITCH_DRAW_TOOL, this.update.bind(this));
     }
     Object.defineProperty(DrawToolManager.prototype, "frameToolHandler", {
         get: function () {
@@ -9875,21 +9989,33 @@ var DrawToolManager = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    DrawToolManager.prototype.update = function (type, params) {
-        if (params === void 0) { params = []; }
+    DrawToolManager.prototype.update = function (data) {
+        var type = data.type, params = data.params;
         switch (type) {
             case DrawToolCommand_1.EDrawToolCommand.BLANK_DROP: {
                 console.warn("\u8FDB\u5165\u9009\u62E9\u6A21\u5F0F.");
+                Constant_1.selectManager.clearAllSelectItems();
                 this.frameToolHandler.nextTool = Constant_1.dropDragTool;
                 this.frameToolHandler.nextTool.drawing = false;
                 if (this.frameToolHandler.auxiliaryTool) {
                     this.frameToolHandler.auxiliaryTool.destory();
                 }
+                this.frameToolHandler.auxiliaryTool = null;
                 break;
             }
             case DrawToolCommand_1.EDrawToolCommand.LINE: {
                 console.warn("\u8FDB\u5165\u7ED8\u5236\u6A21\u5F0F: \u7ED8\u5236 ".concat(DrawToolCommand_1.EDrawToolCommand.LINE, "."));
+                Constant_1.selectManager.clearAllSelectItems();
                 var newNextTool = new DrawLineShapeTool_1.DrawLineShapeTool();
+                this.frameToolHandler.auxiliaryTool = newNextTool.initAuxiliaryTools();
+                this.frameToolHandler.nextTool = newNextTool;
+                this.frameToolHandler.nextTool.drawing = true;
+                break;
+            }
+            case DrawToolCommand_1.EDrawToolCommand.CIRCLE: {
+                console.warn("\u8FDB\u5165\u7ED8\u5236\u6A21\u5F0F: \u7ED8\u5236 ".concat(DrawToolCommand_1.EDrawToolCommand.CIRCLE, "."));
+                Constant_1.selectManager.clearAllSelectItems();
+                var newNextTool = new DrawCircleShapeTool_1.DrawCircleShapeTool();
                 this.frameToolHandler.auxiliaryTool = newNextTool.initAuxiliaryTools();
                 this.frameToolHandler.nextTool = newNextTool;
                 this.frameToolHandler.nextTool.drawing = true;
@@ -9897,11 +10023,238 @@ var DrawToolManager = /** @class */ (function () {
             }
             default:
         }
-        Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.RENDER_FRAME);
+        Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.RENDER_FRAME, null);
     };
     return DrawToolManager;
 }());
 exports.DrawToolManager = DrawToolManager;
+
+
+/***/ }),
+
+/***/ "./src/tool/draw/drawCircleShape/DrawCircleShape.ts":
+/*!**********************************************************!*\
+  !*** ./src/tool/draw/drawCircleShape/DrawCircleShape.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DrawCircleShape = void 0;
+var Vector2_1 = __webpack_require__(/*! ../../../geometry/Vector2 */ "./src/geometry/Vector2.ts");
+var CircleShape_1 = __webpack_require__(/*! ../../../objects/shapes/items/CircleShape */ "./src/objects/shapes/items/CircleShape.ts");
+var CircleShapeManager_1 = __webpack_require__(/*! ../../../objects/shapes/manager/CircleShapeManager */ "./src/objects/shapes/manager/CircleShapeManager.ts");
+var DrawLayerShapeManager_1 = __webpack_require__(/*! ../../../objects/shapes/manager/DrawLayerShapeManager */ "./src/objects/shapes/manager/DrawLayerShapeManager.ts");
+var Color_1 = __webpack_require__(/*! ../../../utils/Color */ "./src/utils/Color.ts");
+var DrawCircleShape = /** @class */ (function () {
+    function DrawCircleShape() {
+        this._shapeInstances = [];
+        this._selectedDrawLayerShapeItem = null;
+    }
+    Object.defineProperty(DrawCircleShape.prototype, "shapeInstances", {
+        get: function () {
+            return this._shapeInstances;
+        },
+        set: function (value) {
+            this._shapeInstances = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(DrawCircleShape.prototype, "selectedDrawLayerShapeItem", {
+        get: function () {
+            return this._selectedDrawLayerShapeItem;
+        },
+        set: function (value) {
+            this._selectedDrawLayerShapeItem = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    DrawCircleShape.prototype.completeDraw = function () {
+        if (this.shapeInstances.length) {
+            for (var i = 0; i < this.shapeInstances.length; i++) {
+                var targetShapeItem = this.shapeInstances[i];
+                var newTargetShapeItem = CircleShapeManager_1.CircleShapeManager.getInstance().createShapeItem(this.selectedDrawLayerShapeItem.model.layerItemId, targetShapeItem.centerPoint, targetShapeItem.radius, targetShapeItem.strokeWidth);
+                newTargetShapeItem.strokeColor = targetShapeItem.strokeColor;
+                targetShapeItem.setDelete();
+            }
+            this.shapeInstances = [];
+        }
+    };
+    DrawCircleShape.prototype.cancelDraw = function () {
+        this.destoryShapes();
+    };
+    DrawCircleShape.prototype.updateShapes = function (inputInfo) {
+        var len = this.shapeInstances.length;
+        var centerPoint = this.shapeInstances[len - 1].centerPoint;
+        var nowPoint = new Vector2_1.Vector2(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+        this.shapeInstances[len - 1].radius = nowPoint.sub(centerPoint).length;
+    };
+    DrawCircleShape.prototype.createShapes = function (x, y) {
+        this.selectedDrawLayerShapeItem = DrawLayerShapeManager_1.DrawLayerShapeManager.getInstance().getActiveItem();
+        if (!this.selectedDrawLayerShapeItem) {
+            return;
+        }
+        var centerPoint = new Vector2_1.Vector2(x, y);
+        var targetShapeItem = (0, CircleShape_1.buildCircleShape)(this.selectedDrawLayerShapeItem.model.layerItemId, centerPoint, 0, 1, new Color_1.Color(1, 0, 0, 1), new Color_1.Color(0, 0, 0, 0));
+        this.shapeInstances.push(targetShapeItem);
+    };
+    DrawCircleShape.prototype.destoryShapes = function () {
+        for (var i = 0; i < this.shapeInstances.length; i++) {
+            this.shapeInstances[i].setDelete();
+        }
+        this.shapeInstances = [];
+    };
+    return DrawCircleShape;
+}());
+exports.DrawCircleShape = DrawCircleShape;
+
+
+/***/ }),
+
+/***/ "./src/tool/draw/drawCircleShape/DrawCircleShapeTool.ts":
+/*!**************************************************************!*\
+  !*** ./src/tool/draw/drawCircleShape/DrawCircleShapeTool.ts ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DrawCircleShapeTool = void 0;
+var DrawToolCommand_1 = __webpack_require__(/*! ../../../config/DrawToolCommand */ "./src/config/DrawToolCommand.ts");
+var FrameCommand_1 = __webpack_require__(/*! ../../../config/FrameCommand */ "./src/config/FrameCommand.ts");
+var Constant_1 = __webpack_require__(/*! ../../../Constant */ "./src/Constant.ts");
+var CrossAssist_1 = __webpack_require__(/*! ../../auxiliary/CrossAssist */ "./src/tool/auxiliary/CrossAssist.ts");
+var Tool_1 = __webpack_require__(/*! ../../Tool */ "./src/tool/Tool.ts");
+var DrawCircleShape_1 = __webpack_require__(/*! ./DrawCircleShape */ "./src/tool/draw/drawCircleShape/DrawCircleShape.ts");
+var DrawCircleShapeTool = /** @class */ (function (_super) {
+    __extends(DrawCircleShapeTool, _super);
+    function DrawCircleShapeTool() {
+        var _this = _super.call(this) || this;
+        _this._drawTargetShape = new DrawCircleShape_1.DrawCircleShape();
+        _this._isDrawing = false;
+        _this._hasMoveWhenAfterRightDown = false;
+        _this._crossAssist = new CrossAssist_1.CrossAssist();
+        return _this;
+    }
+    DrawCircleShapeTool.prototype.initAuxiliaryTools = function () {
+        this._crossAssist.create();
+        return this._crossAssist;
+    };
+    DrawCircleShapeTool.prototype.keyDownHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.keyDownHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.keyUpHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.keyUpHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseLeftDownHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseLeftDownHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseMiddleDownHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseMiddleDownHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseRightDownHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseRightDownHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseMoveHandler = function (inputInfo) {
+        if (this._crossAssist) {
+            this._crossAssist.update(inputInfo);
+        }
+        if (inputInfo.rightMouseDown) {
+            this._hasMoveWhenAfterRightDown = true;
+        }
+        if (this._isDrawing) {
+            this._drawTargetShape.updateShapes(inputInfo);
+        }
+        var handlerAction = function (nextTool) {
+            nextTool.mouseMoveHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseLeftUpHandler = function (inputInfo) {
+        if (!this._isDrawing) {
+            this._isDrawing = true;
+            this._drawTargetShape.createShapes(inputInfo.movePhysicsX, inputInfo.movePhysicsY);
+        }
+        else {
+            this._isDrawing = false;
+            this._drawTargetShape.completeDraw();
+        }
+        var handlerAction = function (nextTool) {
+            nextTool.mouseLeftUpHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseMiddleUpHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseMiddleUpHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseRightUpHandler = function (inputInfo) {
+        if (!this._hasMoveWhenAfterRightDown) {
+            this._isDrawing = false;
+            this._drawTargetShape.cancelDraw();
+            Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.SWITCH_DRAW_TOOL, { type: DrawToolCommand_1.EDrawToolCommand.BLANK_DROP });
+        }
+        this._hasMoveWhenAfterRightDown = false;
+        var handlerAction = function (nextTool) {
+            nextTool.mouseRightUpHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseWheelHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseWheelHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseLeaveHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseLeaveHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    DrawCircleShapeTool.prototype.mouseEnterHandler = function (inputInfo) {
+        var handlerAction = function (nextTool) {
+            nextTool.mouseEnterHandler(inputInfo);
+        };
+        this.handler(handlerAction);
+    };
+    return DrawCircleShapeTool;
+}(Tool_1.Tool));
+exports.DrawCircleShapeTool = DrawCircleShapeTool;
 
 
 /***/ }),
@@ -10099,7 +10452,7 @@ var DrawLineShapeTool = /** @class */ (function (_super) {
         if (!this._hasMoveWhenAfterRightDown) {
             this._isDrawing = false;
             this._drawTargetShape.cancelDraw();
-            Constant_1.eventBus.emit(FrameCommand_1.EFrameCommand.SWITCH_DRAW_TOOL, DrawToolCommand_1.EDrawToolCommand.BLANK_DROP);
+            Constant_1.messageTool.messageBus.publish(FrameCommand_1.EFrameCommand.SWITCH_DRAW_TOOL, { type: DrawToolCommand_1.EDrawToolCommand.BLANK_DROP });
         }
         this._hasMoveWhenAfterRightDown = false;
         var handlerAction = function (nextTool) {
@@ -11030,184 +11383,6 @@ var Device = /** @class */ (function () {
     return Device;
 }());
 exports.Device = Device;
-
-
-/***/ }),
-
-/***/ "./src/utils/EventBus.ts":
-/*!*******************************!*\
-  !*** ./src/utils/EventBus.ts ***!
-  \*******************************/
-/***/ (function(__unused_webpack_module, exports) {
-
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.EventBus = void 0;
-var DEFAULT_NS = "stname";
-var EventBus = /** @class */ (function () {
-    function EventBus() {
-        this.handlers = {};
-        this.handlers = {};
-    }
-    EventBus.prototype.on = function (eventName, callback, spaceName) {
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        var handlers = this.handlers;
-        var sn = spaceName || DEFAULT_NS;
-        if (!eventName || typeof eventName !== 'string' || typeof callback !== 'function') {
-            return;
-        }
-        if (!handlers[sn]) {
-            handlers[sn] = {};
-        }
-        if (!handlers[sn][eventName] || !handlers[sn][eventName].length) {
-            handlers[sn][eventName] = [];
-        }
-        handlers[sn][eventName].push(callback);
-    };
-    EventBus.prototype.emit = function (eventName, params, spaceName) {
-        if (params === void 0) { params = null; }
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        return __awaiter(this, void 0, void 0, function () {
-            var handlers, sn, length, i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        handlers = this.handlers;
-                        sn = spaceName || DEFAULT_NS;
-                        if (!eventName || typeof eventName !== 'string' || !handlers[sn]) {
-                            return [2 /*return*/];
-                        }
-                        length = (handlers[sn][eventName] || []).length;
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < length)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, handlers[sn][eventName][i](params)];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    EventBus.prototype.subscribe = function (eventName, callback, spaceName) {
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        var handlers = this.handlers;
-        var sn = spaceName || DEFAULT_NS;
-        if (!eventName || typeof eventName !== 'string' || typeof callback !== 'function') {
-            return;
-        }
-        if (!handlers[sn]) {
-            handlers[sn] = {};
-        }
-        handlers[sn][eventName] = callback;
-    };
-    EventBus.prototype.exec = function (eventName, params, spaceName) {
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        return __awaiter(this, void 0, void 0, function () {
-            var handlers, sn;
-            var _this = this;
-            return __generator(this, function (_a) {
-                handlers = this.handlers;
-                sn = spaceName || DEFAULT_NS;
-                return [2 /*return*/, new Promise(function (_) { return __awaiter(_this, void 0, void 0, function () {
-                        var errorMsg, fn, res, e_1;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    _a.trys.push([0, 2, , 3]);
-                                    errorMsg = null;
-                                    if (!eventName || typeof eventName !== 'string') {
-                                        errorMsg = new Error("Illegal parameter");
-                                    }
-                                    if (!handlers[sn]) {
-                                        errorMsg = new Error("Unknown namespace");
-                                    }
-                                    if (!handlers[sn][eventName] || typeof handlers[sn][eventName] !== 'function') {
-                                        errorMsg = new Error("Unknown listening function");
-                                    }
-                                    if (errorMsg) {
-                                        _({ error: errorMsg, data: null, __arguments: { eventName: eventName, params: params, spaceName: sn } });
-                                        return [2 /*return*/];
-                                    }
-                                    fn = handlers[sn][eventName];
-                                    return [4 /*yield*/, fn(params)];
-                                case 1:
-                                    res = _a.sent();
-                                    _({ error: null, data: res, __arguments: { eventName: eventName, params: params, spaceName: sn } });
-                                    return [3 /*break*/, 3];
-                                case 2:
-                                    e_1 = _a.sent();
-                                    _({ error: e_1, data: null, __arguments: { eventName: eventName, params: params, spaceName: sn } });
-                                    return [3 /*break*/, 3];
-                                case 3: return [2 /*return*/];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
-    EventBus.prototype.clearEvent = function (eventName, spaceName) {
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        var handlers = this.handlers;
-        var sn = spaceName || DEFAULT_NS;
-        if (!eventName || typeof eventName !== 'string' || !handlers[sn]) {
-            return;
-        }
-        delete handlers[sn][eventName];
-    };
-    EventBus.prototype.clearNameSpace = function (spaceName) {
-        if (spaceName === void 0) { spaceName = DEFAULT_NS; }
-        var handlers = this.handlers;
-        var sn = spaceName || DEFAULT_NS;
-        if (!handlers[sn]) {
-            return;
-        }
-        handlers[sn] = {};
-    };
-    return EventBus;
-}());
-exports.EventBus = EventBus;
 
 
 /***/ }),
@@ -12843,6 +13018,461 @@ var ElementItemBase = /** @class */ (function (_super) {
     return ElementItemBase;
 }(ElementBase_1.ElementBase));
 exports.ElementItemBase = ElementItemBase;
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/BaseMessageBridge.ts":
+/*!********************************************************!*\
+  !*** ../utils-section/messageBus/BaseMessageBridge.ts ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BaseMessageBridge = void 0;
+var Config_1 = __webpack_require__(/*! ./Config */ "../utils-section/messageBus/Config.ts");
+var BaseMessageBridge = /** @class */ (function () {
+    function BaseMessageBridge(bus) {
+        this._bus = bus;
+    }
+    BaseMessageBridge.prototype.processRemoteMessage = function (messageItem, source) {
+        var _this = this;
+        var topic = messageItem.topic, type = messageItem.type, data = messageItem.data;
+        switch (type) {
+            case Config_1.EMessageType.PULL: {
+                this._bus.pull(topic, function (data) {
+                    _this.push(topic, data, source);
+                });
+                break;
+            }
+            case Config_1.EMessageType.SUBSCRIBE: {
+                this._bus.subscribe(topic, function (data) {
+                    _this.publish(topic, data, source);
+                });
+                break;
+            }
+            case Config_1.EMessageType.PUBLISH: {
+                this._bus.publish(topic, data, this, source);
+                break;
+            }
+            case Config_1.EMessageType.PUSH: {
+                this._bus.push(topic, data, this, source);
+                break;
+            }
+        }
+    };
+    BaseMessageBridge.prototype.asyncRequest = function (topic, data, target) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (_) {
+                        var reply = _this._bus.uniqueRpcTopic(topic);
+                        _this.publish(topic, { data: data, reply: reply }, target);
+                        _this._bus.pull(reply, function (data, bridge, source) {
+                            _({ data: data, bridge: bridge, source: source });
+                        });
+                    })];
+            });
+        });
+    };
+    return BaseMessageBridge;
+}());
+exports.BaseMessageBridge = BaseMessageBridge;
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/Config.ts":
+/*!*********************************************!*\
+  !*** ../utils-section/messageBus/Config.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RPC_RDM_PREFIX = exports.EMessageType = void 0;
+var EMessageType;
+(function (EMessageType) {
+    EMessageType["PUBLISH"] = "PUBLISH";
+    EMessageType["SUBSCRIBE"] = "SUBSCRIBE";
+    EMessageType["PUSH"] = "PUSH";
+    EMessageType["PULL"] = "PULL";
+})(EMessageType = exports.EMessageType || (exports.EMessageType = {}));
+exports.RPC_RDM_PREFIX = "__RPC_RDM_PREFIX__";
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/MessageBus.ts":
+/*!*************************************************!*\
+  !*** ../utils-section/messageBus/MessageBus.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageBus = void 0;
+var Config_1 = __webpack_require__(/*! ./Config */ "../utils-section/messageBus/Config.ts");
+var MessageBusTask_1 = __webpack_require__(/*! ./MessageBusTask */ "../utils-section/messageBus/MessageBusTask.ts");
+var Utils_1 = __webpack_require__(/*! ./Utils */ "../utils-section/messageBus/Utils.ts");
+var MessageBus = /** @class */ (function () {
+    function MessageBus() {
+        this._subscribedTasks = {};
+        this._pulledTasks = {};
+        this._pushedMessages = {};
+        this._rpcTicket = 0;
+    }
+    MessageBus.prototype.rpcReply = function (data, topic, bridge, source) {
+        if (bridge) {
+            bridge.push(topic, data, source);
+            return;
+        }
+        this.push(topic, data);
+    };
+    MessageBus.prototype.uniqueRpcTopic = function (topic) {
+        return topic + Config_1.RPC_RDM_PREFIX + ++this._rpcTicket;
+    };
+    MessageBus.prototype.publish = function (topic, data, bridge, source) {
+        var tasks = this._subscribedTasks[topic];
+        if (tasks instanceof Array) {
+            var removedTasks = [];
+            for (var i = 0; i < tasks.length; i++) {
+                var taskItem = tasks[i];
+                if (taskItem.isRunning) {
+                    taskItem.execute(data, bridge, source);
+                    continue;
+                }
+                removedTasks.push(taskItem);
+            }
+            if (removedTasks.length) {
+                for (var i = 0; i < removedTasks.length; i++) {
+                    var taskItem = removedTasks[i];
+                    this._subscribedTasks[topic] = (0, Utils_1.remove)(this._subscribedTasks[topic], taskItem);
+                }
+            }
+        }
+    };
+    MessageBus.prototype.subscribe = function (topic, callback) {
+        var taskItem = new MessageBusTask_1.MessageBusTask(callback);
+        (0, Utils_1.getOrInitArr)(this._subscribedTasks, topic).push(taskItem);
+        return taskItem;
+    };
+    MessageBus.prototype.push = function (topic, data, bridge, source) {
+        var consumed = false;
+        var tasks = this._pulledTasks[topic];
+        if (tasks instanceof Array) {
+            while (tasks.length) {
+                var taskItem = tasks.shift();
+                if (taskItem && taskItem.isRunning) {
+                    taskItem.execute(data, bridge, source);
+                    consumed = true;
+                    break;
+                }
+            }
+        }
+        if (consumed) {
+            (0, Utils_1.getOrInitArr)(this._pushedMessages, topic).push({ data: data, bridge: bridge, source: source });
+        }
+    };
+    MessageBus.prototype.pull = function (topic, callback) {
+        var newTaskItem = new MessageBusTask_1.MessageBusTask(callback);
+        var messageList = this._pushedMessages[topic];
+        if (messageList instanceof Array) {
+            var messageItem = messageList.shift();
+            if (messageItem) {
+                newTaskItem.execute(messageItem.data, messageItem.bridge, messageItem.source);
+                if (messageList.length <= 0) {
+                    delete this._pushedMessages[topic];
+                }
+            }
+            return newTaskItem;
+        }
+        (0, Utils_1.getOrInitArr)(this._pulledTasks, topic).push(newTaskItem);
+        return newTaskItem;
+    };
+    MessageBus.prototype.registeAsyncService = function (topic, callback) {
+        var _this = this;
+        this.subscribe(topic, function (rpcData, bridge, source) {
+            var data = rpcData.data, reply = rpcData.reply;
+            var returnal = callback(data);
+            if (returnal instanceof Promise) {
+                returnal
+                    .then(function (result) {
+                    _this.rpcReply(result, reply, bridge, source);
+                })
+                    .catch(function (error) {
+                    console.error(error);
+                });
+                return;
+            }
+            _this.rpcReply(returnal, reply, bridge, source);
+        });
+    };
+    MessageBus.prototype.asyncRequest = function (topic, data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (_) {
+                        var reply = _this.uniqueRpcTopic(topic);
+                        _this.publish(topic, { data: data, reply: reply });
+                        _this.pull(reply, function (data, bridge, source) {
+                            _({ data: data, bridge: bridge, source: source });
+                        });
+                    })];
+            });
+        });
+    };
+    return MessageBus;
+}());
+exports.MessageBus = MessageBus;
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/MessageBusTask.ts":
+/*!*****************************************************!*\
+  !*** ../utils-section/messageBus/MessageBusTask.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageBusTask = void 0;
+var Utils_1 = __webpack_require__(/*! ./Utils */ "../utils-section/messageBus/Utils.ts");
+var MessageBusTask = /** @class */ (function () {
+    function MessageBusTask(callback) {
+        this._callback = callback;
+        this._isRunning = true;
+    }
+    Object.defineProperty(MessageBusTask.prototype, "isRunning", {
+        get: function () {
+            return this._isRunning;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    // public setCancel(): void {
+    // 	this._isRunning = false
+    // }
+    MessageBusTask.prototype.execute = function (data, bridge, source) {
+        try {
+            var copyData = (0, Utils_1.deepClone)(data);
+            this._callback(copyData, bridge, source);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+    return MessageBusTask;
+}());
+exports.MessageBusTask = MessageBusTask;
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/Utils.ts":
+/*!********************************************!*\
+  !*** ../utils-section/messageBus/Utils.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getOrInitArr = exports.getOrInit = exports.deepClone = exports.remove = void 0;
+function remove(list, item) {
+    var newList = [];
+    for (var i = 0; i < list.length; i++) {
+        if (list[i] !== item) {
+            newList.push(list[i]);
+        }
+    }
+    return newList;
+}
+exports.remove = remove;
+function deepClone(data) {
+    return traverse(data);
+    function traverse(data) {
+        if (typeof data !== 'object' ||
+            data === null ||
+            data instanceof Date ||
+            data instanceof ArrayBuffer ||
+            data instanceof Uint8ClampedArray ||
+            data instanceof Uint8Array ||
+            data instanceof Uint16Array ||
+            data instanceof Uint32Array) {
+            return data;
+        }
+        if (Array.isArray(data)) {
+            return data.map(traverse);
+        }
+        var obj = {};
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                obj[key] = traverse(data[key]);
+            }
+        }
+        return obj;
+    }
+}
+exports.deepClone = deepClone;
+function getOrInit(obj, key, initializer) {
+    if (initializer === void 0) { initializer = function (key) { return null; }; }
+    var value = obj[key];
+    if (typeof value !== 'undefined') {
+        return value;
+    }
+    value = initializer(key);
+    obj[key] = value;
+    return value;
+}
+exports.getOrInit = getOrInit;
+function getOrInitArr(obj, key) {
+    return getOrInit(obj, key, function () {
+        return [];
+    });
+}
+exports.getOrInitArr = getOrInitArr;
+
+
+/***/ }),
+
+/***/ "../utils-section/messageBus/WindowMessageBridge.ts":
+/*!**********************************************************!*\
+  !*** ../utils-section/messageBus/WindowMessageBridge.ts ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WindowMessageBridge = void 0;
+var BaseMessageBridge_1 = __webpack_require__(/*! ./BaseMessageBridge */ "../utils-section/messageBus/BaseMessageBridge.ts");
+var Config_1 = __webpack_require__(/*! ./Config */ "../utils-section/messageBus/Config.ts");
+var WindowMessageBridge = /** @class */ (function (_super) {
+    __extends(WindowMessageBridge, _super);
+    function WindowMessageBridge(bus) {
+        var _this = _super.call(this, bus) || this;
+        window.addEventListener('message', function (e) {
+            _this.processRemoteMessage(e.data, e.source);
+        }, false);
+        return _this;
+    }
+    WindowMessageBridge.prototype.postMessage = function (topic, type, data, target) {
+        var messageItem = {
+            topic: topic,
+            type: type,
+            data: data,
+        };
+        target && target.postMessage(messageItem, '*');
+    };
+    WindowMessageBridge.prototype.publish = function (topic, message, target) {
+        this.postMessage(topic, Config_1.EMessageType.PUBLISH, message, target);
+    };
+    WindowMessageBridge.prototype.subscribe = function (topic, target) {
+        if (target === window) {
+            throw new Error("regist remote subscribe from current window is premittied.");
+        }
+        this.postMessage(topic, Config_1.EMessageType.SUBSCRIBE, null, target);
+    };
+    WindowMessageBridge.prototype.push = function (topic, message, target) {
+        this.postMessage(topic, Config_1.EMessageType.PUSH, message, target);
+    };
+    WindowMessageBridge.prototype.pull = function (topic, target) {
+        if (target === window) {
+            throw new Error("regist remote pull from current window is premittied.");
+        }
+        this.postMessage(topic, Config_1.EMessageType.PULL, null, target);
+    };
+    return WindowMessageBridge;
+}(BaseMessageBridge_1.BaseMessageBridge));
+exports.WindowMessageBridge = WindowMessageBridge;
 
 
 /***/ })

@@ -1,5 +1,7 @@
+import { MessageBus } from './utils/messageBus/MessageBus';
+import { WindowMessageBridge } from './utils/messageBus/WindowMessageBridge';
 import { GlobalIdenManager } from './tool/GlobalIdenManager';
-import { EventBus } from './utils/EventBus';
+import { EventBus } from './utils/eventBus/EventBus';
 import { ElementController } from './controller/ElementController';
 import { DrawLayerController } from './controller/DrawLayerController';
 import { ModifyController } from './presenter/ModifyController';
@@ -12,6 +14,8 @@ import { HandlerControl } from './tool/selection/HandlerControl';
 import { Service } from './service/Service';
 import { Adsorption } from './tool/Adsorption';
 import { CanvasController } from './controller/CanvasController';
+export declare const messageBus: MessageBus;
+export declare const windowMessageBridge: WindowMessageBridge;
 export declare const globalIdenManager: GlobalIdenManager;
 export declare const eventBus: EventBus;
 export declare const elementController: ElementController;
