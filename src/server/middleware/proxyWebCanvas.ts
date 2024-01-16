@@ -2,12 +2,17 @@ import koa from 'koa'
 import { TExtendKoaContext } from '@utypes/koa.types'
 import { renderTemplate, TRenderTemplateResponse } from '../utils/renderTemplate'
 import path from 'path'
+import { enableProxyRemote } from '@/config/config'
 
 const proxyLocaleBaseURL: string = `../static/webCanvas/`
 const proxyLocaleDefaultIndexURL: string = `/index.html`
 
 export function proxyWebCanvas() {
 	return async (ctx: TExtendKoaContext, next: koa.Next): Promise<void | undefined> => {
+		if (enableProxyRemote) {
+			await next()
+			return
+		}
 		try {
 			let requestUrl: string = ctx.url
 			if (requestUrl === '/') {

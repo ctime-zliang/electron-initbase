@@ -16,7 +16,7 @@ export default {
 			return
 		}
 		ctx.body = `
-            <section style="font-size: 30px; color: #000000; font-weight: 900; text-align: center;">404 Not Found. Router</section>
+            <section style="font-size: 30px; color: #ff0000; font-weight: 900; text-align: center;">404 Not Found. Router</section>
         `
 	},
 	500: async (ctx: TExtendKoaContext): Promise<void> => {
@@ -27,7 +27,7 @@ export default {
 			return
 		}
 		ctx.body = `
-            <section style="font-size: 30px; color: #000000; font-weight: 900; text-align: center;">500 Error. Router</section>
+            <section style="font-size: 30px; color: #ff0000; font-weight: 900; text-align: center;">500 Error. Router</section>
         `
 	},
 }
