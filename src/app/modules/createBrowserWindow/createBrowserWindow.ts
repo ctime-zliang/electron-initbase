@@ -34,6 +34,7 @@ export const createBrowserWindow = async (
 		pageInitURL: urlOrFilePath,
 		pageInitURLData: extraOption.isLoadFile ? null : new URL(urlOrFilePath),
 	})
+	win.webContents.executeJavaScript('window.IS_DESKTOP = true;')
 	win.on('close', (e: any): void => {
 		/* eslint-disable */
 		;(win as any) = null
