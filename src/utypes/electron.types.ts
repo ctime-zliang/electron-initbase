@@ -21,10 +21,11 @@ export type TGlobalWindowItemProfile = {
 	win: any
 	pageInitURL: string | null
 	pageInitURLData: TPageInitURLData | null
+	capturedScreenSourceId: string
 	// [key: string]: any
 }
 export type TElectronAppRuntimeProfile = {
-	globalActiveWindowId: string | number | null
+	globalActiveWindowId: string | number
 	globalWindowMap?: TGlobalWindowItemProfile | any
 	// [key: string]: any
 }

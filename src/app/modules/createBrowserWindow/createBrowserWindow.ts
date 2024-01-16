@@ -2,6 +2,7 @@ import { BrowserWindow } from 'electron'
 import { electronAppBaseConfig } from '@config/config'
 import { electronAppRuntimeProfile } from '../../core/runtimeProfile'
 import { createElectronAppRuntimeProfile } from '../../utils/createElectronRuntimeProfile'
+import { TGlobalWindowItemProfile } from '@/utypes/electron.types'
 
 export const createBrowserWindow = async (
 	urlOrFilePath: string,
@@ -33,11 +34,17 @@ export const createBrowserWindow = async (
 		win,
 		pageInitURL: urlOrFilePath,
 		pageInitURLData: extraOption.isLoadFile ? null : new URL(urlOrFilePath),
+		capturedScreenSourceId: '',
 	})
-	win.webContents.executeJavaScript('window.IS_DESKTOP = true;')
 	win.on('close', (e: any): void => {
 		/* eslint-disable */
 		;(win as any) = null
+	})
+	win.webContents.on('did-finish-load', (): void => {
+		const activeWindowId: string = electronAppRuntimeProfile.globalActiveWindowId as string
+		const winProfile: TGlobalWindowItemProfile = electronAppRuntimeProfile.globalWindowMap[activeWindowId]
+		win.webContents.executeJavaScript('window.IS_DESKTOP = true;')
+		win.webContents.executeJavaScript(`window.CAPTURE_SCREEN_SOURCEID = '${winProfile.capturedScreenSourceId}';`)
 	})
 	return win
 }
