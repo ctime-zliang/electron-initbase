@@ -12,7 +12,7 @@ export function proxyRemote() {
 				const proxyResponse: ProxyResponse = await proxyRequest(proxyAssetsUrl as string)
 				await next()
 				ctx.status = 200
-				ctx.body = proxyResponse.res
+				ctx.body = proxyResponse.content
 			} catch (e: any) {
 				await next()
 				const localFullUrl: string = `${ctx.protocol}://${ctx.host}${ctx.url}`

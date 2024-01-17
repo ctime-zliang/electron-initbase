@@ -40,11 +40,6 @@ export const createBrowserWindow = async (
 		/* eslint-disable */
 		;(win as any) = null
 	})
-	win.webContents.on('did-finish-load', (): void => {
-		const activeWindowId: string = electronAppRuntimeProfile.globalActiveWindowId as string
-		const winProfile: TGlobalWindowItemProfile = electronAppRuntimeProfile.globalWindowMap[activeWindowId]
-		win.webContents.executeJavaScript('window.IS_DESKTOP = true;')
-		win.webContents.executeJavaScript(`window.CAPTURE_SCREEN_SOURCEID = '${winProfile.capturedScreenSourceId}';`)
-	})
+	win.webContents.executeJavaScript('window.IS_DESKTOP = true;')
 	return win
 }

@@ -27,6 +27,7 @@ export type ProxyResponse = {
 		get: (key: string) => string | string[] | null | undefined
 		set?: (key: string, value: string) => void
 	}
+	readonly content: string
 	readonly status?: number
 	readonly statusText?: string
 	readonly url: string

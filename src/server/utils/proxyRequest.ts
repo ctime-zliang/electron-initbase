@@ -73,6 +73,7 @@ export const proxyRequest = async (url: string, option: { [key: string]: any } =
 		}
 
 		const req: any = client.request(url, requestOption, (res: http.IncomingMessage) => {
+			let data = ''
 			res.on('error', (err: any) => {
 				reject({
 					url,
@@ -80,22 +81,46 @@ export const proxyRequest = async (url: string, option: { [key: string]: any } =
 					remote: err,
 				})
 			})
-			resolve({
-				status: res.statusCode,
-				statusText: res.statusMessage,
-				url,
-				headers: {
-					get(key: string) {
-						return res.headers[key]
-					},
-				},
-				res,
-				remote: null,
-				buffer: uBuffer(res),
-				arrayBuffer: uArrayBuffer(res),
-				text: uText(res),
-				json: uJson(res),
+			res.on('data', chunk => {
+				data += chunk
 			})
+			res.on('end', () => {
+				resolve({
+					content: data,
+					status: res.statusCode,
+					statusText: res.statusMessage,
+					url,
+					headers: {
+						get(key: string) {
+							return res.headers[key]
+						},
+					},
+					res,
+					remote: null,
+					buffer: uBuffer(res),
+					arrayBuffer: uArrayBuffer(res),
+					text: uText(res),
+					json: uJson(res),
+				})
+			})
+			// console.log(`+++++++++++++++++++++++++++++++`)
+			// console.log(res)
+			// resolve({
+			// 	status: res.statusCode,
+			// 	statusText: res.statusMessage,
+			// 	url,
+			// 	headers: {
+			// 		get(key: string) {
+			// 			return res.headers[key]
+			// 		},
+			// 	},
+			// 	res,
+			// 	remote: null,
+			// 	buffer: uBuffer(res),
+			// 	arrayBuffer: uArrayBuffer(res),
+			// 	text: uText(res),
+			// 	json: uJson(res),
+			// })
 		})
 		req.on('error', (err: any): void => {
 			reject({
