@@ -9,7 +9,8 @@ export declare function toolInit(canvasElement: HTMLCanvasElement): {
     frameTool: FrameTool;
     drawToolManager: DrawToolManager;
 };
-export declare function envirInit(canvasElement: HTMLCanvasElement): void;
+export declare function coreInit(): Promise<void>;
+export declare function envirInit(canvasElement: HTMLCanvasElement): Promise<void>;
 export declare class Starter {
     fpsCount: FPSCount;
     private _scene;
@@ -21,5 +22,6 @@ export declare class Starter {
     constructor(canvasElement: HTMLCanvasElement);
     init(): Promise<void>;
     get scene(): Scene;
-    renderFrame(timestamp: number): void;
+    renderFrame(timeStamp: number): void;
 }
+export declare function resetCanvasContent(): Promise<void>;

@@ -1,7 +1,7 @@
-import { EElementStatus, EElementType } from '../../config/ElementConfig';
+import { EElementStatus, EElementType } from '../../config/ElementProfile';
 import { Vector2 } from '../../geometry/Vector2';
 import { TElementShapeType } from '../../types/Element';
-import { TElementAssistCircleViewRenderData } from '../../types/ElementViewType';
+import { TElementAssistCircleJSONData } from '../../types/ElementViewType';
 import { CircleModel } from '../models/items/CircleModel';
 import { CircleShape } from '../shapes/items/CircleShape';
 export declare function buildAssistPointShape(layerItemId: string, centerPoint: Vector2, parent?: TElementShapeType): AssistPointShape;
@@ -13,5 +13,5 @@ export declare class AssistPointShape extends CircleShape {
     isSelect(x: number, y: number): boolean;
     getType(): EElementType;
     getStatus(): EElementStatus;
-    getRenderData(): TElementAssistCircleViewRenderData;
+    toJSON(): TElementAssistCircleJSONData;
 }

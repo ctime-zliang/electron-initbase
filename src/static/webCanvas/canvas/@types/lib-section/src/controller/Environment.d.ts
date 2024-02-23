@@ -1,16 +1,25 @@
+import { ECoreEngineType } from '../config/CfgProfile';
+import { EFileVsersion } from '../file/config/Common';
 import { Vector3 } from '../geometry/Vector3';
 import { TCanvasBoundingRect } from '../types/Common';
 export declare class Environment {
     private _DPI;
+    private _coreEngineType;
+    private _sysVersion;
     private _canvasElement;
     private _origin;
     private _canvasWidth;
     private _canvasHeight;
     private _canvasLeft;
     private _canvasTop;
+    private _enbaleOperationMessagesEmit;
     constructor();
     get DPI(): [number, number];
     set DPI(value: [number, number]);
+    get sysVersion(): EFileVsersion;
+    set sysVersion(value: EFileVsersion);
+    get coreEngineType(): ECoreEngineType;
+    set coreEngineType(value: ECoreEngineType);
     get canvasElement(): HTMLCanvasElement;
     set canvasElement(value: HTMLCanvasElement | null);
     get origin(): Vector3;
@@ -23,6 +32,7 @@ export declare class Environment {
     set canvasLeft(value: number);
     get canvasTop(): number;
     set canvasTop(value: number);
+    get enbaleOperationMessagesEmit(): boolean;
     updateCanvasTheme(isDarkTheme: boolean): void;
     updateCanvasRectSize(canvasWidth: number, canvasHeight: number, canvasLeft: number, canvasTop: number): void;
     getCanvasBoundingRect(): TCanvasBoundingRect;

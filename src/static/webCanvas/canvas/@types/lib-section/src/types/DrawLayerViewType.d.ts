@@ -1,5 +1,5 @@
-import { EDrawLayerStatus } from '../config/DrawLayerConfig';
-export type TDrawLayerViewRenderData = {
+import { EDrawLayerStatus } from '../config/DrawLayerProfile';
+export type TDrawLayerJSONData = {
     status: EDrawLayerStatus;
     layerItemId: string;
     layerItemName: string;

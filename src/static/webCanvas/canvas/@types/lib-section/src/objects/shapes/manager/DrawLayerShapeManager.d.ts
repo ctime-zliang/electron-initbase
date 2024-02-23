@@ -10,6 +10,8 @@ export declare class DrawLayerShapeManager extends Manager<DrawLayerShape> {
     createControlShapeItem(layerItemName: string): DrawLayerShape;
     createContentShapeItem(layerItemName: string): DrawLayerShape;
     deleteContentShapeItem(layerItemId: string): void;
+    getAllContentShapeItems(): Array<DrawLayerShape>;
+    getContentShapeItem(layerItemId: string): DrawLayerShape;
     getActiveItem(): DrawLayerShape;
     setActiveItem(layerItemId: string): void;
     private addCache;

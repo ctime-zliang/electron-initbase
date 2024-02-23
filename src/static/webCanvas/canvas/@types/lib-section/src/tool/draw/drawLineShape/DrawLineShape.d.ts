@@ -9,7 +9,7 @@ export declare class DrawLineShape {
     set shapeInstances(value: Array<LineShape>);
     get selectedDrawLayerShapeItem(): DrawLayerShape;
     set selectedDrawLayerShapeItem(value: DrawLayerShape);
-    completeDraw(): void;
+    completeDraw(): Array<LineShape>;
     cancelDraw(): void;
     updateShapes(inputInfo: InputInfo): void;
     createShapes(x: number, y: number): void;

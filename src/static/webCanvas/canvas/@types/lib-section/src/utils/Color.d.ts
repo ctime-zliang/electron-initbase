@@ -1,4 +1,4 @@
-import { TColorJSON } from '../types/Common';
+import { TColorRGBAJSON } from '../types/Common';
 export type TRGBAColor = {
     r: number;
     g: number;
@@ -29,6 +29,7 @@ export declare class Color {
     static YELLOW: Color;
     static createByHex(hex: string): Color;
     static createByValue(r: number, g: number, b: number, a: number): Color;
+    static createByAlpha(aplah: number, color?: Color): Color;
     /**
      * RGBA 转 HEX
      *
@@ -66,5 +67,5 @@ export declare class Color {
     get alpha(): number;
     set alpha(value: number);
     toRGBAString(): string;
-    toRGBAJSON(): TColorJSON;
+    toRGBAJSON(): TColorRGBAJSON;
 }

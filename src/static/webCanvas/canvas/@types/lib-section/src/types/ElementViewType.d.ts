@@ -1,39 +1,43 @@
-import { EElementStatus, EElementType } from '../config/ElementConfig';
-import { Vector2 } from '../geometry/Vector2';
-import { TCanvasLineCap, TColorJSON } from './Common';
-export type TElementLineViewRenderBaseData = {
+import { EElementStatus, EElementType } from '../config/ElementProfile';
+import { TVector2JSONData } from '../geometry/Vector2';
+import { TCanvasLineCap, TColorRGBAJSON } from './Common';
+export type TElementJSONBaseData = TElementLineJSONBaseData | TElementCircleJSONBaseData;
+/********************************************************************************/
+/********************************************************************************/
+export type TElementLineJSONBaseData = {
     type: EElementType;
     status: EElementStatus;
     layerItemId: string;
     elementItemId: string;
-    startPoint: Vector2;
-    endPoint: Vector2;
-    strokeColor: TColorJSON;
+    elementItemName: string;
+    startPoint: TVector2JSONData;
+    endPoint: TVector2JSONData;
+    strokeColor: TColorRGBAJSON;
     lineCap: TCanvasLineCap;
     modelType: EElementType;
-    length: number;
     strokeWidth: number;
     isSolid: boolean;
 };
-export type TElementLineViewRenderData = TElementLineViewRenderBaseData & {};
-export type TElementAssistLineViewRenderData = TElementLineViewRenderBaseData & {
+export type TElementLineJSONData = TElementLineJSONBaseData & {};
+export type TElementAssistLineJSONData = TElementLineJSONBaseData & {
     fixedPixelWidth: number;
 };
 /********************************************************************************/
 /********************************************************************************/
-export type TElementCircleViewRenderBaseData = {
+export type TElementCircleJSONBaseData = {
     type: EElementType;
     status: EElementStatus;
     layerItemId: string;
     elementItemId: string;
-    centerPoint: Vector2;
+    elementItemName: string;
+    centerPoint: TVector2JSONData;
     radius: number;
     strokeWidth: number;
-    strokeColor: TColorJSON;
-    fillColor: TColorJSON;
+    strokeColor: TColorRGBAJSON;
+    fillColor: TColorRGBAJSON;
     lineCap: TCanvasLineCap;
     modelType: EElementType;
     isSolid: boolean;
 };
-export type TElementCircleViewRenderData = TElementCircleViewRenderBaseData & {};
-export type TElementAssistCircleViewRenderData = TElementCircleViewRenderBaseData & {};
+export type TElementCircleJSONData = TElementCircleJSONBaseData & {};
+export type TElementAssistCircleJSONData = TElementCircleJSONBaseData & {};

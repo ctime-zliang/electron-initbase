@@ -9,7 +9,7 @@ export declare class DrawCircleShape {
     set shapeInstances(value: Array<CircleShape>);
     get selectedDrawLayerShapeItem(): DrawLayerShape;
     set selectedDrawLayerShapeItem(value: DrawLayerShape);
-    completeDraw(): void;
+    completeDraw(): Array<CircleShape>;
     cancelDraw(): void;
     updateShapes(inputInfo: InputInfo): void;
     createShapes(x: number, y: number): void;

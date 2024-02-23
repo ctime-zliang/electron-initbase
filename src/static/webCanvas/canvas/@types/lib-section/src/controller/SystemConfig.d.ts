@@ -1,7 +1,9 @@
-import { TSystemConfigProfile } from '../types/Common';
+import { ECoreEngineType } from '../config/CfgProfile';
+import { TSystemConfigProfileChangedData } from '../types/Common';
 export declare class SystemConfig {
     private static thisInstance;
     static getInstance(): SystemConfig;
+    private _forceUseCoreEngineType;
     private _isDarkTheme;
     private _alignGrid;
     private _enableGrid;
@@ -10,6 +12,7 @@ export declare class SystemConfig {
     private _enableCanvasZoomChange;
     private _enableCanvasTranslate;
     constructor();
+    get forceUseCoreEngineType(): ECoreEngineType;
     set isDarkTheme(value: boolean);
     get isDarkTheme(): boolean;
     set alignGrid(value: boolean);
@@ -24,6 +27,6 @@ export declare class SystemConfig {
     get enableCanvasZoomChange(): boolean;
     set enableCanvasTranslate(value: boolean);
     get enableCanvasTranslate(): boolean;
-    toJSON(): TSystemConfigProfile;
+    toJSON(): TSystemConfigProfileChangedData;
     update(key: keyof SystemConfig, value: any): void;
 }

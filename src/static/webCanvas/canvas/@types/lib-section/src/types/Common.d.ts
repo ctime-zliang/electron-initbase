@@ -1,4 +1,5 @@
-import { EElementType } from '../config/ElementConfig';
+import { ECoreEngineType } from '../config/CfgProfile';
+import { EOperationAction } from '../config/OperationProfile';
 export type T2DCoordinatePositionDot = {
     id: number;
     x: number;
@@ -20,7 +21,7 @@ export type TDOMGetBoundingClientRectResult = {
     top: number;
     left: number;
 };
-export type TColorJSON = {
+export type TColorRGBAJSON = {
     red: number;
     green: number;
     blue: number;
@@ -33,13 +34,10 @@ export type TDrawLayerItemResult = {
     layerItemType: number;
     layerItemOpacity: number;
 };
-export type TElementItemResult = {
-    elementItemId: string;
-    elementItemModelType: EElementType;
-};
 export type TCanvasLineCap = 'butt' | 'round' | 'square';
-export type TResouceChangedData = {
+export type TResouceProfileChangedData = {
     fps: number;
+    coreEngineType: ECoreEngineType;
 };
 export type TCanvasProfileChangedData = {
     zoomRatio: number;
@@ -47,7 +45,7 @@ export type TCanvasProfileChangedData = {
     canvasHeight: number;
     DPI: [number, number];
 };
-export type TSystemConfigProfile = {
+export type TSystemConfigProfileChangedData = {
     isDarkTheme: boolean;
     alignGrid: boolean;
     enableGrid: boolean;
@@ -55,4 +53,15 @@ export type TSystemConfigProfile = {
     enableFPSCount: boolean;
     enableCanvasZoomChange: boolean;
     enableCanvasTranslate: boolean;
+};
+export type TOpeartionProfileChangedData = {
+    action: EOperationAction;
+    targetItemId?: string;
+    allDrawLayers?: Array<TDrawLayerItemResult>;
+};
+export type TCanvasExportFileData = {
+    dataStr: string;
+};
+export type TCanvasImportFileData = {
+    dataStr: string;
 };

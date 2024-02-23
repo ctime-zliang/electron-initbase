@@ -10,4 +10,5 @@ export declare class RtreeItem {
     get target(): ElementShapeItemBase;
     get targetId(): string;
     getBBox2(): BBox2;
+    updateBBox2(bbox2: BBox2): void;
 }

@@ -1,4 +1,4 @@
-import { EDrawLayerType } from '../../../../config/DrawLayerConfig';
+import { EDrawLayerType } from '../../../../config/DrawLayerProfile';
 export declare class DrawLayerBaseItemModel {
     private _layerItemType;
     private _layerItemName;

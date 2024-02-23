@@ -1,4 +1,4 @@
-import { EDrawLayerStatus } from '../../../../config/DrawLayerConfig';
+import { EDrawLayerStatus } from '../../../../config/DrawLayerProfile';
 import { Context } from '../../../../utils/Context';
 export declare abstract class DrawLayerShapeBase extends Context {
     constructor();
@@ -8,5 +8,5 @@ export declare abstract class DrawLayerShapeBase extends Context {
     abstract setDelete(): void;
     abstract getType(): number;
     abstract getStatus(): EDrawLayerStatus;
-    abstract getRenderData(): any;
+    abstract toJSON(): any;
 }

@@ -2,8 +2,8 @@ import { BBox2 } from '../../../geometry/BBox2';
 import { Vector2 } from '../../../geometry/Vector2';
 import { ElementModelItemBase } from './elementBase/ElementModelItemBase';
 import { Color } from '../../../utils/Color';
-import { LinearPrimitive } from '../../../geometry/LinearPrimitive';
 import { TCanvasLineCap } from '../../../types/Common';
+import { LinearPrimitive } from '../../../geometry/LinearPrimitive';
 export declare enum ECircleModelBufferOffset {
     CENTER_X = 0,
     CENTER_Y = 1,
@@ -21,7 +21,7 @@ export declare enum ECircleModelBufferOffset {
     SOLID = 13,
     $end = 14
 }
-export declare function buildCircleModel(layerItemId: string, centerPoint: Vector2, radius: number, strokeWidth?: number): CircleModel;
+export declare function buildCircleModel(layerItemId: string, centerPoint: Vector2, radius: number, strokeWidth?: number, strokeColor?: Color, fillColor?: Color): CircleModel;
 export declare class CircleModel extends ElementModelItemBase {
     constructor(elementItemId: string, layerItemId: string, centerX: number, centerY: number, radius: number, strokeWidth: number, strokeColor?: Color, fillColor?: Color, lineCap?: TCanvasLineCap, isSolid?: boolean, bbox2?: BBox2);
     get centerPoint(): Vector2;
@@ -38,9 +38,9 @@ export declare class CircleModel extends ElementModelItemBase {
     set lineCap(value: TCanvasLineCap);
     get solid(): boolean;
     set solid(value: boolean);
-    get primitive(): LinearPrimitive;
+    get element(): LinearPrimitive;
     getBBox2(): BBox2;
-    createBBox2(): BBox2;
     updateBBox2(): BBox2;
     isInGraphical(x: number, y: number): boolean;
+    isFill(): boolean;
 }

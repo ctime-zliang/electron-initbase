@@ -1,5 +1,5 @@
-import { EElementStatus, EElementType } from '../../../config/ElementConfig';
-import { TElementLineViewRenderData } from '../../../types/ElementViewType';
+import { EElementStatus, EElementType } from '../../../config/ElementProfile';
+import { TElementLineJSONData } from '../../../types/ElementViewType';
 import { LineModel } from '../../models/items/LineModel';
 import { Vector2 } from '../../../geometry/Vector2';
 import { Color } from '../../../utils/Color';
@@ -30,5 +30,5 @@ export declare class LineShape extends ElementShapeItemBase {
     transform(value: Matrix4): void;
     getType(): EElementType;
     getStatus(): EElementStatus;
-    getRenderData(): TElementLineViewRenderData;
+    toJSON(): TElementLineJSONData;
 }

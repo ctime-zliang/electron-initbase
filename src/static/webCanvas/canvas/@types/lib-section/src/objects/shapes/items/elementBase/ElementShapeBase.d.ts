@@ -1,4 +1,4 @@
-import { EElementStatus, EElementType } from '../../../../config/ElementConfig';
+import { EElementStatus, EElementType } from '../../../../config/ElementProfile';
 import { Matrix4 } from '../../../../Main';
 import { Context } from '../../../../utils/Context';
 export declare abstract class ElementShapeBase extends Context {
@@ -11,5 +11,5 @@ export declare abstract class ElementShapeBase extends Context {
     abstract setDelete(): void;
     abstract getType(): EElementType;
     abstract getStatus(): EElementStatus;
-    abstract getRenderData(): any;
+    abstract toJSON(): any;
 }

@@ -1414,7 +1414,7 @@ input::-webkit-inner-spin-button {
   margin: 5px 5px;
   padding: 5px 10px;
   border: 1px solid #dcdcdc;
-  border-radius: 4px;
+  border-radius: 3px;
   background-color: rgba(255, 255, 255);
   -webkit-box-shadow: 4px 4px 12px 4px rgba(255, 255, 255, 0.2);
           box-shadow: 4px 4px 12px 4px rgba(255, 255, 255, 0.2);
@@ -1454,7 +1454,14 @@ input::-webkit-inner-spin-button {
   margin: 0 5px;
   cursor: pointer;
 }
-.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-alz00iHk:hover {
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-alz00iHk:hover span {
   font-weight: bolder;
+}
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-zTQirYa9 {
+  pointer-events: none;
+  color: #999999;
+}
+.index-module_-JdCN1VO3 .index-module_-wFLIlxng .index-module_-zTQirYa9:hover span {
+  font-weight: 100;
 }
 

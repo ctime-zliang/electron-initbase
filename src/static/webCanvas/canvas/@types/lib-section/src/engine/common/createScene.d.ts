@@ -1,5 +1,3 @@
+import { ECoreEngineType } from '../../config/CfgProfile';
 import { Scene } from './Scene';
-export declare enum EEngineType {
-    CANVAS = "CANVAS"
-}
-export declare function createScene(type: EEngineType, canvasElement: HTMLCanvasElement): Promise<Scene>;
+export declare function createScene(engineType: ECoreEngineType, canvasElement: HTMLCanvasElement): Promise<Scene>;

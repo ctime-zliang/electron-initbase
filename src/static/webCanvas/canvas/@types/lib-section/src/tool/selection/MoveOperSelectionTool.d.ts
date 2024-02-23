@@ -2,6 +2,10 @@ import { TAllElementShapeType } from '../../types/Element';
 import { InputInfo } from '../InputInfo';
 import { SelectionTool } from './base/SelectionTool';
 export declare class MoveOperSelectionTool extends SelectionTool {
+    private _commandGroupId;
+    private _shapeItemCommands;
+    private _isCreatedCommand;
+    private _initSelectedItemJSONDatas;
     private _movePhysicsX;
     private _movePhysicsY;
     constructor();

@@ -4,5 +4,4 @@ export declare abstract class ElementModelBase {
     abstract isInGraphical(...args: Array<any>): boolean;
     abstract updateBuffer(offset: number, data: ArrayLike<number>): void;
     abstract updateBBox2(...args: Array<any>): BBox2;
-    abstract createBBox2(...args: Array<any>): BBox2;
 }

@@ -1,5 +1,5 @@
-import { EElementStatus, EElementType } from '../../../config/ElementConfig';
-import { TElementCircleViewRenderData } from '../../../types/ElementViewType';
+import { EElementStatus, EElementType } from '../../../config/ElementProfile';
+import { TElementCircleJSONData } from '../../../types/ElementViewType';
 import { Vector2 } from '../../../geometry/Vector2';
 import { Color } from '../../../utils/Color';
 import { ElementShapeItemBase } from './elementBase/ElementShapeItemBase';
@@ -28,7 +28,8 @@ export declare class CircleShape extends ElementShapeItemBase {
     isSelect(x: number, y: number): boolean;
     transform(value: Matrix4): void;
     updateRadius(x: number, y: number): void;
+    removeFill(): void;
     getType(): EElementType;
     getStatus(): EElementStatus;
-    getRenderData(): TElementCircleViewRenderData;
+    toJSON(): TElementCircleJSONData;
 }

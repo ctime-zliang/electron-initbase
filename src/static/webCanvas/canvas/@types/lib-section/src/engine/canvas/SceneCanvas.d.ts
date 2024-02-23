@@ -9,5 +9,5 @@ export declare class SceneCanvas extends Scene {
     setCanvasOrigin(originData: TVector3JSONData): void;
     addPlaneItem(planeId: string): Plane<SceneCanvas>;
     deletePlaneItem(planeId: string): void;
-    render(timestamp: number): void;
+    render(timeStamp: number): void;
 }

@@ -1,4 +1,4 @@
-import { EElementType } from '../../../../config/ElementConfig';
+import { EElementType } from '../../../../config/ElementProfile';
 import { BBox2 } from '../../../../geometry/BBox2';
 import { ElementModelBase } from './ElementModelBase';
 export declare abstract class ElementModelItemBase extends ElementModelBase {

@@ -1,7 +1,7 @@
-import { EElementStatus, EElementType } from '../../config/ElementConfig';
+import { EElementStatus, EElementType } from '../../config/ElementProfile';
 import { Vector2 } from '../../geometry/Vector2';
 import { TElementShapeType } from '../../types/Element';
-import { TElementAssistLineViewRenderData } from '../../types/ElementViewType';
+import { TElementAssistLineJSONData } from '../../types/ElementViewType';
 import { LineModel } from '../models/items/LineModel';
 import { LineShape } from '../shapes/items/LineShape';
 export declare function buildAssistLineShape(layerItemId: string, startPoint: Vector2, endPoint: Vector2, isSolid?: boolean, parent?: TElementShapeType): AssistLineShape;
@@ -15,5 +15,5 @@ export declare class AssistLineShape extends LineShape {
     set parent(value: TElementShapeType);
     getType(): EElementType;
     getStatus(): EElementStatus;
-    getRenderData(): TElementAssistLineViewRenderData;
+    toJSON(): TElementAssistLineJSONData;
 }

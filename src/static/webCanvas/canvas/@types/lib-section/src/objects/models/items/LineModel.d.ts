@@ -2,8 +2,8 @@ import { BBox2 } from '../../../geometry/BBox2';
 import { Vector2 } from '../../../geometry/Vector2';
 import { ElementModelItemBase } from './elementBase/ElementModelItemBase';
 import { Color } from '../../../utils/Color';
-import { LinearPrimitive } from '../../../geometry/LinearPrimitive';
 import { TCanvasLineCap } from '../../../types/Common';
+import { LinearPrimitive } from '../../../geometry/LinearPrimitive';
 export declare enum ELineModelBufferOffset {
     START_X = 0,
     START_Y = 1,
@@ -18,7 +18,7 @@ export declare enum ELineModelBufferOffset {
     SOLID = 10,
     $end = 11
 }
-export declare function buildLineModel(layerItemId: string, startPoint: Vector2, endPoint: Vector2, strokeWidth?: number): LineModel;
+export declare function buildLineModel(layerItemId: string, startPoint: Vector2, endPoint: Vector2, strokeWidth?: number, strokeColor?: Color): LineModel;
 export declare class LineModel extends ElementModelItemBase {
     constructor(elementItemId: string, layerItemId: string, startX: number, startY: number, endX: number, endY: number, strokeWidth?: number, strokeColor?: Color, lineCap?: TCanvasLineCap, isSolid?: boolean, bbox2?: BBox2);
     get startPoint(): Vector2;
@@ -37,9 +37,8 @@ export declare class LineModel extends ElementModelItemBase {
     set lineCap(value: TCanvasLineCap);
     get solid(): boolean;
     set solid(value: boolean);
-    get primitive(): LinearPrimitive;
+    get element(): LinearPrimitive;
     getBBox2(): BBox2;
-    createBBox2(): BBox2;
     updateBBox2(): BBox2;
     isInGraphical(x: number, y: number): boolean;
 }
