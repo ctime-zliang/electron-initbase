@@ -2485,7 +2485,7 @@ eval("\nif (false) {} else {\n  module.exports = __webpack_require__(/*! ../cjs/
   \*****************************************/
 /***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-eval("// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1703732060002\n      var cssReload = __webpack_require__(/*! ../../mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"../\",\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://local-webcanvas/./node_modules/antd/dist/antd.css?");
+eval("// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1704210044314\n      var cssReload = __webpack_require__(/*! ../../mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"../\",\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://local-webcanvas/./node_modules/antd/dist/antd.css?");
 
 /***/ }),
 

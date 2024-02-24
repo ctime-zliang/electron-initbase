@@ -731,7 +731,8 @@ function coreInit() {
         }
         else {
             const isSupportWebGPUResult = yield (0, Utils_1.isSupportWebGPU)();
-            Constant_1.environment.coreEngineType = isSupportWebGPUResult ? CfgProfile_1.ECoreEngineType.WEBGPU : CfgProfile_1.ECoreEngineType.WEBCPU;
+            // environment.coreEngineType = isSupportWebGPUResult ? ECoreEngineType.WEBGPU : ECoreEngineType.WEBCPU
+            Constant_1.environment.coreEngineType = CfgProfile_1.ECoreEngineType.WEBCPU;
         }
     });
 }

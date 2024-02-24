@@ -9,5 +9,5 @@ export const baseServerCongfig: { [key: string]: any } = {
 	port: 3501,
 }
 
-export const enableProxyRemote: boolean = true
+export const enableProxyRemote: boolean = false
 export const proxyRemoteBaseURL: string = `http://127.0.0.1:8080/editor`
