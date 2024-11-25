@@ -1,0 +1,7 @@
+{
+	"name": "Electron Init App",
+	"version": "1.0.1",
+	"description": "",
+	"main": "./app.js",
+	"license": "ISC"
+}

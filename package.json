@@ -1,0 +1,187 @@
+{
+	"name": "electron-initbase",
+	"version": "1.0.0",
+	"description": "An Application by electron",
+	"main": "dist/electron/app.js",
+	"scripts": {
+		"prepare": "husky install",
+		"husky:install": "husky install",
+		"prettier:write-all": "prettier --write .",
+		"prettier:check-all": "prettier --check .",
+		"eslint:check-src": "eslint --ext .js,.ts,.jsx,.tsx src",
+		"eslint:fix-src": "eslint --fix --ext .js,.ts,.jsx,.tsx src",
+		"tsc:check": "tsc --noEmit",
+		"electron:fix": "electron-fix start",
+		"**": "**",
+		"ebuilder:dist": "electron-builder",
+		"ebuilder:pack": "electron-builder --dir",
+		"--": "--",
+		"build:server:dev": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --watch --progress --config ./config/server/webpack.dev.config.js",
+		"build:server:prod": "rimraf ./dist/server && cross-env NODE_ENV=development webpack --progress --config ./config/server/webpack.prod.config.js",
+		"nodemon:server:dev": "nodemon --config ./config/server/nodemon.json",
+		"==": "==",
+		"build:electron:dev": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --watch --progress --config ./config/electron/webpack.dev.config.js",
+		"build:electron:prod": "rimraf ./dist/electron && cross-env NODE_ENV=development webpack --progress --config ./config/electron/webpack.prod.config.js",
+		"start:electron:dev": "cd ./dist/electron && electron ."
+	},
+	"build": {
+		"productName": "clock",
+		"appId": "ctimezliang.electron.clock",
+		"publish": [
+			{
+				"provider": "generic",
+				"url": "http://127.0.0.1/electron"
+			}
+		],
+		"copyright": "0.1",
+		"directories": {
+			"output": "build"
+		},
+		"files": [
+			"node_modules/",
+			"package.json",
+			"src/",
+			"dist/"
+		],
+		"nsis": {
+			"oneClick": false,
+			"allowElevation": true,
+			"allowToChangeInstallationDirectory": true,
+			"installerIcon": "./config/build/icons/icon.ico",
+			"uninstallerIcon": "./config/build/icons/icon.ico",
+			"installerHeaderIcon": "./config/build/icons/icon.ico",
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true,
+			"shortcutName": "electron",
+			"artifactName": "${productName}-${version}-${os}-${arch}-setup.${ext}",
+			"include": "./config/build/script/installer.nsh"
+		},
+		"win": {
+			"icon": "./config/build/icons/icon.ico",
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				},
+				{
+					"target": "zip",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				}
+			]
+		},
+		"dmg": {
+			"backgroundColor": "#FFFFFF",
+			"contents": [
+				{
+					"x": 130,
+					"y": 220
+				},
+				{
+					"x": 410,
+					"y": 220,
+					"type": "link",
+					"path": "/Applications"
+				}
+			],
+			"title": "TiEthWallet ${version}"
+		},
+		"mac": {
+			"icon": "./config/build/icons/icon.icns"
+		},
+		"linux": {
+			"icon": "./config/build/icons"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ctime-zliang/electron-initbase.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ctime-zliang/electron-initbase/issues"
+	},
+	"homepage": "https://github.com/ctime-zliang/electron-initbase#readme",
+	"dependencies": {
+		"chalk": "^4.1.2",
+		"ejs": "^3.1.6",
+		"electron-updater": "^4.0.0",
+		"events": "^3.3.0",
+		"http-proxy": "~1.16.2",
+		"https": "^1.0.0",
+		"identity-obj-proxy": "^3.0.0",
+		"koa": "^2.13.1",
+		"koa-bodyparser": "^4.3.0",
+		"koa-compose": "^4.1.0",
+		"koa-cors": "0.0.16",
+		"koa-ejs": "^4.3.0",
+		"koa-router": "^10.0.0",
+		"koa-static": "^5.0.0",
+		"koa-views": "^7.0.1",
+		"mysql": "^2.18.1",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.15.8",
+		"@babel/plugin-proposal-class-properties": "^7.16.0",
+		"@babel/plugin-proposal-decorators": "^7.16.4",
+		"@babel/plugin-transform-arrow-functions": "^7.16.0",
+		"@babel/plugin-transform-modules-commonjs": "^7.16.0",
+		"@babel/plugin-transform-runtime": "^7.16.4",
+		"@babel/preset-env": "^7.16.4",
+		"@babel/preset-typescript": "^7.16.0",
+		"@babel/runtime": "^7.16.3",
+		"@electron/remote": "^2.0.4",
+		"@types/ejs": "^3.1.0",
+		"@types/koa": "^2.13.4",
+		"@types/koa-bodyparser": "^4.3.4",
+		"@types/koa-cors": "0.0.2",
+		"@types/koa-ejs": "^4.3.0",
+		"@types/koa-router": "^7.4.4",
+		"@types/node": "^15.3.0",
+		"@typescript-eslint/eslint-plugin": "^5.6.0",
+		"@typescript-eslint/parser": "^5.6.0",
+		"babel-eslint": "^10.1.0",
+		"babel-loader": "^8.2.2",
+		"babel-plugin-dynamic-import-node": "^2.3.3",
+		"babel-plugin-import": "^1.13.3",
+		"clean-webpack-plugin": "^4.0.0",
+		"copy-webpack-plugin": "^9.0.1",
+		"cross-env": "^5.1.4",
+		"electron": "^16.0.5",
+		"electron-builder": "^20.15.0",
+		"electron-fix": "^1.1.3",
+		"esbuild": "^0.14.5",
+		"esbuild-loader": "^2.17.0",
+		"eslint": "^8.1.0",
+		"eslint-plugin-import": "^2.25.3",
+		"eslint-plugin-react": "^7.27.1",
+		"eslint-plugin-react-hooks": "^4.3.0",
+		"eslint-webpack-plugin": "^3.1.0",
+		"file-loader": "^6.2.0",
+		"html-loader": "^3.0.1",
+		"html-webpack-plugin": "^5.3.2",
+		"husky": "^7.0.4",
+		"node-notifier": "^10.0.0",
+		"nodemon": "^2.0.15",
+		"pm2": "^4.5.6",
+		"prettier": "^2.2.1",
+		"progress-bar-webpack-plugin": "^2.1.0",
+		"rimraf": "^3.0.2",
+		"ts-node": "^10.4.0",
+		"typescript": "^4.4.4",
+		"url-loader": "^4.1.1",
+		"webpack": "^5.44.0",
+		"webpack-bundle-analyzer": "^4.5.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-dev-server": "^3.11.2",
+		"webpack-merge": "^5.8.0"
+	}
+}

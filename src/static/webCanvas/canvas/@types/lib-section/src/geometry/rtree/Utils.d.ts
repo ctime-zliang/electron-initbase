@@ -1,0 +1,12 @@
+import { TSimpleRect, TRtreeNodeItem, TRtreeNodeLeafDataItem } from './Types';
+export declare function insertSubtree(leafItem: TRtreeNodeItem, root: TRtreeNodeItem, minWidth: number, maxWidth: number): void;
+export declare function chooseLeafSubtree(itemData: TRtreeNodeLeafDataItem, root: TRtreeNodeItem): Array<TRtreeNodeItem>;
+export declare function linearSplit(nodes: Array<TRtreeNodeItem>, minWidth: number): Array<TRtreeNodeItem>;
+export declare function pickLinear(nodes: Array<TRtreeNodeItem>): Array<TRtreeNodeItem>;
+export declare function pickNext(nodes: Array<TRtreeNodeItem>, a: TRtreeNodeItem, b: TRtreeNodeItem, minWidth: number): void;
+export declare function searchSubtree(rect: TSimpleRect, root: TRtreeNodeItem, isGetNodeDataOnly?: boolean): Array<TRtreeNodeItem>;
+export declare function getFlattenLeafs(trees: Array<TRtreeNodeItem>): Array<TRtreeNodeItem>;
+export declare function removeArea(rect: TSimpleRect, rootTree: TRtreeNodeItem, minWidth: number, maxWidth: number, balanceChildOnDeleting: boolean): Array<TRtreeNodeItem>;
+export declare function removeObj(rect: TSimpleRect, targetOnLeaf: any, rootTree: TRtreeNodeItem, minWidth: number, maxWidth: number, balanceChildOnDeleting: boolean): Array<TRtreeNodeItem>;
+export declare function removeSubtree(rect: TSimpleRect, targetOnLeaf: any, root: TRtreeNodeItem, minWidth: number, maxWidth: number, balanceChildOnDeleting: boolean): Array<TRtreeNodeItem>;
+export declare function attachData(newTree: TRtreeNodeItem, root: TRtreeNodeItem): TRtreeNodeItem;

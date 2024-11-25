@@ -1,0 +1,35 @@
+import { EElementStatus, EElementType } from '../../../config/ElementProfile';
+import { TElementCircleJSONData } from '../../../types/ElementViewType';
+import { Vector2 } from '../../../geometry/Vector2';
+import { Color } from '../../../utils/Color';
+import { ElementShapeItemBase } from './elementBase/ElementShapeItemBase';
+import { Matrix4 } from '../../../geometry/Matrix4';
+import { CircleModel } from '../../models/items/CircleModel';
+import { TCanvasLineCap } from '../../../types/Common';
+export declare function buildCircleShape(layerItemId: string, centerPoint: Vector2, radius: number, strokeWidth?: number, strokeColor?: Color, fillColor?: Color): CircleShape;
+export declare class CircleShape extends ElementShapeItemBase {
+    constructor(model: CircleModel);
+    get elementItemName(): string;
+    set elementItemName(value: string);
+    get centerPoint(): Vector2;
+    set centerPoint(value: Vector2);
+    get radius(): number;
+    set radius(value: number);
+    get strokeWidth(): number;
+    set strokeWidth(value: number);
+    get strokeColor(): Color;
+    set strokeColor(value: Color);
+    get fillColor(): Color;
+    set fillColor(value: Color);
+    get lineCap(): TCanvasLineCap;
+    set lineCap(value: TCanvasLineCap);
+    get solid(): boolean;
+    set solid(value: boolean);
+    isSelect(x: number, y: number): boolean;
+    transform(value: Matrix4): void;
+    updateRadius(x: number, y: number): void;
+    removeFill(): void;
+    getType(): EElementType;
+    getStatus(): EElementStatus;
+    toJSON(): TElementCircleJSONData;
+}

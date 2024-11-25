@@ -1,0 +1,34 @@
+import { EElementStatus, EElementType } from '../../../config/ElementProfile';
+import { TElementLineJSONData } from '../../../types/ElementViewType';
+import { LineModel } from '../../models/items/LineModel';
+import { Vector2 } from '../../../geometry/Vector2';
+import { Color } from '../../../utils/Color';
+import { ElementShapeItemBase } from './elementBase/ElementShapeItemBase';
+import { Matrix4 } from '../../../geometry/Matrix4';
+import { TCanvasLineCap } from '../../../types/Common';
+export declare function buildLineShape(layerItemId: string, startPoint: Vector2, endPoint: Vector2, strokeWidth?: number, strokeColor?: Color): LineShape;
+export declare class LineShape extends ElementShapeItemBase {
+    constructor(model: LineModel);
+    get elementItemName(): string;
+    set elementItemName(value: string);
+    get startPoint(): Vector2;
+    set startPoint(value: Vector2);
+    get endPoint(): Vector2;
+    set endPoint(value: Vector2);
+    get strokeWidth(): number;
+    set strokeWidth(value: number);
+    get length(): number;
+    set length(value: number);
+    get strokeColor(): Color;
+    set strokeColor(value: Color);
+    get lineCap(): TCanvasLineCap;
+    set lineCap(value: TCanvasLineCap);
+    get solid(): boolean;
+    set solid(value: boolean);
+    get centerPoint(): Vector2;
+    isSelect(x: number, y: number): boolean;
+    transform(value: Matrix4): void;
+    getType(): EElementType;
+    getStatus(): EElementStatus;
+    toJSON(): TElementLineJSONData;
+}

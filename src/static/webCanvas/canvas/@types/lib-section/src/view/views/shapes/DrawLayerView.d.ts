@@ -1,0 +1,33 @@
+import { TDrawLayerJSONData } from '../../../types/DrawLayerViewType';
+import { DrawLayerViewPayloads } from './DrawLayerViewPayloads';
+import { Scene } from '../../../engine/common/Scene';
+import { Context } from '../../../utils/Context';
+import { Plane } from '../../../engine/common/Plane';
+export declare class DrawLayerView extends Context {
+    private _scene;
+    private _plane;
+    private _type;
+    private _layerItemName;
+    private _layerItemOpacity;
+    private _groupId;
+    private _layerItemId;
+    private _layerPayloads;
+    constructor(scene: Scene, layerItemId: string, layerItemName: string, layerItemOpacity: number, groupId: string);
+    get plane(): Plane<Scene>;
+    get scene(): Scene;
+    get type(): string;
+    set type(value: string);
+    get layerItemName(): string;
+    set layerItemName(value: string);
+    get layerItemOpacity(): number;
+    set layerItemOpacity(value: number);
+    get groupId(): string | undefined;
+    set groupId(value: string | undefined);
+    get layerItemId(): string;
+    set layerItemId(value: string);
+    get layerPayloads(): DrawLayerViewPayloads;
+    set layerPayloads(value: DrawLayerViewPayloads);
+    modify(layerItemData: TDrawLayerJSONData): void;
+    delete(): void;
+    notify(scene: Scene): void;
+}

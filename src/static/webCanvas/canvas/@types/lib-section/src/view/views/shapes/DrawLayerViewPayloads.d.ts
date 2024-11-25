@@ -1,0 +1,32 @@
+import { TElementAssistCircleJSONData, TElementAssistLineJSONData, TElementCircleJSONData, TElementLineJSONData } from '../../../types/ElementViewType';
+import { DrawLayerView } from './DrawLayerView';
+export declare class DrawLayerViewPayloads {
+    private _parent;
+    private _linesProfileCreated;
+    private _linesProfileUpdated;
+    private _linesProfileDeleted;
+    private _circlesProfileCreated;
+    private _circlesProfileUpdated;
+    private _circlesProfileDeleted;
+    private _assistLinesProfileCreated;
+    private _assistLinesProfileUpdated;
+    private _assistLinesProfileDeleted;
+    private _assistCirclesProfileCreated;
+    private _assistCirclesProfileUpdated;
+    private _assistCirclesProfileDeleted;
+    constructor(parent: DrawLayerView);
+    get parent(): DrawLayerView;
+    addLineProfileItem(data: TElementLineJSONData): string;
+    updateLineProfileItem(id: string, data: TElementLineJSONData): void;
+    deletedLineProfileItem(id: string): void;
+    addCircleProfileItem(data: TElementCircleJSONData): string;
+    updateCircleProfileItem(id: string, data: TElementCircleJSONData): void;
+    deletedCircleProfileItem(id: string): void;
+    addAssistLineProfileItem(data: TElementAssistLineJSONData): string;
+    updateAssistLineProfileItem(id: string, data: TElementAssistLineJSONData): void;
+    deletedAssistLineProfileItem(id: string): void;
+    addAssistCircleProfileItem(data: TElementAssistCircleJSONData): string;
+    updateAssistCircleProfileItem(id: string, data: TElementAssistCircleJSONData): void;
+    deletedAssistCircleProfileItem(id: string): void;
+    notify(): void;
+}
