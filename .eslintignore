@@ -1,0 +1,12 @@
+.cache
+.husky
+.puppeteer.runtime
+doc
+node_modules
+webpack
+config
+tests
+e2e
+coverage
+*.d.ts
+src/app/mock
