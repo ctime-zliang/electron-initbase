@@ -1,6 +1,6 @@
 import koa from 'koa'
+import fs from 'fs'
 import { TExtendKoaContext } from '@utypes/koa.types'
-import { renderTemplate, TRenderTemplateResponse } from '../utils/renderTemplate'
 import path from 'path'
 import { enableProxyRemote } from '@/config/config'
 
@@ -23,7 +23,8 @@ export function proxyWebCanvas() {
 					requestUrl = requestUrl + proxyLocaleDefaultIndexURL
 				}
 			}
-			const renderTemplateResponse: TRenderTemplateResponse = await renderTemplate(path.join(__dirname, proxyLocaleBaseURL + requestUrl), {})
+			const filePath: string = path.join(__dirname, proxyLocaleBaseURL + requestUrl)
+			const fileContent: Buffer = fs.readFileSync(filePath)
 			const fileType = requestUrl.split('.').pop()!.toLowerCase()
 			switch (fileType) {
 				case 'css': {
@@ -248,7 +249,7 @@ export function proxyWebCanvas() {
 			}
 			await next()
 			ctx.status = 200
-			ctx.body = renderTemplateResponse.content
+			ctx.body = fileContent
 		} catch (e: any) {
 			await next()
 			const localFullUrl: string = `${ctx.protocol}://${ctx.host}${ctx.url}`

@@ -49,8 +49,6 @@ const log = (type: string, ctx: TExtendKoaContext, msg: any): void => {
 }
 const handleDyeLog = (ctx: TExtendKoaContext, debug: boolean = true): void => {
 	ctx._logs = ctx._logs || []
-
-	/* ... */
 	const header: Array<string> = []
 	if (ctx.request) {
 		header.push('request url: ' + `${ctx.request.protocol}://${ctx.request.host}${ctx.request.url}`)
@@ -65,20 +63,14 @@ const handleDyeLog = (ctx: TExtendKoaContext, debug: boolean = true): void => {
 	}
 	ctx._logs.unshift(header)
 	ctx._logs.unshift(SPLIT_LINE)
-
-	/* ... */
 	const footer: Array<string> = []
 	const body: string = String(ctx.response.body || '')
 	footer.push('response body: ' + trim(body.replace(/[\n]/g, '')))
 	ctx._logs.push(footer)
-
-	/* ... */
 	const logsText: string = substring(PREFIX_TAG + ctx._logs.join('\n'))
 	if (debug) {
 		console.log(logsText)
 	}
-
-	/* ... */
 	delete ctx._logs
 }
 

@@ -5213,18 +5213,16 @@
       const { x: x3, y: y3 } = thirdPoint;
       const G = (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1);
       if (G === 0) {
-        throw new Error("three points are collinear, and it is impossible to determine a unique circle.");
+        return null;
       }
       const [centerX, centerY] = [
         ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / (2 * G),
         ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / (2 * G)
       ];
-      const radius = Math.sqrt((centerX - x1) * (centerX - x1) + (centerY - y1) * (centerY - y1));
-      const sweep = G > 0 ? 0 /* CW */ : 1 /* CCW */;
       return {
         centerPoint: new Vector2(centerX, centerY),
-        radius,
-        sweep
+        radius: Math.sqrt((centerX - x1) * (centerX - x1) + (centerY - y1) * (centerY - y1)),
+        sweep: G > 0 ? 0 /* CW */ : 1 /* CCW */
       };
     }
     /**
@@ -5238,7 +5236,8 @@
       ];
       if (isOuter) {
         return false;
-      } else if (isInner) {
+      }
+      if (isInner) {
         if (!isFill) {
           return false;
         }
@@ -6369,20 +6368,23 @@
      */
     static calculateD2ArcProfileByThreePoint(startPoint, endPoint, thirdPoint) {
       if (startPoint.equalsWithPoint(thirdPoint) || endPoint.equalsWithPoint(thirdPoint)) {
-        const centerPoint2 = startPoint.add(thirdPoint).mul(0.5);
+        const centerPoint = startPoint.add(thirdPoint).mul(0.5);
         return {
-          centerPoint: centerPoint2,
+          centerPoint,
           radius: thirdPoint.distance(startPoint) / 2,
-          startRadian: startPoint.getRadianByVector2(centerPoint2),
-          endRadian: endPoint.getRadianByVector2(centerPoint2),
+          startRadian: startPoint.getRadianByVector2(centerPoint),
+          endRadian: endPoint.getRadianByVector2(centerPoint),
           sweep: 1 /* CCW */
         };
       }
-      const { centerPoint, radius, sweep } = D2CircleToolkit.calculateCircleProfileByByThreePoint(startPoint, endPoint, thirdPoint);
+      const circleResultParams = D2CircleToolkit.calculateCircleProfileByByThreePoint(startPoint, endPoint, thirdPoint);
+      if (!circleResultParams) {
+        return null;
+      }
       const [thetaA, thetaB, thetaC] = [
-        _D2ArcToolkit.fixCircleRadian(startPoint, centerPoint),
-        _D2ArcToolkit.fixCircleRadian(endPoint, centerPoint),
-        _D2ArcToolkit.fixCircleRadian(thirdPoint, centerPoint)
+        _D2ArcToolkit.fixCircleRadian(startPoint, circleResultParams.centerPoint),
+        _D2ArcToolkit.fixCircleRadian(endPoint, circleResultParams.centerPoint),
+        _D2ArcToolkit.fixCircleRadian(thirdPoint, circleResultParams.centerPoint)
       ];
       let [startRadian, endRadian] = [0, 0];
       if (thetaC < Math.min(thetaA, thetaB) || thetaC > Math.max(thetaA, thetaB)) {
@@ -6398,9 +6400,9 @@
         endRadian = thetaB;
       }
       return {
-        centerPoint,
-        radius,
-        sweep,
+        centerPoint: circleResultParams.centerPoint,
+        radius: circleResultParams.radius,
+        sweep: circleResultParams.sweep,
         startRadian,
         endRadian
       };
@@ -19788,44 +19790,44 @@
         this.moveSelectedItem(diffX, diffY);
       } else if (this._isSelectedPointStart) {
         const newStartPoint = this._pointStart.centerPoint.add(diffVector2);
-        const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+        const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
           newStartPoint,
           this._pointEnd.centerPoint,
           this._pointMiddle.centerPoint
         );
-        this._selectedItem.radius = radius;
-        this._selectedItem.centerPoint = centerPoint;
-        this._selectedItem.startRadian = startRadian;
-        this._selectedItem.endRadian = endRadian;
-        this._selectedItem.sweep = sweep;
+        this._selectedItem.radius = arcResultParmas.radius;
+        this._selectedItem.centerPoint = arcResultParmas.centerPoint;
+        this._selectedItem.startRadian = arcResultParmas.startRadian;
+        this._selectedItem.endRadian = arcResultParmas.endRadian;
+        this._selectedItem.sweep = arcResultParmas.sweep;
       } else if (this._isSelectedPointEnd) {
         const newEndPoint = this._pointEnd.centerPoint.add(diffVector2);
-        const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+        const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
           this._pointStart.centerPoint,
           newEndPoint,
           this._pointMiddle.centerPoint
         );
-        this._selectedItem.radius = radius;
-        this._selectedItem.centerPoint = centerPoint;
-        this._selectedItem.startRadian = startRadian;
-        this._selectedItem.endRadian = endRadian;
-        this._selectedItem.sweep = sweep;
+        this._selectedItem.radius = arcResultParmas.radius;
+        this._selectedItem.centerPoint = arcResultParmas.centerPoint;
+        this._selectedItem.startRadian = arcResultParmas.startRadian;
+        this._selectedItem.endRadian = arcResultParmas.endRadian;
+        this._selectedItem.sweep = arcResultParmas.sweep;
       } else if (this._isSelectedPointMiddle) {
         const P = D2LineToolkit.calculateVectorProjection(
           this._pointEnd.centerPoint.sub(this._pointStart.centerPoint),
           new Vector2(diffX, diffY)
         );
         const newMiddlePoint = this._pointMiddle.centerPoint.add(P);
-        const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+        const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
           this._pointStart.centerPoint,
           this._pointEnd.centerPoint,
           newMiddlePoint
         );
-        this._selectedItem.radius = radius;
-        this._selectedItem.centerPoint = centerPoint;
-        this._selectedItem.startRadian = startRadian;
-        this._selectedItem.endRadian = endRadian;
-        this._selectedItem.sweep = sweep;
+        this._selectedItem.radius = arcResultParmas.radius;
+        this._selectedItem.centerPoint = arcResultParmas.centerPoint;
+        this._selectedItem.startRadian = arcResultParmas.startRadian;
+        this._selectedItem.endRadian = arcResultParmas.endRadian;
+        this._selectedItem.sweep = arcResultParmas.sweep;
       } else {
         this.moveSelectedItem(diffX, diffY);
       }
@@ -23387,7 +23389,7 @@
         for (let i = 0; i < this.shapeInstances.length; i++) {
           const targetShapeItem = this.shapeInstances[i];
           const elementItemId = Constant.globalIdenManager.getElementIden();
-          const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+          const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
             this._pointsGroup[i][0],
             this._pointsGroup[i][1],
             this._pointsGroup[i][2]
@@ -23395,11 +23397,11 @@
           const newTargetShapeItem = D2ArcShapeManager.getInstance().createShapeItem(
             elementItemId,
             this.selectedDrawLayerShapeItem.model.layerItemId,
-            centerPoint,
-            radius,
-            startRadian,
-            endRadian,
-            sweep,
+            arcResultParmas.centerPoint,
+            arcResultParmas.radius,
+            arcResultParmas.startRadian,
+            arcResultParmas.endRadian,
+            arcResultParmas.sweep,
             __spreadProps(__spreadValues({}, targetShapeItem.toJSON()), {
               strokeWidth: this.strokeWidth,
               strokeColor: this.strokeColor,
@@ -23453,16 +23455,16 @@
     updateShapes(inputInfo) {
       for (let i = 0; i < this.shapeInstances.length; i++) {
         this._pointsGroup[i][2] = new Vector2(inputInfo.moveScenePhysicsX, inputInfo.moveScenePhysicsY);
-        const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+        const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
           this._pointsGroup[i][0],
           this._pointsGroup[i][1],
           this._pointsGroup[i][2]
         );
-        this.shapeInstances[i].startRadian = startRadian;
-        this.shapeInstances[i].endRadian = endRadian;
-        this.shapeInstances[i].radius = radius;
-        this.shapeInstances[i].sweep = sweep;
-        this.shapeInstances[i].centerPoint = centerPoint;
+        this.shapeInstances[i].startRadian = arcResultParmas.startRadian;
+        this.shapeInstances[i].endRadian = arcResultParmas.endRadian;
+        this.shapeInstances[i].radius = arcResultParmas.radius;
+        this.shapeInstances[i].sweep = arcResultParmas.sweep;
+        this.shapeInstances[i].centerPoint = arcResultParmas.centerPoint;
       }
     }
     createShapes(x, y) {
@@ -23473,18 +23475,26 @@
       }
       for (let i = 0; i < this._firstInitD2Lines.length; i++) {
         this._pointsGroup[i][2] = new Vector2(x + 5e-3, y + 5e-3);
-        const { startRadian, endRadian, radius, centerPoint, sweep } = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
+        const arcResultParmas = D2ArcToolkit.calculateD2ArcProfileByThreePoint(
           this._pointsGroup[i][0],
           this._pointsGroup[i][1],
           this._pointsGroup[i][2]
         );
         this.shapeInstances.push(
-          buildD2ArcShape(this.selectedDrawLayerShapeItem.model.layerItemId, centerPoint, radius, startRadian, endRadian, sweep, {
-            strokeWidth: this.strokeWidth,
-            strokeColor: this.strokeColor,
-            isFill: this.isFill,
-            fillColor: this.fillColor
-          })
+          buildD2ArcShape(
+            this.selectedDrawLayerShapeItem.model.layerItemId,
+            arcResultParmas.centerPoint,
+            arcResultParmas.radius,
+            arcResultParmas.startRadian,
+            arcResultParmas.endRadian,
+            arcResultParmas.sweep,
+            {
+              strokeWidth: this.strokeWidth,
+              strokeColor: this.strokeColor,
+              isFill: this.isFill,
+              fillColor: this.fillColor
+            }
+          )
         );
       }
     }
@@ -26189,68 +26199,141 @@
     });
   }
 
+  // src/$instance/public/asserts/earth-01.png
+  var earth_01_default = "./assets/earth-01-RFVMCRZJ.png";
+
+  // src/$instance/public/utils.ts
+  function fetchFileByURL(imageUrl, fileName = "image.jpg") {
+    return __async(this, null, function* () {
+      try {
+        const response = yield window.fetch(imageUrl);
+        const blob = yield response.blob();
+        const file = new File([blob], fileName, {
+          type: blob.type || "image/jpeg",
+          lastModified: Date.now()
+        });
+        return file;
+      } catch (error) {
+        return null;
+      }
+    });
+  }
+  function readFileAsImage(file) {
+    return __async(this, null, function* () {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = function(e) {
+          var _a2;
+          const imageDataURL = (_a2 = e.target) == null ? void 0 : _a2.result;
+          const image = new Image();
+          image.crossOrigin = "anonymous";
+          image.onload = function(e2) {
+            resolve({
+              imageDataURL,
+              fileHashUuid: getHashIden(),
+              width: image.width,
+              height: image.height
+            });
+          };
+          image.onerror = function(e2) {
+            console.error(`[ReadFileAsImage] Image Error: `, e2);
+          };
+          image.src = imageDataURL;
+        };
+        fileReader.onerror = function(e) {
+          console.error(`[ReadFileAsImage] FileReader Error: `, e);
+        };
+        fileReader.readAsDataURL(file);
+      });
+    });
+  }
+
+  // src/$instance/d2FreeTest/modules/drawTestImage.ts
+  function drawTestImageItemStd(webCanvas, layerItemId) {
+    return __async(this, null, function* () {
+      const file = yield fetchFileByURL(earth_01_default, "test-image-1.jpg");
+      const readResult = yield readFileAsImage(file);
+      const sImageWidth = readResult.width * 0.1;
+      const sImageHeight = readResult.height * 0.1;
+      const { d2ElementController, d2TextElementController } = webCanvas;
+      const defaultLayerItemId = layerItemId;
+      const shapeElementItemIdA1 = d2ElementController.createD2ImageElementItem(
+        defaultLayerItemId,
+        new Vector2(-50, 50),
+        readResult.fileHashUuid,
+        readResult.imageDataURL,
+        sImageWidth,
+        sImageHeight,
+        {
+          isFlipX: true,
+          isFlipY: true,
+          rotation: Angles.degreeToRadian(150),
+          isShowStroke: false,
+          strokeWidth: 1
+        }
+      );
+      const jsonData = d2ElementController.getD2ElementShapeItemJSONData(shapeElementItemIdA1);
+      console.log(jsonData);
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, new Vector2(jsonData.bbox2.minX, jsonData.bbox2.maxY), {
+        strokeColor: Color.RED,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, new Vector2(jsonData.bbox2.maxX, jsonData.bbox2.maxY), {
+        strokeColor: Color.RED,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, new Vector2(jsonData.bbox2.maxX, jsonData.bbox2.minY), {
+        strokeColor: Color.RED,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, new Vector2(jsonData.bbox2.minX, jsonData.bbox2.minY), {
+        strokeColor: Color.RED,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.leftUp), {
+        strokeColor: Color.BLUE,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.rightUp), {
+        strokeColor: Color.BLUE,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.rightDown), {
+        strokeColor: Color.BLUE,
+        isEnableSelect: false
+      });
+      d2ElementController.createD2PointElementShapeItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.leftDown), {
+        strokeColor: Color.BLUE,
+        isEnableSelect: false
+      });
+      d2TextElementController.createD2TextElementItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.leftUp), "LeftUp", {
+        fontFamily: "auto",
+        fontSize: 10,
+        strokeColor: Color.BLUE
+      });
+      d2TextElementController.createD2TextElementItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.rightUp), "RightUp", {
+        fontFamily: "auto",
+        fontSize: 10,
+        strokeColor: Color.BLUE
+      });
+      d2TextElementController.createD2TextElementItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.rightDown), "RightDown", {
+        fontFamily: "auto",
+        fontSize: 10,
+        strokeColor: Color.BLUE
+      });
+      d2TextElementController.createD2TextElementItem(defaultLayerItemId, Vector2.createByJSONData(jsonData.leftDown), "LeftDown", {
+        fontFamily: "auto",
+        fontSize: 10,
+        strokeColor: Color.BLUE
+      });
+    });
+  }
+
   // src/$instance/d2FreeTest/utils/initWebSystemConfig.ts
   function initWebSystemConfig(webCanvas) {
     const systemConfig = webCanvas.getSystemConfig();
     webCanvas.setSystemConfig("enbaleFPSCount", true);
     console.log(systemConfig);
-  }
-
-  // src/$instance/d2FreeTest/utils/createPoints.ts
-  function createPoints(webCanvas, layerItemId, points) {
-    const { d2ElementController, d2TextElementController } = webCanvas;
-    const result = {
-      tIds: [],
-      pIds: []
-    };
-    for (let i = 0; i < points.length; i++) {
-      const tId = d2TextElementController.createD2TextElementItem(
-        layerItemId,
-        points[i].position,
-        `${points[i].label}(${points[i].position.x}, ${points[i].position.y})`,
-        {
-          isEnableSelect: false,
-          strokeColor: points[i].labelColor || Color.GOLDEN,
-          fontSize: points[i].labelSize || 5
-        }
-      );
-      const pId = d2ElementController.createD2PointElementShapeItem(layerItemId, points[i].position, {
-        strokeColor: points[i].pointColor || Color.GOLDEN,
-        isEnableScale: true,
-        isEnableSelect: false,
-        size: points[i].pointSize || 1
-      });
-      result.tIds.push(tId);
-      result.pIds.push(pId);
-    }
-    return result;
-  }
-
-  // src/$instance/d2FreeTest/modules/d2LineToolkitTest.ts
-  function d2LineToolkitTest06(webCanvas, layerItemId) {
-    const { d2ElementController } = webCanvas;
-    const defaultLayerItemId = layerItemId;
-    const [lineAStartPoint, lineAEndPoint] = [new Vector2(-50, -50), new Vector2(50, 50)];
-    d2ElementController.createD2LineElementShapeItem(defaultLayerItemId, lineAStartPoint, lineAEndPoint, {
-      strokeColor: Color.RED,
-      isEnableSelect: false
-    });
-    const [lineBStartPoint, lineBEndPoint] = [new Vector2(-30, 30), new Vector2(30, -30)];
-    d2ElementController.createD2LineElementShapeItem(defaultLayerItemId, lineBStartPoint, lineBEndPoint, {
-      strokeColor: Color.RED,
-      isEnableSelect: false
-    });
-    console.log("%c <T: \u83B7\u53D6\u7EBF\u6BB5 lineA \u4E0E\u7EBF\u6BB5 lineB \u7684\u91CD\u53E0\u533A\u57DF(\u8FD4\u56DE BBox2)>", "color: #ff6600");
-    const [lineA, lineB] = [new Line(lineAStartPoint, lineAEndPoint), new Line(lineBStartPoint, lineBEndPoint)];
-    const inters = D2LineToolkit.getIntersectionByLines(lineA, lineB);
-    console.log(inters);
-    console.log("%c </T>", "color: #ff6600");
-    createPoints(webCanvas, layerItemId, [
-      { label: `lineAStartPoint`, position: lineAStartPoint },
-      { label: `lineAEndPoint`, position: lineAEndPoint },
-      { label: `lineBStartPoint`, position: lineBStartPoint },
-      { label: `lineBEndPoint`, position: lineBEndPoint }
-    ]);
   }
 
   // src/$instance/d2FreeTest/index.ts
@@ -26414,7 +26497,7 @@
       console.log(`CAS2UI_SVR-CANVAS_READY: `, messageResult);
       const drawLayerController = webCanvas.drawLayerController;
       const layerItem01Id = drawLayerController.createDrawLayerShapeItem(`Canvas Test Layer 01`);
-      d2LineToolkitTest06(webCanvas, layerItem01Id);
+      drawTestImageItemStd(webCanvas, layerItem01Id);
       console.log(webCanvas);
     }));
   }
@@ -26442,6 +26525,55 @@
     return format;
   };
 
+  // src/$instance/d2SimpleClock/utils/createTextVertexData.ts
+  function createTextVertexData(d2TextElementController, fontFamily, fontSize, scaleTextVertexs) {
+    const allTexts = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    for (let i = 0; i < allTexts.length; i++) {
+      d2TextElementController.createD2TextVertexDataItem(allTexts[i], {
+        fontFamily,
+        fontSize
+      }).then((d2TextVertexData) => {
+        scaleTextVertexs.push({
+          textContent: allTexts[i],
+          d2TextVertexData
+        });
+      });
+    }
+  }
+
+  // src/$instance/d2SimpleClock/utils/renderImage.ts
+  function getTodayProgress() {
+    const now = /* @__PURE__ */ new Date();
+    const start = new Date(now);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1);
+    return (now.getTime() - start.getTime()) / (end.getTime() - start.getTime());
+  }
+  function appendImageElement(d2ElementController, imageLayerItemId, renderSize, RUN_PROFILE2) {
+    fetchFileByURL(earth_01_default, "earth-01.jpg").then((file) => {
+      readFileAsImage(file).then((readResult) => {
+        const shapeElementItemIdA1 = d2ElementController.createD2ImageElementItem(
+          imageLayerItemId,
+          new Vector2(-renderSize * 3, -renderSize),
+          readResult.fileHashUuid,
+          readResult.imageDataURL,
+          renderSize,
+          renderSize,
+          {
+            isEnableSelect: false
+          }
+        );
+        RUN_PROFILE2.imageConfig.imageElementItemId = shapeElementItemIdA1;
+      });
+    });
+  }
+  function updateImageElement(d2ElementController, imageElementItemId) {
+    d2ElementController.updateD2ElementShapeItemAttrByJSONData(imageElementItemId, {
+      rotation: Angles.degreeToRadian(360 * getTodayProgress() - 120)
+    });
+  }
+
   // src/$instance/d2SimpleClock/modules/planeClock.ts
   var RUN_PROFILE = {
     isShowSecondHand: true,
@@ -26459,6 +26591,10 @@
     scaleFontFamily: "auto",
     scaleTextVertexs: [],
     /* ... */
+    imageConfig: {
+      imageElementItemId: void 0
+    },
+    /* ... */
     nowTimeStamp: 0,
     lastTimeStamp: 0,
     distTimeStamp: 0
@@ -26469,7 +26605,7 @@
     duration: 2e3,
     speed: 0
   };
-  function drawPlaneClock(webCanvas, canvasContainerElement, timeStamp, layerItemId1, layerItemId2, layerItemId3) {
+  function drawPlaneClock(webCanvas, canvasContainerElement, timeStamp, clockPlaneLayerItemId, clockPointerLayerItemId, clockPointerCenterLayerItemId) {
     if (webCanvas.isQuit) {
       canvasContainerElement.remove();
       return;
@@ -26478,9 +26614,9 @@
     RUN_PROFILE.distTimeStamp = RUN_PROFILE.nowTimeStamp - RUN_PROFILE.lastTimeStamp;
     RUN_PROFILE.lastTimeStamp = RUN_PROFILE.nowTimeStamp;
     const { drawLayerController, d2TextElementController, d2ElementController } = webCanvas;
-    drawLayerController.deleteDrawLayerElements(layerItemId1);
-    drawLayerController.deleteDrawLayerElements(layerItemId2);
-    drawLayerController.deleteDrawLayerElements(layerItemId3);
+    drawLayerController.deleteDrawLayerElements(clockPlaneLayerItemId);
+    drawLayerController.deleteDrawLayerElements(clockPointerLayerItemId);
+    drawLayerController.deleteDrawLayerElements(clockPointerCenterLayerItemId);
     const timeString = formatDates();
     const nowHours = (/* @__PURE__ */ new Date()).getHours();
     const nowMinutes = (/* @__PURE__ */ new Date()).getMinutes();
@@ -26495,7 +26631,7 @@
     const outCircleRadius1 = RUN_PROFILE.outCircleRadius;
     const outCircleRadius2 = RUN_PROFILE.outCircleRadius - 2;
     const outArcElementId1 = d2ElementController.createD2ArcElementShapeItem(
-      layerItemId1,
+      clockPlaneLayerItemId,
       new Vector2(0, 0),
       outCircleRadius1 + 10,
       -(Math.PI * 1) / 4,
@@ -26508,7 +26644,7 @@
       }
     );
     const outArcElementId2 = d2ElementController.createD2ArcElementShapeItem(
-      layerItemId1,
+      clockPlaneLayerItemId,
       new Vector2(0, 0),
       outCircleRadius1 + 10,
       3 * (Math.PI * 1) / 4,
@@ -26520,7 +26656,7 @@
         isSolid: true
       }
     );
-    const outCircleElementId1 = d2ElementController.createD2CircleElementShapeItem(layerItemId1, new Vector2(0, 0), {
+    const outCircleElementId1 = d2ElementController.createD2CircleElementShapeItem(clockPlaneLayerItemId, new Vector2(0, 0), {
       radius: outCircleRadius1,
       strokeWidth: 0.5
     });
@@ -26528,7 +26664,7 @@
       elementItemName: `\u5916\u5C42\u5927\u5706 1`,
       strokeColor: Color.createByAlpha(0.7, Color.YELLOW_GREEN)
     });
-    const outCircleElementId2 = d2ElementController.createD2CircleElementShapeItem(layerItemId1, new Vector2(0, 0), {
+    const outCircleElementId2 = d2ElementController.createD2CircleElementShapeItem(clockPlaneLayerItemId, new Vector2(0, 0), {
       radius: outCircleRadius2,
       strokeWidth: 0.5
     });
@@ -26543,7 +26679,7 @@
         const rotationMatrix42 = CanvasMatrix4.setRotationByVector3(-Angles.degreeToRadian(30 * (i + 1)), new Vector3(0, 0, 1));
         const endPosition2 = baseEndPosition.multiplyMatrix4(rotationMatrix42);
         d2TextElementController.createD2TextElementItemByVertexData(
-          layerItemId1,
+          clockPlaneLayerItemId,
           d2TextVertexData,
           new Vector2(
             endPosition2.x - (d2TextVertexData.initBbox2.maxX - d2TextVertexData.initBbox2.minX) / 2,
@@ -26557,7 +26693,7 @@
       }
     }
     d2ElementController.createD2RectElementShapeItem(
-      layerItemId1,
+      clockPlaneLayerItemId,
       new Vector2(-RUN_PROFILE.outCircleRadius / 12 * 3.5, RUN_PROFILE.outCircleRadius * 0.25),
       RUN_PROFILE.outCircleRadius / 12 * 3.5 * 2,
       10,
@@ -26571,7 +26707,7 @@
     );
     if (RUN_PROFILE.isShowDateTime) {
       d2TextElementController.createD2TextElementItem(
-        layerItemId1,
+        clockPlaneLayerItemId,
         new Vector2(-RUN_PROFILE.outCircleRadius / 12 * 4.5, -RUN_PROFILE.outCircleRadius * 0.45),
         timeString,
         {
@@ -26596,7 +26732,7 @@
       const rippleRadiusDist = RIPPLE_PROFILE.maxRadius - RIPPLE_PROFILE.radius;
       const setRippleCircleFillColorAlpha = 0.25 * (rippleRadiusDist / RIPPLE_PROFILE.maxRadius);
       const setRippleCircleStrokeColorAlpha = 0.25 * (rippleRadiusDist / RIPPLE_PROFILE.maxRadius);
-      const rippleCircleElementId = d2ElementController.createD2CircleElementShapeItem(layerItemId1, new Vector2(0, 0), {
+      const rippleCircleElementId = d2ElementController.createD2CircleElementShapeItem(clockPlaneLayerItemId, new Vector2(0, 0), {
         radius: RIPPLE_PROFILE.radius,
         strokeWidth: 0.3
       });
@@ -26620,7 +26756,7 @@
         const startPosition2 = baseStartPosition.multiplyMatrix4(translateMatrix4.multiply4(rotationMatrix42));
         const endPosition2 = baseEndPosition.multiplyMatrix4(translateMatrix4.multiply4(rotationMatrix42));
         const lineElementId2 = d2ElementController.createD2LineElementShapeItem(
-          layerItemId1,
+          clockPointerLayerItemId,
           startPosition2.toVector2(),
           endPosition2.toVector2(),
           {
@@ -26650,7 +26786,7 @@
         const startPosition2 = baseStartPosition.multiplyMatrix4(translateMatrix4.multiply4(rotationMatrix42));
         const endPosition2 = baseEndPosition.multiplyMatrix4(translateMatrix4.multiply4(rotationMatrix42));
         const lineElementId2 = d2ElementController.createD2LineElementShapeItem(
-          layerItemId1,
+          clockPointerLayerItemId,
           startPosition2.toVector2(),
           endPosition2.toVector2(),
           {
@@ -26676,51 +26812,81 @@
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfHou, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, outCircleRadius2 - 40, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 3.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 3.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u65F6\u9488`, strokeColor: Color.GREEN });
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfHou + Math.PI, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, 18, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 3.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 3.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u65F6\u9488\u5C3E`, strokeColor: Color.GREEN });
     }
     if (RUN_PROFILE.isShowMinuteHand) {
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfMin, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, outCircleRadius2 - 25, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 3.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 3.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u5206\u9488`, strokeColor: Color.YELLOW });
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfMin + Math.PI, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, 25, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 3.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 3.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u5206\u9488\u5C3E`, strokeColor: Color.YELLOW });
     }
     if (RUN_PROFILE.isShowSecondHand) {
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfSec, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, outCircleRadius2 - 10, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 2.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 2.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u79D2\u9488`, strokeColor: Color.RED });
       rotationMatrix4 = CanvasMatrix4.setRotationByVector3(rotationOfSec + Math.PI, new Vector3(0, 0, 1));
       startPosition = new Vector3(0, 0, 0).multiplyMatrix4(rotationMatrix4);
       endPosition = new Vector3(0, 32, 0).multiplyMatrix4(rotationMatrix4);
-      lineElementId = d2ElementController.createD2LineElementShapeItem(layerItemId2, startPosition.toVector2(), endPosition.toVector2(), {
-        strokeWidth: 2.5
-      });
+      lineElementId = d2ElementController.createD2LineElementShapeItem(
+        clockPointerLayerItemId,
+        startPosition.toVector2(),
+        endPosition.toVector2(),
+        {
+          strokeWidth: 2.5
+        }
+      );
       d2ElementController.updateD2ElementShapeItemAttrByJSONData(lineElementId, { elementItemName: `\u79D2\u9488\u5C3E`, strokeColor: Color.RED });
     }
-    const centerCircleElementItem1 = d2ElementController.createD2CircleElementShapeItem(layerItemId3, new Vector2(0, 0), {
+    const centerCircleElementItem1 = d2ElementController.createD2CircleElementShapeItem(clockPointerCenterLayerItemId, new Vector2(0, 0), {
       radius: 4,
       strokeWidth: 0.5
     });
@@ -26729,7 +26895,7 @@
       strokeColor: Color.ORIGIN,
       fillColor: Color.ORIGIN
     });
-    const centerCircleElementItem2 = d2ElementController.createD2CircleElementShapeItem(layerItemId3, new Vector2(0, 0), {
+    const centerCircleElementItem2 = d2ElementController.createD2CircleElementShapeItem(clockPointerCenterLayerItemId, new Vector2(0, 0), {
       radius: 2,
       strokeWidth: 0.5
     });
@@ -26739,28 +26905,16 @@
       fillColor: Color.GOLDEN
     });
     window.requestAnimationFrame((timeStamp2) => {
-      drawPlaneClock(webCanvas, canvasContainerElement, timeStamp2, layerItemId1, layerItemId2, layerItemId3);
+      updateImageElement(d2ElementController, RUN_PROFILE.imageConfig.imageElementItemId);
+      drawPlaneClock(webCanvas, canvasContainerElement, timeStamp2, clockPlaneLayerItemId, clockPointerLayerItemId, clockPointerCenterLayerItemId);
     });
-  }
-  function createTextVertexData(d2TextElementController) {
-    const allTexts = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-    for (let i = 0; i < allTexts.length; i++) {
-      d2TextElementController.createD2TextVertexDataItem(allTexts[i], {
-        fontFamily: RUN_PROFILE.scaleFontFamily,
-        fontSize: RUN_PROFILE.outCircleRadius / 7
-      }).then((d2TextVertexData) => {
-        RUN_PROFILE.scaleTextVertexs.push({
-          textContent: allTexts[i],
-          d2TextVertexData
-        });
-      });
-    }
   }
   function drawPlaneClockInit(webCanvas, canvasContainerElement) {
     const { d2ElementController, d2TextElementController, drawLayerController } = webCanvas;
-    const clockLayerItemId1 = drawLayerController.createDrawLayerShapeItem(`Layer Clock1`);
-    const clockLayerItemId2 = drawLayerController.createDrawLayerShapeItem(`Layer Clock2`);
-    const clockLayerItemId3 = drawLayerController.createDrawLayerShapeItem(`Layer Clock2`);
+    const clockPlaneLayerItemId = drawLayerController.createDrawLayerShapeItem(`Clock Plane`);
+    const clockPointerLayerItemId = drawLayerController.createDrawLayerShapeItem(`Clock Pointer`);
+    const clockPointerCenterLayerItemId = drawLayerController.createDrawLayerShapeItem(`Clock Pointer Center`);
+    const earthLayerItemId = drawLayerController.createDrawLayerShapeItem(`Earth Image`);
     drawLayerController.clearAllDrawLayersSelectedStatus();
     const DPI = webCanvas.getDPI();
     const canvasRect = webCanvas.getCanvasRect();
@@ -26771,10 +26925,11 @@
     RUN_PROFILE.outCircleRadius = RUN_PROFILE.baseLength + 5;
     RIPPLE_PROFILE.maxRadius = RUN_PROFILE.outCircleRadius;
     RIPPLE_PROFILE.speed = RIPPLE_PROFILE.maxRadius / RIPPLE_PROFILE.duration;
-    createTextVertexData(d2TextElementController);
+    createTextVertexData(d2TextElementController, RUN_PROFILE.scaleFontFamily, RUN_PROFILE.outCircleRadius / 7, RUN_PROFILE.scaleTextVertexs);
+    appendImageElement(d2ElementController, earthLayerItemId, RIPPLE_PROFILE.maxRadius * 0.6, RUN_PROFILE);
     window.requestAnimationFrame((timeStamp) => {
       RUN_PROFILE.lastTimeStamp = timeStamp;
-      drawPlaneClock(webCanvas, canvasContainerElement, timeStamp, clockLayerItemId1, clockLayerItemId2, clockLayerItemId3);
+      drawPlaneClock(webCanvas, canvasContainerElement, timeStamp, clockPlaneLayerItemId, clockPointerLayerItemId, clockPointerCenterLayerItemId);
     });
   }
 

@@ -13,5 +13,7 @@ export const addBrowserWindowEvents = (win: BrowserWindow): void => {
 	})
 	win.once('ready-to-show', (): void => {
 		console.log(`Main Browser Window Ready.`)
+		win.maximize()
+		win.show()
 	})
 }

@@ -2,8 +2,6 @@ import { TResponse } from '../../lib/Response'
 import { TExtendKoaContext } from '@utypes/koa.types'
 import Controller from '../../lib/Controller'
 import HomeService, { THomeService } from '../service/home'
-import { renderTemplate, TRenderTemplateResponse } from '@/server/utils/renderTemplate'
-import path from 'path'
 
 class HomeController extends Controller {
 	private homeService: THomeService = new HomeService()
